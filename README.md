@@ -4,18 +4,18 @@
 # TODO
 - [x] Create overall program flowchart
 - [ ] Design classes
-- [ ] Items
-  - [ ] Add new item
-  - [ ] Edit item
-  - [ ] Delete item
+- [ ] Recipes
+  - [ ] Add new recipe
+  - [ ] Edit recipe
+  - [ ] Delete recipe
 - [ ] Ingredients
   - [ ] Add new ingredient
   - [ ] Edit ingredient
   - [ ] Delete ingredient
-- [ ] Item list settings
-  - [ ] Import item list
-  - [ ] Export itme list
-  - [ ] Delete item list
+- [ ] Recipe list settings
+  - [ ] Import recipe list
+  - [ ] Export recipe list
+  - [ ] Delete recipe list
 - [ ] Make prep list
   - [ ] Take stock
   - [ ] Create prep list
