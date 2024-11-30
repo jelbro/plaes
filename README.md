@@ -3,10 +3,14 @@
 #### Description: Plaes (Preperation List and Efficiency System) is an application to streamline the process of creating prep lists for hospitatlity businesses. Created for my CS50P Final Project.
 # TODO
 - [x] Create overall program flowchart
-- [ ] Design classes
+- [x] Design classes
+  - [x] FoodItem
+  - [x] Recipe
+  - [x] Ingredient
+- [ ] Implement classesk
   - [ ] FoodItem
   - [ ] Recipe
-  - [ ] Ingredient 
+  - [ ] Ingredient
 - [ ] Recipes
   - [ ] Add new recipe
   - [ ] Edit recipe
