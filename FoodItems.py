@@ -33,3 +33,25 @@ class FoodItem:
     @unit.setter
     def unit(self, unit):
         self._unit = unit
+
+
+class Recipe(FoodItem):
+    def __init__(self, ingredients, desired_quantity):
+        self.ingredients = []
+        self.desired_quantity = desired_quantity
+
+    @property
+    def ingredients(self):
+        return self._ingredients
+    
+    @ingredients.setter
+    def ingredients(self, ingredients)
+        self._ingredients = ingredients
+
+    @property
+    def desired_quantity(self):
+        return self._desired_quantity
+    
+    @desired_quantity.setter
+    def desired_quantity(self, desired_quantity):
+        self._desired_quantity = desired_quantity
