@@ -55,3 +55,6 @@ class Recipe(FoodItem):
     @desired_quantity.setter
     def desired_quantity(self, desired_quantity):
         self._desired_quantity = desired_quantity
+
+class Ingredient(FoodItem):
+    ...
