@@ -4,6 +4,9 @@
 # TODO
 - [x] Create overall program flowchart
 - [ ] Design classes
+  - [ ] FoodItem
+  - [ ] Recipe
+  - [ ] Ingredient 
 - [ ] Recipes
   - [ ] Add new recipe
   - [ ] Edit recipe
