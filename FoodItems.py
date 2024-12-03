@@ -1,44 +1,57 @@
-class FoodItem:
-    def __init__(self, name, quantity, unit):
+class Recipe():
+    """
+    A class used to represent a Recipe
+
+    Attributes
+    ----------
+    name : str
+        the name of the Recipe
+    ingredients : list
+        the list of Ingredients that make up the Recipe
+    quantity : float
+        the current quantity of this Recipe in unit
+    desired_quantity : float
+        the desired quantity of this Recipe to have in stock in unit
+    unit : str
+        the unit of storage used for this Recipe
+
+    Methods
+    -------
+    remove_ingredient(ingredients)
+        removes Ingredient from ingredients list
+    add_ingredient(ingredients)
+        adds Ingredient to the ingredients list
+    withdraw(quantity)
+        removes n from quantity
+    deposit(quantity)
+        add n to quantity
+    edit_desired(desired_quantity)
+        changes desired quantity to n
+    need_to_make(quantity, desired_quantity)
+        returns wether the recipe needs to be made to meet the desired quantity
+    """
+
+    def __init__(self, name=None, ingredients=[], quantity=0, desired_quantity=0, unit=None):
+        """
+        Parameters
+        ----------
+        name : str
+            the name of the Recipe
+        ingredients : list
+            the list of Ingredients that make up the Recipe
+        quantity : float
+            the current quantity of this Recipe in unit
+        desired_quantity : float
+            the desired quantity of this Recipe to have in stock in unit
+        unit : str
+            the unit of storage used for this Recipe
+        """
+
         self.name = name
+        self.ingredients.append(ingredients)
         self.quantity = quantity
-        self.unit = unit
-
-    def add_item(self, n):
-        self.quantity += n
-
-    def remove_item(self, n):
-        self.quantity -= n
-
-    @property
-    def name(self):
-        return self._name
-
-    @name.setter
-    def name(self, name):
-        self._name = name
-
-    @property
-    def quantity(self):
-        return self._quantity
-
-    @quantity.setter
-    def name(self, quantity):
-        self._quantity = quantity
-
-    @property
-    def unit(self):
-        return self._unit
-
-    @unit.setter
-    def unit(self, unit):
-        self._unit = unit
-
-
-class Recipe(FoodItem):
-    def __init__(self, ingredients, desired_quantity):
-        self.ingredients = []
         self.desired_quantity = desired_quantity
+        self.unit = unit
 
     @property
     def ingredients(self):
