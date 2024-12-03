@@ -1,4 +1,15 @@
-class Recipe():
+"""a Module including the Recipe and Ingredient classes
+
+Classes
+-------
+Recipe
+    a class to represent a Recipe, it includes a list of ingredients
+Ingredient
+    a class to represent an Ingredient
+"""
+
+
+class Recipe:
     """
     A class used to represent a Recipe
 
@@ -19,8 +30,12 @@ class Recipe():
     -------
     remove_ingredient(ingredients)
         removes Ingredient from ingredients list
+    delete_ingredient(ingredients)
+        deletes the ingredient from the ingredients list
     add_ingredient(ingredients)
         adds Ingredient to the ingredients list
+    add_new_ingredient(ingredients)
+        add a new ingredient to the ingredients list
     remove(quantity)
         removes n from quantity
     add(quantity)
@@ -31,7 +46,9 @@ class Recipe():
         returns wether the recipe needs to be made to meet the desired quantity
     """
 
-    def __init__(self, name=None, ingredients=[], quantity=0, desired_quantity=0, unit=None):
+    def __init__(
+        self, name=None, ingredients=[], quantity=0, desired_quantity=0, unit=None
+    ):
         """
         Parameters
         ----------
@@ -53,23 +70,44 @@ class Recipe():
         self.desired_quantity = desired_quantity
         self.unit = unit
 
-    @property
-    def ingredients(self):
-        return self._ingredients
-    
-    @ingredients.setter
-    def ingredients(self, ingredients)
-        self._ingredients = ingredients
+    def remove_ingredient(self, ingredient, amount):
+        """remove an amount of Ingredient from this Recipe's ingredient list
 
-    @property
-    def desired_quantity(self):
-        return self._desired_quantity
-    
-    @desired_quantity.setter
-    def desired_quantity(self, desired_quantity):
-        self._desired_quantity = desired_quantity
+        Parameters
+        ----------
+        ingredient : Ingredient
+            an Ingredient object that should be present in this Recipes ingredient list
+        amount : float
+            an amount to remove from the ingredient
 
-class Ingredient():
+        Raises
+        ------
+        ValueError
+            if trying to remove all ingredients, use delete_ingredient instead
+        ValueError
+            if the ingredient does not exist in this Recipes ingredient list
+        """
+        if ingredient.name in self.ingredients:
+            if (ingredient.amount - amount) <= 0:
+                raise ValueError(
+                    "Cannot remove_ingredient() all ingredients, try delete_ingredient instead"
+                )
+            self.ingredients[ingredient.remove(amount)]
+        else:
+            raise ValueError(f"{ingredient} does not exist in ingredients list")
+
+    def add_ingredient(self, ingredient): ...
+
+    def remove(self, amount): ...
+
+    def add(self, amount): ...
+
+    def edit_desired(self, new_desired): ...
+
+    def need_to_make(self): ...
+
+
+class Ingredient:
     """
     A class used to represent an Ingredient
 
@@ -80,7 +118,7 @@ class Ingredient():
     quantity : float
         the current quantity of this Ingredient in unit
     unit : str
-        the unit of storage used for this Ingredient 
+        the unit of storage used for this Ingredient
 
     Methods
     -------
@@ -89,7 +127,7 @@ class Ingredient():
     add(quantity)
         add n to quantity
     """
-    
+
     def __init__(self, name=None, quantity=0, unit=None):
         """Ingredient Initialisation Function
 
@@ -105,7 +143,6 @@ class Ingredient():
         self.name = name
         self.quantity = quantity
         self.unit = unit
-
 
     def remove(self, amount):
         """Remove amount from this Ingredient
@@ -123,12 +160,11 @@ class Ingredient():
             if trying to remove a negative amount
         """
         if (self.quantity - amount) < 0:
-            raise ValueError(f'Not enough {self.name} to remove {amount}')
+            raise ValueError(f"Not enough {self.name} to remove {amount}")
         elif amount < 0:
-                raise ValueError('Amount to remove can not be negative')
+            raise ValueError("Amount to remove can not be negative")
         else:
-            self.quantity -= amount 
-
+            self.quantity -= amount
 
     def add(self, amount):
         """Add amount to this Ingredient's quantity
@@ -144,6 +180,6 @@ class Ingredient():
             if amount is a negative number
         """
         if amount < 0:
-            raise ValueError('Amount to add can not be negative')
+            raise ValueError("Amount to add can not be negative")
         else:
-            self.quantity += amount  
+            self.quantity += amount
