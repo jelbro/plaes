@@ -65,7 +65,7 @@ class Recipe:
         """
 
         self.name = name
-        self.ingredients.append(ingredients)
+        self.ingredients.extend(ingredients)
         self.quantity = quantity
         self.desired_quantity = desired_quantity
         self.unit = unit
