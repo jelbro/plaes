@@ -121,10 +121,26 @@ class Recipe:
             raise ValueError(f"{ingredient} does not exist in ingredients list")
 
     def remove(self, amount):
+        """remove amount from this Recipes quantity
+
+        Parameters
+        ----------
+        amount : float
+            amount to remove from this Recipes quantity
+
+        Raises
+        ------
+        ValueError
+            if trying to remove an amount less than or equal to zero
+        ValueError
+            if amount would result in quantity being less than or equal to zero
+        """
         if amount <= 0:
             raise ValueError("Amount to remove must be greater than zero")
-        if self.quantity - amount <= 0:
+        elif self.quantity - amount <= 0:
             raise ValueError("Amount cannot result in quantity being less than zero")
+        else:
+            self.remove -= amount
 
     def add(self, amount): ...
 
