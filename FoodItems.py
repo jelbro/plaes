@@ -96,7 +96,29 @@ class Recipe:
         else:
             raise ValueError(f"{ingredient} does not exist in ingredients list")
 
-    def add_ingredient(self, ingredient): ...
+    def add_ingredient(self, ingredient, amount):
+        """add an amount of Ingredient to this Recipes ingredient list
+
+        Parameters
+        ----------
+        ingredient : Ingredient
+            an Ingredient object that should already exist in this Recipes ingredient list
+        amount : float
+            an amount to add of this Ingredient
+
+        Raises
+        ------
+        ValueError
+            if amount to add is less than 1
+        ValueError
+            if the ingredient to be added to doesn't exist in this Recipes ingredient list
+        """
+        if ingredient.name in self.ingredients:
+            if amount <= 0:
+                raise ValueError("Amount to add must be greater than zero")
+            self.ingredients[ingredient.add(amount)]
+        else:
+            raise ValueError(f"{ingredient} does not exist in ingredients list")
 
     def remove(self, amount): ...
 
