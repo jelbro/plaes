@@ -17,7 +17,7 @@ class Recipe:
     ----------
     name : str
         the name of the Recipe
-    ingredients : list
+    ingredients : list of Ingredients
         the list of Ingredients that make up the Recipe
     quantity : float
         the current quantity of this Recipe in unit
