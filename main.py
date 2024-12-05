@@ -2,14 +2,20 @@ from FoodItems import Recipe, Ingredient
 
 
 def main():
-    apple = Ingredient("Apple", 1)
-    cabbage = Ingredient("Cabbage", 1)
+    chicken = Ingredient("Chicken Breast", 5, "kg")
+    mayonaise = Ingredient("Mayonaise", 1, "kg")
+    lemon = Ingredient("Lemon", 3)
+    white_wine_vinegar = Ingredient("White wine vinegar", 50, "ml")
 
-    appage = Recipe("Appage", [apple, cabbage], 1, 2, "2l")
+    chicken_salad = Recipe(
+        "Chicken Salad",
+        [chicken, mayonaise, lemon, white_wine_vinegar],
+        2,
+        2,
+        "4 Litres",
+    )
 
-    print(apple)
-    print(cabbage)
-    print(appage)
+    print(chicken_salad)
 
 
 if __name__ == "__main__":

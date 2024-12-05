@@ -79,9 +79,9 @@ class Recipe:
         self.needed = False
 
     def __str__(self):
-        return f"""{self.quantity:.2f} {self.unit} of {inflec.plural(self.name, math.ceil(self.quantity))}
-                {self.ingredients}
-                {self.quantity} {self.unit} out of {self.desired_quantity}{self.unit}"""
+        return f"""{round(self.quantity, 2)}, {self.unit} of {inflec.plural(self.name, math.ceil(self.quantity))}
+{' '.join(map(str, self.ingredients))}
+{self.quantity}, {self.unit} out of {self.desired_quantity}, {self.unit} in stock"""
 
     def __repr__(self):
         return f"""Recipe(name: {self.name}, quantity: {self.quantity}, desired_quantity: {self.desired_quantity}, unit: {self.unit},
@@ -242,12 +242,21 @@ class Ingredient:
         self.unit = unit
 
     def __str__(self):
-        return f"{self.quantity:.2f} {self.unit} of {inflec.plural(self.name, math.ceil(self.quantity))}"
+        if self.unit == None:
+            return f"{round(self.quantity, 2)} {inflec.plural(self.name, math.ceil(self.quantity))}"
+        else:
+            return f"{round(self.quantity, 2)}{self.unit} of {inflec.plural(self.name, math.ceil(self.quantity))}"
 
     def __repr__(self):
+        if self.unit == None:
+            return f"{round(self.quantity, 2)} {inflec.plural(self.name, math.ceil(self.quantity))}"
+        else:
+            return f"{round(self.quantity, 2)}{self.unit} of {inflec.plural(self.name, math.ceil(self.quantity))}"
+        """
         return (
             f"Ingrdient(name: {self.name}, quantity: {self.quantity}, unit: {self.unit}"
         )
+        """
 
     def remove(self, amount):
         """Remove amount from this Ingredient
