@@ -234,6 +234,9 @@ class Ingredient:
     def __str__(self):
         return f"{self.quantity:.2f}{self.unit} {inflec.plural(self.name, round(self.quantity))}"
 
+    def __repr__(self):
+        return f"Ingrdient(name: {self.name}), (quantity: {self.quantity}), (unit: {self.unit})"
+
     def remove(self, amount):
         """Remove amount from this Ingredient
 
