@@ -1,7 +1,7 @@
-import FoodItems
+from FoodItems import Recipe, Ingredient
 
 
-def main(): ...
+def main():
 
 
 if __name__ == "__main__":
