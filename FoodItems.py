@@ -145,6 +145,18 @@ class Recipe:
             self.remove -= amount
 
     def add(self, amount):
+        """add amount to this Recipes quantity
+
+        Parameters
+        ----------
+        amount : float
+            amount to add to this Recipes quantity
+
+        Raises
+        ------
+        ValueError
+            if amount to be added is less than or equal to zero
+        """
         if amount <= 0:
             raise ValueError("Amount to add must be greater than zero")
         else:
