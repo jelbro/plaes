@@ -148,7 +148,7 @@ class Recipe:
         if amount <= 0:
             raise ValueError("Amount to add must be greater than zero")
         else:
-
+            self.quantity += amount
 
     def edit_desired(self, new_desired): ...
 
