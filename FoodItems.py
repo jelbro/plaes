@@ -1,3 +1,7 @@
+import inflect
+
+inflec = inflect.engine()
+
 """a Module including the Recipe and Ingredient classes
 
 Classes
@@ -228,7 +232,7 @@ class Ingredient:
         self.unit = unit
 
     def __str__(self):
-        return f"{self.quantity:.2f}{self.unit} {self.name}"
+        return f"{self.quantity:.2f}{self.unit} {inflec.plural(self.name, round(self.quantity))}"
 
     def remove(self, amount):
         """Remove amount from this Ingredient

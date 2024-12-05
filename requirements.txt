@@ -1,0 +1,4 @@
+inflect==7.4.0
+more-itertools==10.5.0
+typeguard==4.4.1
+typing_extensions==4.12.2
