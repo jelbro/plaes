@@ -25,6 +25,8 @@ class Recipe:
         the desired quantity of this Recipe to have in stock in unit
     unit : str
         the unit of storage used for this Recipe
+    needed : boolean
+        True if this recipe needs to be made, initialised as False
 
     Methods
     -------
@@ -69,6 +71,7 @@ class Recipe:
         self.quantity = quantity
         self.desired_quantity = desired_quantity
         self.unit = unit
+        self.needed = False
 
     def remove_ingredient(self, ingredient, amount):
         """remove an amount of Ingredient from this Recipe's ingredient list
@@ -162,9 +165,30 @@ class Recipe:
         else:
             self.quantity += amount
 
-    def edit_desired(self, new_desired): ...
+    def edit_desired(self, new_desired):
+        """Override this Recipes desired_quantity
 
-    def need_to_make(self): ...
+        Parameters
+        ----------
+        new_desired : float
+            the number to replace this Recipes desired quantity with
+
+        Raises
+        ------
+        ValueError
+            if the new desired quantity would be zero or less
+        """
+        if new_desired <= 0:
+            raise ValueError("desired_quantity cannot be zero or less")
+        else:
+            self.desired_quantity = new_desired
+
+    def need_to_make(self):
+        """calculate if this recipe is needing to be made."""
+        if self.quantity < self.desired_quantity:
+            self.needed = True
+        else:
+            self.needed = False
 
 
 class Ingredient:
