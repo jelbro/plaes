@@ -11,7 +11,7 @@ def main():
         "Chicken Salad",
         [chicken, mayonaise, lemon, white_wine_vinegar],
         2,
-        2,
+        4,
         "4 Litres",
     )
 
