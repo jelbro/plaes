@@ -4,21 +4,21 @@
 # TODO
 - [x] Create overall program flowchart
 - [x] Design classes
-  - [x] FoodItem
-  - [x] Recipe
-  - [x] Ingredient
-- [ ] Implement classesk
-  - [ ] FoodItem
-  - [ ] Recipe
-  - [ ] Ingredient
-- [ ] Recipes
-  - [ ] Add new recipe
-  - [ ] Edit recipe
-  - [ ] Delete recipe
-- [ ] Ingredients
-  - [ ] Add new ingredient
-  - [ ] Edit ingredient
-  - [ ] Delete ingredient
+  - [x] FoodItems
+    - [x] Recipe
+    - [x] Ingredient
+- [x] Implement classes
+  - [x] FoodItems
+    - [x] Recipe
+    - [x] Ingredient
+- [x] Recipes
+  - [x] Add new recipe
+  - [x] Edit recipe
+  - [x] Delete recipe
+- [x] Ingredients
+  - [x] Add new ingredient
+  - [x] Edit ingredient
+  - [x] Delete ingredient
 - [ ] Recipe list settings
   - [ ] Import recipe list
   - [ ] Export recipe list
