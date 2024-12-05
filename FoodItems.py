@@ -92,7 +92,8 @@ class Recipe:
                 raise ValueError(
                     "Cannot remove_ingredient() all ingredients, try delete_ingredient instead"
                 )
-            self.ingredients[ingredient.remove(amount)]
+            else:
+                self.ingredients[ingredient.remove(amount)]
         else:
             raise ValueError(f"{ingredient} does not exist in ingredients list")
 
@@ -116,7 +117,8 @@ class Recipe:
         if ingredient.name in self.ingredients:
             if amount <= 0:
                 raise ValueError("Amount to add must be greater than zero")
-            self.ingredients[ingredient.add(amount)]
+            else:
+                self.ingredients[ingredient.add(amount)]
         else:
             raise ValueError(f"{ingredient} does not exist in ingredients list")
 
@@ -142,7 +144,11 @@ class Recipe:
         else:
             self.remove -= amount
 
-    def add(self, amount): ...
+    def add(self, amount):
+        if amount <= 0:
+            raise ValueError("Amount to add must be greater than zero")
+        else:
+
 
     def edit_desired(self, new_desired): ...
 
