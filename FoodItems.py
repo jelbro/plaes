@@ -77,6 +77,11 @@ class Recipe:
         self.unit = unit
         self.needed = False
 
+    def __str__(self):
+        return f"""{self.quantity:.2f}{self.unit} of {inflec.plural(self.name, round(self.quantity))}
+                   {self.ingredients}
+                   {self.quantity}{self.unit} out of {self.desired_quantity}{self.unit}"""
+
     def remove_ingredient(self, ingredient, amount):
         """remove an amount of Ingredient from this Recipe's ingredient list
 
@@ -232,7 +237,7 @@ class Ingredient:
         self.unit = unit
 
     def __str__(self):
-        return f"{self.quantity:.2f}{self.unit} {inflec.plural(self.name, round(self.quantity))}"
+        return f"{self.quantity:.2f}{self.unit} of {inflec.plural(self.name, round(self.quantity))}"
 
     def __repr__(self):
         return f"Ingrdient(name: {self.name}), (quantity: {self.quantity}), (unit: {self.unit})"
