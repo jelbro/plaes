@@ -213,8 +213,7 @@ class Ingredient:
     """
 
     def __init__(self, name=None, quantity=0, unit=None):
-        """Ingredient Initialisation Function
-
+        """
         Parameters
         ----------
         name : str
