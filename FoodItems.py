@@ -228,6 +228,9 @@ class Ingredient:
         self.quantity = quantity
         self.unit = unit
 
+    def __str__(self):
+        return f"{self.quantity:.2f}{self.unit} {self.name}"
+
     def remove(self, amount):
         """Remove amount from this Ingredient
 
