@@ -11,14 +11,14 @@
   - [x] FoodItems
     - [x] Recipe
     - [x] Ingredient
-- [x] Recipes
-  - [x] Add new recipe
-  - [x] Edit recipe
-  - [x] Delete recipe
-- [x] Ingredients
-  - [x] Add new ingredient
-  - [x] Edit ingredient
-  - [x] Delete ingredient
+- [ ] Recipes
+  - [ ] Add new recipe
+  - [ ] Edit recipe
+  - [ ] Delete recipe
+- [ ] Ingredients
+  - [ ] Add new ingredient
+  - [ ] Edit ingredient
+  - [ ] Delete ingredient
 - [ ] Recipe list settings
   - [ ] Import recipe list
   - [ ] Export recipe list
