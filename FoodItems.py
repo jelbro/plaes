@@ -87,6 +87,27 @@ class Recipe:
         return f"""Recipe(name: {self.name}, quantity: {self.quantity}, desired_quantity: {self.desired_quantity}, unit: {self.unit},
                 needed: {self.needed}, ingredients: {self.ingredients})"""
 
+    def edit_ingredient_amount(self, ingredient, amount, operator):
+        if not ingredient in self.ingredients:
+            raise ValueError(
+                f"{ingredient.name} does not exist in this Recipe's ingredients"
+            )
+        else:
+            if float(amount) <= 0:
+                raise ValueError("Amount must not be zero or lower")
+            else:
+                if operator == "+":
+                    self.ingredients[ingredient.add(amount)]
+                elif operator == "-":
+                    if self.ingredients[ingredient.amount] - amount <= 0:
+                        raise ValueError(
+                            "Amount would result in a negative ingredient amount"
+                        )
+                    else:
+                        self.ingredients[ingredient.remove(amount)]
+                else:
+                    raise ValueError(f"{operator} is not a valid operator")
+
     def remove_ingredient(self, ingredient, amount):
         """remove an amount of Ingredient from this Recipe's ingredient list
 
