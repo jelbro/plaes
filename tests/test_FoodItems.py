@@ -26,3 +26,13 @@ def test_Ingredient_str():
     mayo = Ingredient("Mayo", 1, "kg")
 
     assert mayo.__str__() == "1kg of Mayo"
+
+
+def test_Ingredient_repr():
+    apple = Ingredient("Apple", 1)
+
+    assert apple.__repr__() == "Ingredient(name: Apple, quantity: 1, unit: None)"
+
+    mayo = Ingredient("Mayo", 1, "kg")
+
+    assert mayo.__repr__() == "Ingredient(name: Mayo, quantity: 1, unit: kg)"
