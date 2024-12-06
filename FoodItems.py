@@ -269,9 +269,7 @@ class Ingredient:
             return f"{round(self.quantity, 2)}{self.unit} of {inflec.plural(self.name, math.ceil(self.quantity))}"
 
     def __repr__(self):
-        return (
-            f"Ingrdient(name: {self.name}, quantity: {self.quantity}, unit: {self.unit}"
-        )
+        return f"Ingrdient(name: {self.name}, quantity: {self.quantity}, unit: {self.unit})"
 
     def remove(self, amount):
         """Remove amount from this Ingredient
