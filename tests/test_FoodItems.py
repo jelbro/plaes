@@ -50,3 +50,5 @@ def test_Recipe_init():
     assert toast.name == "Toast"
     assert toast.display_ingredients() == "1 slice of Bread\n10 g of Butter\n"
     assert toast.quantity == 0
+    assert toast.desired_quantity == 1
+    assert toast.unit == "slice"
