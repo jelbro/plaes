@@ -72,7 +72,7 @@ class Recipe:
         """
 
         self.name = name
-        self.ingredients = [ingredients]
+        self.ingredients = ingredients
         self.quantity = quantity
         self.desired_quantity = desired_quantity
         self.unit = unit
@@ -109,8 +109,14 @@ class Recipe:
                     raise ValueError(f"{operator} is not a valid operator")
 
     def display_ingredients(self):
+        ingredient_display = ""
         for ingredient in self.ingredients:
-            ingredient_display += ingredient
+            if ingredient.unit == None:
+                ingredient_display += f"{ingredient.quantity} {ingredient.name}"
+            else:
+                ingredient_display += (
+                    f"{ingredient.quantity} {ingredient.unit} of {ingredient.name}"
+                )
         return ingredient_display
 
     def remove_ingredient(self, ingredient, amount):
