@@ -2,8 +2,15 @@ from FoodItems import Recipe, Ingredient
 
 
 def main():
-    apple = Ingredient("Apple", 1)
-    print(apple)
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        0,
+        1,
+        "slice",
+    )
+
+    print(toast.display_ingredients())
 
 
 if __name__ == "__main__":

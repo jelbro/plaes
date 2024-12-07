@@ -112,10 +112,10 @@ class Recipe:
         ingredient_display = ""
         for ingredient in self.ingredients:
             if ingredient.unit == None:
-                ingredient_display += f"{ingredient.quantity} {ingredient.name}"
+                ingredient_display += f"{ingredient.quantity} {ingredient.name}\n"
             else:
                 ingredient_display += (
-                    f"{ingredient.quantity} {ingredient.unit} of {ingredient.name}"
+                    f"{ingredient.quantity} {ingredient.unit} of {ingredient.name}\n"
                 )
         return ingredient_display
 
