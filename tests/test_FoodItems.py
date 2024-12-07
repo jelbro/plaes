@@ -25,7 +25,7 @@ def test_Ingredient_str():
 
     mayo = Ingredient("Mayo", 1, "kg")
 
-    assert mayo.__str__() == "1kg of Mayo"
+    assert mayo.__str__() == "1 kg of Mayo"
 
 
 def test_Ingredient_repr():
@@ -48,7 +48,22 @@ def test_Recipe_init():
     )
 
     assert toast.name == "Toast"
-    assert toast.display_ingredients() == "1 slice of Bread\n10 g of Butter\n"
+    assert toast.display_ingredients() == "1 slice of Bread\n10 g of Butter"
     assert toast.quantity == 0
     assert toast.desired_quantity == 1
     assert toast.unit == "slice"
+
+
+def test_Recipe_str():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        0,
+        1,
+        "slice",
+    )
+
+    assert (
+        toast.__str__()
+        == "0 slice of Toasts\n1 slice of Bread\n10 g of Butter\n0 slice out of 1 slice in stock"
+    )
