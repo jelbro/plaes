@@ -22,7 +22,7 @@
   - [ ] add
   - [ ] edit_desired
   - [ ] need_to_make
-  - [ ] list_ingredients
+  - [x] display_ingredients
 - [ ] Ingredients
   - [ ] Add new ingredient
   - [ ] Edit ingredient
