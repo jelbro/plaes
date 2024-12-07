@@ -10,7 +10,8 @@ def main():
         "slice",
     )
 
-    print(toast.display_ingredients())
+    # print(toast.display_ingredients())
+    print(toast)
 
 
 if __name__ == "__main__":
