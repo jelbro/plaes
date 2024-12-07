@@ -108,6 +108,11 @@ class Recipe:
                 else:
                     raise ValueError(f"{operator} is not a valid operator")
 
+    def display_ingredients(self):
+        for ingredient in self.ingredients:
+            ingredient_display += ingredient
+        return ingredient_display
+
     def remove_ingredient(self, ingredient, amount):
         """remove an amount of Ingredient from this Recipe's ingredient list
 
