@@ -36,3 +36,15 @@ def test_Ingredient_repr():
     mayo = Ingredient("Mayo", 1, "kg")
 
     assert mayo.__repr__() == "Ingredient(name: Mayo, quantity: 1, unit: kg)"
+
+
+def test_Recipe_init():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        0,
+        1,
+        "slice",
+    )
+
+    assert toast.name == "Toast"
