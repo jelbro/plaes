@@ -99,6 +99,22 @@ needed: {self.needed}, ingredients: {self.ingredients})"""
         return ingredient_display.rstrip("\n")
 
     def edit_ingredient_amount(self, ingredient_name, operator, amount):
+        """add or remove from an ingredient in this Recipe's ingredient list
+
+        Parameters
+        ----------
+        ingredient_name : str
+            the name of the ingredient you wish to edit
+        operator : str
+            either '+' or '-'
+        amount : float
+            amount to change ingredient.amount by
+
+        Raises
+        ------
+        ValueError
+            if given any value other than '+' or '-' for operator'
+        """
         if operator == "+":
             self.add_to_ingredient(ingredient_name, amount)
         elif operator == "-":
