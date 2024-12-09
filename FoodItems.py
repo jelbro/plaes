@@ -87,14 +87,6 @@ class Recipe:
         return f"""Recipe(name: {self.name}, quantity: {self.quantity}, desired_quantity: {self.desired_quantity}, unit: {self.unit},
 needed: {self.needed}, ingredients: {self.ingredients})"""
 
-    def edit_ingredient_amount(self, ingredient, amount, operator):
-        if operator == "+":
-            self.add_to_ingredient(ingredient, amount)
-        elif operator == "-":
-            self.remove_from_ingredient(ingredient, amount)
-        else:
-            raise ValueError(f"{operator} is not a valid operator")
-
     def display_ingredients(self):
         ingredient_display = ""
         for ingredient in self.ingredients:
@@ -105,6 +97,14 @@ needed: {self.needed}, ingredients: {self.ingredients})"""
             else:
                 ingredient_display += f"{round(ingredient.quantity, 2):g} {ingredient.unit} of {ingredient.name}\n"
         return ingredient_display.rstrip("\n")
+
+    def edit_ingredient_amount(self, ingredient_name, operator, amount):
+        if operator == "+":
+            self.add_to_ingredient(ingredient_name, amount)
+        elif operator == "-":
+            self.remove_from_ingredient(ingredient_name, amount)
+        else:
+            raise ValueError(f"{operator} is not a valid operator")
 
     def remove_from_ingredient(self, ingredient_name, amount):
         """remove an amount of Ingredient from this Recipe's ingredient list

@@ -201,3 +201,29 @@ def test_Recipe_add_to_ingredient_with_negative_number():
 
     with pytest.raises(Exception) as e_info:
         toast.add_to_ingredient("Butter", -5)
+
+
+def test_Recipe_add_to_ingredient_with_invalid_amount():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        0,
+        1,
+        "slice",
+    )
+
+    with pytest.raises(Exception) as e_info:
+        toast.add_to_ingredient("Butter", "Butter")
+
+
+def test_Recipe_add_to_ingredient_not_in_list():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        0,
+        1,
+        "slice",
+    )
+
+    with pytest.raises(Exception) as e_info:
+        toast.add_to_ingredient("Cheese", 10)
