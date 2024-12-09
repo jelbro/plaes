@@ -88,6 +88,13 @@ class Recipe:
 needed: {self.needed}, ingredients: {self.ingredients})"""
 
     def display_ingredients(self):
+        """return this Recipe's ingredient list in a readable way
+
+        Returns
+        -------
+        str
+            a string of ingredients with the final escape removed
+        """
         ingredient_display = ""
         for ingredient in self.ingredients:
             if ingredient.unit == None:
