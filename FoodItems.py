@@ -85,7 +85,7 @@ class Recipe:
 
     def __repr__(self):
         return f"""Recipe(name: {self.name}, quantity: {self.quantity}, desired_quantity: {self.desired_quantity}, unit: {self.unit},
-                needed: {self.needed}, ingredients: {self.ingredients})"""
+needed: {self.needed}, ingredients: {self.ingredients})"""
 
     def edit_ingredient_amount(self, ingredient, amount, operator):
         if not ingredient in self.ingredients:
