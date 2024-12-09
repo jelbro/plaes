@@ -67,3 +67,19 @@ def test_Recipe_str():
         toast.__str__()
         == "0 slice of Toasts\n1 slice of Bread\n10 g of Butter\n0 slice out of 1 slice in stock"
     )
+
+
+def test_Recipe_repr():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        0,
+        1,
+        "slice",
+    )
+
+    assert (
+        toast.__repr__()
+        == """Recipe(name: Toast, quantity: 0, desired_quantity: 1, unit: slice,
+needed: False, ingredients: (Ingredient(name: Bread, quantity: 1, unit: slice), Ingredient(name: Butter, quantity: 10, unit: g)))"""
+    )
