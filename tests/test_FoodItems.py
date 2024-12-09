@@ -1,4 +1,5 @@
 import sys
+import pytest
 
 sys.path.append("/home/josh/documents/development/repos/plaes")
 from FoodItems import Recipe, Ingredient
@@ -96,3 +97,16 @@ def test_Recipe_remove_from_ingredient_correct_useage():
 
     toast.remove_from_ingredient("Butter", 5)
     assert toast.display_ingredients() == "1 slice of Bread\n5 g of Butter"
+
+
+def test_Recipe_remove_from_ingredient_removing_to_zero():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        0,
+        1,
+        "slice",
+    )
+
+    with pytest.raises(Exception) as e_info:
+        toast.remove_from_ingredient("Butter", 10)
