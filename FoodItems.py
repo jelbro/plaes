@@ -138,14 +138,14 @@ needed: {self.needed}, ingredients: {self.ingredients})"""
                             "Cannot remove_ingredient() all ingredients, try delete_ingredient instead"
                         )
                     else:
-                        current_ingredient.quantity -= amount
+                        current_ingredient.remove(amount)
                         return
             else:
                 raise ValueError(
                     f"{ingredient_name} does not exist in ingredients list"
                 )
 
-    def add_to_ingredient(self, ingredient, amount):
+    def add_to_ingredient(self, ingredient_name, amount):
         """add an amount of Ingredient to this Recipes ingredient list
 
         Parameters
@@ -162,13 +162,14 @@ needed: {self.needed}, ingredients: {self.ingredients})"""
         ValueError
             if the ingredient to be added to doesn't exist in this Recipes ingredient list
         """
-        if ingredient.name in self.ingredients:
-            if amount <= 0:
-                raise ValueError("Amount to add must be greater than zero")
-            else:
-                self.ingredients[ingredient.add(amount)]
+        if amount <= 0:
+            raise ValueError("Amount to add must be greater than zero")
+        for current_ingredient in self.ingredients:
+            if current_ingredient.name == ingredient_name:
+                current_ingredient.add(amount)
+                return
         else:
-            raise ValueError(f"{ingredient} does not exist in ingredients list")
+            raise ValueError(f"{ingredient_name} does not exist in ingredients list")
 
     def remove(self, amount):
         """remove amount from this Recipes quantity
