@@ -99,11 +99,11 @@ needed: {self.needed}, ingredients: {self.ingredients})"""
         ingredient_display = ""
         for ingredient in self.ingredients:
             if ingredient.unit == None:
-                ingredient_display += f"{ingredient.quantity} {ingredient.name}\n"
-            else:
                 ingredient_display += (
-                    f"{ingredient.quantity} {ingredient.unit} of {ingredient.name}\n"
+                    f"{round(ingredient.quantity, 2):g} {ingredient.name}\n"
                 )
+            else:
+                ingredient_display += f"{round(ingredient.quantity, 2):g} {ingredient.unit} of {ingredient.name}\n"
         return ingredient_display.rstrip("\n")
 
     def remove_from_ingredient(self, ingredient_name, amount):
@@ -123,17 +123,27 @@ needed: {self.needed}, ingredients: {self.ingredients})"""
         ValueError
             if the ingredient does not exist in this Recipes ingredient list
         """
-        for current_ingredient in self.ingredients:
-            if current_ingredient.name == ingredient_name:
-                if (current_ingredient.quantity - amount) <= 0:
-                    raise ValueError(
-                        "Cannot remove_ingredient() all ingredients, try delete_ingredient instead"
-                    )
-                else:
-                    current_ingredient.quantity -= amount
-                    return
+        if amount <= 0:
+            raise ValueError("Amount must not be less than or equal to zero")
+        try:
+            float(amount)
+        except ValueError:
+            print("{amount} is not a valid float")
+
         else:
-            raise ValueError(f"{ingredient_name} does not exist in ingredients list")
+            for current_ingredient in self.ingredients:
+                if current_ingredient.name == ingredient_name:
+                    if (current_ingredient.quantity - amount) <= 0:
+                        raise ValueError(
+                            "Cannot remove_ingredient() all ingredients, try delete_ingredient instead"
+                        )
+                    else:
+                        current_ingredient.quantity -= amount
+                        return
+            else:
+                raise ValueError(
+                    f"{ingredient_name} does not exist in ingredients list"
+                )
 
     def add_to_ingredient(self, ingredient, amount):
         """add an amount of Ingredient to this Recipes ingredient list
@@ -264,9 +274,9 @@ class Ingredient:
 
     def __str__(self):
         if self.unit == None:
-            return f"{round(self.quantity, 2)} {inflec.plural(self.name, math.ceil(self.quantity))}"
+            return f"{round(self.quantity, 2):g} {inflec.plural(self.name, math.ceil(self.quantity))}"
         else:
-            return f"{round(self.quantity, 2)} {self.unit} of {inflec.plural(self.name, math.ceil(self.quantity))}"
+            return f"{round(self.quantity, 2):g} {self.unit} of {inflec.plural(self.name, math.ceil(self.quantity))}"
 
     def __repr__(self):
         return f"Ingredient(name: {self.name}, quantity: {self.quantity}, unit: {self.unit})"

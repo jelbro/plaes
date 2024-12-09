@@ -123,3 +123,16 @@ def test_Recipe_remove_from_ingredient_removing_past_zero():
 
     with pytest.raises(Exception) as e_info:
         toast.remove_from_ingredient("Butter", 20)
+
+
+def test_Recipe_remove_from_ingredient_removing_negative_number():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        0,
+        1,
+        "slice",
+    )
+
+    with pytest.raises(Exception) as e_info:
+        toast.remove_from_ingredient("Butter", -10)
