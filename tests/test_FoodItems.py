@@ -227,3 +227,44 @@ def test_Recipe_add_to_ingredient_not_in_list():
 
     with pytest.raises(Exception) as e_info:
         toast.add_to_ingredient("Cheese", 10)
+
+
+def test_Recipe_edit_ingredient_amount_correct_useage_to_add():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        0,
+        1,
+        "slice",
+    )
+
+    toast.edit_ingredient_amount("Bread", "+", 1)
+    assert toast.display_ingredients() == "2 slice of Bread\n10 g of Butter"
+
+
+def test_Recipe_edit_ingredient_amount_correct_useage_to_subtract():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 2, "slice"), Ingredient("Butter", 10, "g")),
+        0,
+        1,
+        "slice",
+    )
+
+    toast.edit_ingredient_amount("Bread", "-", 1)
+    assert toast.display_ingredients() == "1 slice of Bread\n10 g of Butter"
+
+
+def test_Recipe_edit_ingredient_amount_invalid_operator():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        0,
+        1,
+        "slice",
+    )
+
+    with pytest.raises(Exception) as e_info:
+        toast.edit_ingredient_amount("Bread", 1, 1)
+    with pytest.raises(Exception) as e_info:
+        toast.edit_ingredient_amount("Bread", "add", 1)
