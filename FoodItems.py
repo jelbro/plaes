@@ -76,7 +76,7 @@ class Recipe:
         self.quantity = quantity
         self.desired_quantity = desired_quantity
         self.unit = unit
-        self.needed = False
+        self.needed = self.need_to_make()
 
     def __str__(self):
         return f"""{round(self.quantity, 2)} {self.unit} of {inflec.plural(self.name, math.ceil(self.quantity))}
@@ -260,9 +260,9 @@ needed: {self.needed}, ingredients: {self.ingredients})"""
     def need_to_make(self):
         """calculate if this recipe is needing to be made."""
         if self.quantity < self.desired_quantity:
-            self.needed = True
+            return True
         else:
-            self.needed = False
+            return False
 
 
 class Ingredient:

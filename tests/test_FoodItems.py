@@ -53,6 +53,7 @@ def test_Recipe_init():
     assert toast.quantity == 0
     assert toast.desired_quantity == 1
     assert toast.unit == "slice"
+    assert toast.needed == True
 
 
 def test_Recipe_str():
@@ -82,7 +83,7 @@ def test_Recipe_repr():
     assert (
         toast.__repr__()
         == """Recipe(name: Toast, quantity: 0, desired_quantity: 1, unit: slice,
-needed: False, ingredients: (Ingredient(name: Bread, quantity: 1, unit: slice), Ingredient(name: Butter, quantity: 10, unit: g)))"""
+needed: True, ingredients: (Ingredient(name: Bread, quantity: 1, unit: slice), Ingredient(name: Butter, quantity: 10, unit: g)))"""
     )
 
 
