@@ -88,25 +88,12 @@ class Recipe:
 needed: {self.needed}, ingredients: {self.ingredients})"""
 
     def edit_ingredient_amount(self, ingredient, amount, operator):
-        if not ingredient in self.ingredients:
-            raise ValueError(
-                f"{ingredient.name} does not exist in this Recipe's ingredients"
-            )
+        if operator == "+":
+            self.add_to_ingredient(ingredient, amount)
+        elif operator == "-":
+            self.remove_from_ingredient(ingredient, amount)
         else:
-            if float(amount) <= 0:
-                raise ValueError("Amount must not be zero or lower")
-            else:
-                if operator == "+":
-                    self.ingredients[ingredient.add(amount)]
-                elif operator == "-":
-                    if self.ingredients[ingredient.amount] - amount <= 0:
-                        raise ValueError(
-                            "Amount would result in a negative ingredient amount"
-                        )
-                    else:
-                        self.ingredients[ingredient.remove(amount)]
-                else:
-                    raise ValueError(f"{operator} is not a valid operator")
+            raise ValueError(f"{operator} is not a valid operator")
 
     def display_ingredients(self):
         ingredient_display = ""
@@ -119,7 +106,7 @@ needed: {self.needed}, ingredients: {self.ingredients})"""
                 )
         return ingredient_display.rstrip("\n")
 
-    def remove_ingredient(self, ingredient, amount):
+    def remove_from_ingredient(self, ingredient, amount):
         """remove an amount of Ingredient from this Recipe's ingredient list
 
         Parameters
@@ -146,7 +133,7 @@ needed: {self.needed}, ingredients: {self.ingredients})"""
         else:
             raise ValueError(f"{ingredient} does not exist in ingredients list")
 
-    def add_ingredient(self, ingredient, amount):
+    def add_to_ingredient(self, ingredient, amount):
         """add an amount of Ingredient to this Recipes ingredient list
 
         Parameters
