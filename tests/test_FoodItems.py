@@ -175,3 +175,29 @@ def test_Recipe_add_to_ingredient_correct_useage():
 
     toast.add_to_ingredient("Butter", 5)
     assert toast.display_ingredients() == "1 slice of Bread\n15 g of Butter"
+
+
+def test_Recipe_add_to_ingredient_with_zero():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        0,
+        1,
+        "slice",
+    )
+
+    with pytest.raises(Exception) as e_info:
+        toast.add_to_ingredient("Butter", 0)
+
+
+def test_Recipe_add_to_ingredient_with_negative_number():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        0,
+        1,
+        "slice",
+    )
+
+    with pytest.raises(Exception) as e_info:
+        toast.add_to_ingredient("Butter", -5)
