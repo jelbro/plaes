@@ -15,13 +15,15 @@
   - [x] Init
   - [x] Str
   - [x] Repr
-  - [ ] edit_ingredient_amount
+  - [x] edit_ingredient_amount
+  - [x] add_to_ingredient 
+  - [x] remove_from_ingredient 
   - [ ] delete_ingredient
   - [ ] add_ingredient
   - [ ] remove
   - [ ] add
   - [ ] edit_desired
-  - [ ] need_to_make
+  - [x] need_to_make
   - [x] display_ingredients
 - [ ] Ingredients
   - [ ] Add new ingredient
