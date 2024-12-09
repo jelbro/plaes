@@ -106,13 +106,13 @@ needed: {self.needed}, ingredients: {self.ingredients})"""
                 )
         return ingredient_display.rstrip("\n")
 
-    def remove_from_ingredient(self, ingredient, amount):
+    def remove_from_ingredient(self, ingredient_name, amount):
         """remove an amount of Ingredient from this Recipe's ingredient list
 
         Parameters
         ----------
-        ingredient : Ingredient
-            an Ingredient object that should be present in this Recipes ingredient list
+        ingredient_name : Ingredient
+            an Ingredient name that should be present in this Recipes ingredient list
         amount : float
             an amount to remove from the ingredient
 
@@ -123,15 +123,17 @@ needed: {self.needed}, ingredients: {self.ingredients})"""
         ValueError
             if the ingredient does not exist in this Recipes ingredient list
         """
-        if ingredient.name in self.ingredients:
-            if (ingredient.amount - amount) <= 0:
-                raise ValueError(
-                    "Cannot remove_ingredient() all ingredients, try delete_ingredient instead"
-                )
-            else:
-                self.ingredients[ingredient.remove(amount)]
+        for current_ingredient in self.ingredients:
+            if current_ingredient.name == ingredient_name:
+                if (current_ingredient.quantity - amount) <= 0:
+                    raise ValueError(
+                        "Cannot remove_ingredient() all ingredients, try delete_ingredient instead"
+                    )
+                else:
+                    current_ingredient.quantity -= amount
+                    return
         else:
-            raise ValueError(f"{ingredient} does not exist in ingredients list")
+            raise ValueError(f"{ingredient_name} does not exist in ingredients list")
 
     def add_to_ingredient(self, ingredient, amount):
         """add an amount of Ingredient to this Recipes ingredient list

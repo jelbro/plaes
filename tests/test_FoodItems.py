@@ -83,3 +83,16 @@ def test_Recipe_repr():
         == """Recipe(name: Toast, quantity: 0, desired_quantity: 1, unit: slice,
 needed: False, ingredients: (Ingredient(name: Bread, quantity: 1, unit: slice), Ingredient(name: Butter, quantity: 10, unit: g)))"""
     )
+
+
+def test_Recipe_remove_from_ingredient_correct_useage():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        0,
+        1,
+        "slice",
+    )
+
+    toast.remove_from_ingredient("Butter", 5)
+    assert toast.display_ingredients() == "1 slice of Bread\n5 g of Butter"
