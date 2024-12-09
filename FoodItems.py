@@ -163,7 +163,12 @@ needed: {self.needed}, ingredients: {self.ingredients})"""
             if the ingredient to be added to doesn't exist in this Recipes ingredient list
         """
         if amount <= 0:
-            raise ValueError("Amount to add must be greater than zero")
+            raise ValueError("Amount must not be less than or equal to zero")
+        try:
+            float(amount)
+        except ValueError:
+            print("{amount} is not a valid float")
+
         for current_ingredient in self.ingredients:
             if current_ingredient.name == ingredient_name:
                 current_ingredient.add(amount)
