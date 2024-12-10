@@ -408,3 +408,43 @@ def test_Recipe_edit_desired_invalid_value():
 
     with pytest.raises(Exception) as e_info:
         toast.edit_desired("two")
+
+
+def test_Recipe_need_to_make_start_false():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        2,
+        1,
+        "slice",
+    )
+
+    assert toast.needed == False
+
+    toast.remove(1.5)
+
+    assert toast.needed == True
+
+    toast.add(3)
+
+    assert toast.needed == False
+
+
+def test_Recipe_need_to_make_start_true():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        0,
+        1,
+        "slice",
+    )
+
+    assert toast.needed == True
+
+    toast.add(1)
+
+    assert toast.needed == False
+
+    toast.remove(1)
+
+    assert toast.needed == True

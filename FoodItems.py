@@ -248,6 +248,7 @@ class Recipe:
             )
         else:
             self.quantity -= amount
+            self.needed = self.need_to_make()
 
     def add(self, amount):
         """add amount to this Recipes quantity
@@ -270,6 +271,7 @@ class Recipe:
             raise ValueError("Amount to add must be greater than zero")
         else:
             self.quantity += amount
+            self.needed = self.need_to_make()
 
     def edit_desired(self, new_desired):
         """Override this Recipes desired_quantity
