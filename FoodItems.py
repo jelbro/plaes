@@ -54,7 +54,12 @@ class Recipe:
     """
 
     def __init__(
-        self, name=None, ingredients=[], quantity=0, desired_quantity=0, unit=None
+        self,
+        name=None,
+        ingredients=[],
+        quantity=0,
+        desired_quantity=0,
+        unit=None,
     ):
         """
         Parameters
@@ -79,13 +84,21 @@ class Recipe:
         self.needed = self.need_to_make()
 
     def __str__(self):
-        return f"""{round(self.quantity, 2)} {self.unit} of {inflec.plural(self.name, math.ceil(self.quantity))}
-{self.display_ingredients()}
-{self.quantity} {self.unit} out of {self.desired_quantity} {self.unit} in stock"""
+        return (
+            f"{round(self.quantity, 2)} {self.unit} of "
+            f"{inflec.plural(self.name, math.ceil(self.quantity))}\n"
+            f"{self.display_ingredients()}\n"
+            f"{self.quantity} {self.unit} out of "
+            f"{self.desired_quantity} {self.unit} in stock"
+        )
 
     def __repr__(self):
-        return f"""Recipe(name: {self.name}, quantity: {self.quantity}, desired_quantity: {self.desired_quantity}, unit: {self.unit},
-needed: {self.needed}, ingredients: {self.ingredients})"""
+        return (
+            f"Recipe(name: {self.name}, quantity: {self.quantity}, "
+            f"desired_quantity: {self.desired_quantity}, unit: {self.unit}, "
+            f"needed: {self.needed},\n"
+            f"ingredients: {self.ingredients})"
+        )
 
     def display_ingredients(self):
         """return this Recipe's ingredient list in a readable way
@@ -102,7 +115,10 @@ needed: {self.needed}, ingredients: {self.ingredients})"""
                     f"{round(ingredient.quantity, 2):g} {ingredient.name}\n"
                 )
             else:
-                ingredient_display += f"{round(ingredient.quantity, 2):g} {ingredient.unit} of {ingredient.name}\n"
+                ingredient_display += (
+                    f"{round(ingredient.quantity, 2):g} {ingredient.unit}"
+                    f" of {ingredient.name}\n"
+                )
         return ingredient_display.rstrip("\n")
 
     def edit_ingredient_amount(self, ingredient_name, operator, amount):
@@ -135,7 +151,8 @@ needed: {self.needed}, ingredients: {self.ingredients})"""
         Parameters
         ----------
         ingredient_name : Ingredient
-            an Ingredient name that should be present in this Recipes ingredient list
+            an Ingredient name that should be present in
+            this Recipes ingredient list
         amount : float
             an amount to remove from the ingredient
 
@@ -158,7 +175,8 @@ needed: {self.needed}, ingredients: {self.ingredients})"""
                 if current_ingredient.name == ingredient_name:
                     if (current_ingredient.quantity - amount) <= 0:
                         raise ValueError(
-                            "Cannot remove_ingredient() all ingredients, try delete_ingredient instead"
+                            "Cannot remove_ingredient() all ingredients, "
+                            "try delete_ingredient instead"
                         )
                     else:
                         current_ingredient.remove(amount)
@@ -174,7 +192,8 @@ needed: {self.needed}, ingredients: {self.ingredients})"""
         Parameters
         ----------
         ingredient : Ingredient
-            an Ingredient object that should already exist in this Recipes ingredient list
+            an Ingredient object that should already exist in
+            this Recipes ingredient list
         amount : float
             an amount to add of this Ingredient
 
@@ -183,7 +202,8 @@ needed: {self.needed}, ingredients: {self.ingredients})"""
         ValueError
             if amount to add is less than 1
         ValueError
-            if the ingredient to be added to doesn't exist in this Recipes ingredient list
+            if the ingredient to be added to doesn't exist in
+            this Recipes ingredient list
         """
         if amount <= 0:
             raise ValueError("Amount must not be less than or equal to zero")
@@ -197,7 +217,9 @@ needed: {self.needed}, ingredients: {self.ingredients})"""
                 current_ingredient.add(amount)
                 return
         else:
-            raise ValueError(f"{ingredient_name} does not exist in ingredients list")
+            raise ValueError(
+                f"{ingredient_name} does not exist in ingredients list"
+            )
 
     def remove(self, amount):
         """remove amount from this Recipes quantity
@@ -217,7 +239,9 @@ needed: {self.needed}, ingredients: {self.ingredients})"""
         if amount <= 0:
             raise ValueError("Amount to remove must be greater than zero")
         elif self.quantity - amount <= 0:
-            raise ValueError("Amount cannot result in quantity being less than zero")
+            raise ValueError(
+                "Amount cannot result in quantity being less than zero"
+            )
         else:
             self.remove -= amount
 
@@ -303,12 +327,21 @@ class Ingredient:
 
     def __str__(self):
         if self.unit == None:
-            return f"{round(self.quantity, 2):g} {inflec.plural(self.name, math.ceil(self.quantity))}"
+            return (
+                f"{round(self.quantity, 2):g} "
+                f"{inflec.plural(self.name, math.ceil(self.quantity))}"
+            )
         else:
-            return f"{round(self.quantity, 2):g} {self.unit} of {inflec.plural(self.name, math.ceil(self.quantity))}"
+            return (
+                f"{round(self.quantity, 2):g} {self.unit} "
+                f"of {inflec.plural(self.name, math.ceil(self.quantity))}"
+            )
 
     def __repr__(self):
-        return f"Ingredient(name: {self.name}, quantity: {self.quantity}, unit: {self.unit})"
+        return (
+            f"Ingredient(name: {self.name}, "
+            f"quantity: {self.quantity}, unit: {self.unit})"
+        )
 
     def remove(self, amount):
         """Remove amount from this Ingredient

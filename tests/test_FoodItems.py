@@ -32,7 +32,9 @@ def test_Ingredient_str():
 def test_Ingredient_repr():
     apple = Ingredient("Apple", 1)
 
-    assert apple.__repr__() == "Ingredient(name: Apple, quantity: 1, unit: None)"
+    assert apple.__repr__() == (
+        "Ingredient(name: Apple, " "quantity: 1, unit: None)"
+    )
 
     mayo = Ingredient("Mayo", 1, "kg")
 
@@ -65,9 +67,11 @@ def test_Recipe_str():
         "slice",
     )
 
-    assert (
-        toast.__str__()
-        == "0 slice of Toasts\n1 slice of Bread\n10 g of Butter\n0 slice out of 1 slice in stock"
+    assert toast.__str__() == (
+        "0 slice of Toasts\n"
+        "1 slice of Bread\n"
+        "10 g of Butter\n"
+        "0 slice out of 1 slice in stock"
     )
 
 
@@ -80,10 +84,11 @@ def test_Recipe_repr():
         "slice",
     )
 
-    assert (
-        toast.__repr__()
-        == """Recipe(name: Toast, quantity: 0, desired_quantity: 1, unit: slice,
-needed: True, ingredients: (Ingredient(name: Bread, quantity: 1, unit: slice), Ingredient(name: Butter, quantity: 10, unit: g)))"""
+    assert toast.__repr__() == (
+        "Recipe(name: Toast, quantity: 0, desired_quantity: 1, unit: slice, "
+        "needed: True,\n"
+        "ingredients: (Ingredient(name: Bread, quantity: 1, unit: slice), "
+        "Ingredient(name: Butter, quantity: 10, unit: g)))"
     )
 
 
