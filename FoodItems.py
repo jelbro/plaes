@@ -236,14 +236,18 @@ class Recipe:
         ValueError
             if amount would result in quantity being less than or equal to zero
         """
+        try:
+            float(amount)
+        except ValueError:
+            print(f"{amount} is not a valid float")
         if amount <= 0:
             raise ValueError("Amount to remove must be greater than zero")
-        elif self.quantity - amount <= 0:
+        elif self.quantity - amount < 0:
             raise ValueError(
                 "Amount cannot result in quantity being less than zero"
             )
         else:
-            self.remove -= amount
+            self.quantity -= amount
 
     def add(self, amount):
         """add amount to this Recipes quantity
@@ -258,6 +262,10 @@ class Recipe:
         ValueError
             if amount to be added is less than or equal to zero
         """
+        try:
+            float(amount)
+        except ValueError:
+            print(f"{amount} is not a valid float")
         if amount <= 0:
             raise ValueError("Amount to add must be greater than zero")
         else:

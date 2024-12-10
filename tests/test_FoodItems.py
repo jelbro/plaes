@@ -274,3 +274,97 @@ def test_Recipe_edit_ingredient_amount_invalid_operator():
         toast.edit_ingredient_amount("Bread", 1, 1)
     with pytest.raises(Exception) as e_info:
         toast.edit_ingredient_amount("Bread", "add", 1)
+
+
+def test_Recipe_remove_correct_useage():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        2,
+        1,
+        "slice",
+    )
+
+    toast.remove(1)
+    assert toast.quantity == 1
+
+    toast.remove(1)
+    assert toast.quantity == 0
+
+
+def test_Recipe_remove_less_than_zero():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        2,
+        1,
+        "slice",
+    )
+
+    with pytest.raises(Exception) as e_info:
+        toast.remove(0)
+
+
+def test_Recipe_remove_result_lower_than_zero():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        2,
+        1,
+        "slice",
+    )
+
+    with pytest.raises(Exception) as e_info:
+        toast.remove(3)
+
+
+def test_Recipe_remove_invalid_amount():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        2,
+        1,
+        "slice",
+    )
+
+    with pytest.raises(Exception) as e_info:
+        toast.remove("two")
+
+
+def test_Recipe_add_correct_useage():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        2,
+        1,
+        "slice",
+    )
+
+    toast.add(1)
+    assert toast.quantity == 3
+
+
+def test_Recipe_add_less_than_zero():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        2,
+        1,
+        "slice",
+    )
+
+    with pytest.raises(Exception) as e_info:
+        toast.add(0)
+
+
+def test_Recipe_add_invalid_amount():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        2,
+        1,
+        "slice",
+    )
+
+    with pytest.raises(Exception) as e_info:
+        toast.add("two")
