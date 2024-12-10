@@ -20,15 +20,17 @@
   - [x] remove_from_ingredient 
   - [ ] delete_ingredient
   - [ ] add_ingredient
-  - [ ] remove
-  - [ ] add
-  - [ ] edit_desired
+  - [x] remove
+  - [x] add
+  - [x] edit_desired
   - [x] need_to_make
   - [x] display_ingredients
 - [ ] Ingredients
-  - [ ] Add new ingredient
-  - [ ] Edit ingredient
-  - [ ] Delete ingredient
+  - [x] init
+  - [x] str
+  - [x] repr
+  - [x] add
+  - [x] remove
 - [ ] Recipe list settings
   - [ ] Import recipe list
   - [ ] Export recipe list
