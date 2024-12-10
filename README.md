@@ -25,7 +25,7 @@
   - [x] edit_desired
   - [x] need_to_make
   - [x] display_ingredients
-- [ ] Ingredients
+- [x] Ingredients
   - [x] init
   - [x] str
   - [x] repr
