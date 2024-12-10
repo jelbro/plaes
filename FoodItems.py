@@ -284,10 +284,15 @@ class Recipe:
         ValueError
             if the new desired quantity would be zero or less
         """
-        if new_desired <= 0:
+        try:
+            float(new_desired)
+        except ValueError:
+            print(f"{new_desired} is not a valid float")
+        if new_desired < 0:
             raise ValueError("desired_quantity cannot be zero or less")
         else:
             self.desired_quantity = new_desired
+            self.needed = self.need_to_make()
 
     def need_to_make(self):
         """calculate if this recipe is needing to be made."""

@@ -368,3 +368,43 @@ def test_Recipe_add_invalid_amount():
 
     with pytest.raises(Exception) as e_info:
         toast.add("two")
+
+
+def test_Recipe_edit_desired_correct_useage():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        2,
+        1,
+        "slice",
+    )
+
+    toast.edit_desired(3)
+    assert toast.desired_quantity == 3
+    assert toast.needed == True
+
+
+def test_Recipe_edit_desired_less_than_zero():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        2,
+        1,
+        "slice",
+    )
+
+    with pytest.raises(Exception) as e_info:
+        toast.edit_desired(-2)
+
+
+def test_Recipe_edit_desired_invalid_value():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        2,
+        1,
+        "slice",
+    )
+
+    with pytest.raises(Exception) as e_info:
+        toast.edit_desired("two")
