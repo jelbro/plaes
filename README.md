@@ -21,9 +21,9 @@
   - [x] remove_from_ingredient 
   - [x] delete_ingredient
   - [x] add_ingredient
-  - [ ] sort_ingredients
-    - [ ] by_name
-    - [ ] by_quantity
+  - [x] sort_ingredients
+    - [x] by_name
+    - [x] by_quantity
   - [x] remove
   - [x] add
   - [x] edit_desired
