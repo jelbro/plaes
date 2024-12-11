@@ -577,3 +577,16 @@ def test_Recipe_sort_ingredients_correct_useage():
     assert fruit_salad.display_ingredients() == "3 Apple\n1 Banana"
     fruit_salad.sort_ingredients(sort_by="quantity")
     assert fruit_salad.display_ingredients() == "1 Banana\n3 Apple"
+
+
+def test_Recipe_sort_ingredients_invalid_sort_by():
+    fruit_salad = Recipe(
+        "Fruit Salad",
+        (Ingredient("Banana", 1), Ingredient("Apple", 3)),
+        0,
+        1,
+        "bowl",
+    )
+
+    with pytest.raises(Exception):
+        fruit_salad.sort_ingredients(sort_by="unit")
