@@ -124,6 +124,27 @@ class Recipe:
         return ingredient_display.rstrip("\n")
 
     def valid_ingredient(self, ingredient):
+        """check wether Ingredient has valid values
+
+        Parameters
+        ----------
+        ingredient : Ingredient
+            an object of type Ingredient to be validated
+
+        Returns
+        -------
+        boolean
+            True Ingredient is valid
+
+        Raises
+        ------
+        ValueError
+            Ingredient name is not alphabetic
+        ValueError
+            Ingredient unit is not alphabetic
+        ValueError
+            Ingredient quantity is less than or equal to zero
+        """
         valid = True
         if not ingredient.name.isalpha():
             valid = False
