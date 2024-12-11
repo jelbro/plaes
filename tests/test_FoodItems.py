@@ -575,3 +575,5 @@ def test_Recipe_sort_ingredients_correct_useage():
 
     fruit_salad.sort_ingredients()
     assert fruit_salad.display_ingredients() == "3 Apple\n1 Banana"
+    fruit_salad.sort_ingredients(sort_by="quantity")
+    assert fruit_salad.display_ingredients() == "1 Banana\n3 Apple"
