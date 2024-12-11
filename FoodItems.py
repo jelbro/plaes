@@ -102,6 +102,16 @@ class Recipe:
             f"ingredients: {self.ingredients})"
         )
 
+    def sort_ingredients(self, sort_by="name"):
+        if sort_by == "name":
+            self.ingredients = sorted(
+                self.ingredients, key=lambda ingredient: ingredient.name
+            )
+        elif sort_by == "quantity":
+            self.ingredients = sorted(
+                self.ingredients, key=lambda ingredient: ingredient.quantity
+            )
+
     def display_ingredients(self):
         """return this Recipe's ingredient list in a readable way
 
