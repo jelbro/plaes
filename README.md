@@ -19,7 +19,7 @@
   - [x] add_to_ingredient 
   - [x] remove_from_ingredient 
   - [ ] delete_ingredient
-  - [ ] add_ingredient
+  - [x] add_ingredient
   - [ ] sort_ingredients
     - [ ] by_name
     - [ ] by_quantity
