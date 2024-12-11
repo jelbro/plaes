@@ -12,6 +12,7 @@
     - [x] Recipe
     - [x] Ingredient
 - [ ] Recipes
+  - [ ] Fix cases
   - [x] Init
   - [x] Str
   - [x] Repr
