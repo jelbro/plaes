@@ -121,6 +121,24 @@ class Recipe:
                 )
         return ingredient_display.rstrip("\n")
 
+    def valid_ingredient(self, ingredient):
+        valid = True
+        if not ingredient.name.isalpha():
+            valid = False
+        elif not ingredient.unit.isalpha():
+            valid = False
+        elif not ingredient.quantity <= 0:
+            valid = False
+        else:
+            valid = True
+        return valid
+
+    def add_ingredient(self, ingredient):
+        if self.valid_ingredient(ingredient):
+            self.ingredients.append(ingredient)
+        else:
+            raise ValueError("Ingredient to add is not valid")
+
     def edit_ingredient_amount(self, ingredient_name, operator, amount):
         """add or remove from an ingredient in this Recipe's ingredient list
 
