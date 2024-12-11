@@ -77,7 +77,9 @@ class Recipe:
         """
 
         self.name = name
-        self.ingredients = ingredients
+        self.ingredients = []
+        for ingredient in ingredients:
+            self.ingredients.append(ingredient)
         self.quantity = quantity
         self.desired_quantity = desired_quantity
         self.unit = unit
@@ -125,16 +127,23 @@ class Recipe:
         valid = True
         if not ingredient.name.isalpha():
             valid = False
+            raise ValueError("Ingredient name is not alphabetic")
         elif not ingredient.unit.isalpha():
             valid = False
-        elif not ingredient.quantity <= 0:
+            raise ValueError("Ingredient unit is not alphabetic")
+        elif ingredient.quantity <= 0:
             valid = False
+            raise ValueError(
+                f"Ingredient quantity: {ingredient.quantity} is "
+                "less than or equal to zero"
+            )
         else:
             valid = True
         return valid
 
     def add_ingredient(self, ingredient):
         if self.valid_ingredient(ingredient):
+            print(type(self.ingredients))
             self.ingredients.append(ingredient)
         else:
             raise ValueError("Ingredient to add is not valid")

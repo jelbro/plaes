@@ -87,8 +87,8 @@ def test_Recipe_repr():
     assert toast.__repr__() == (
         "Recipe(name: Toast, quantity: 0, desired_quantity: 1, unit: slice, "
         "needed: True,\n"
-        "ingredients: (Ingredient(name: Bread, quantity: 1, unit: slice), "
-        "Ingredient(name: Butter, quantity: 10, unit: g)))"
+        "ingredients: [Ingredient(name: Bread, quantity: 1, unit: slice), "
+        "Ingredient(name: Butter, quantity: 10, unit: g)])"
     )
 
 
@@ -448,3 +448,76 @@ def test_Recipe_need_to_make_start_true():
     toast.remove(1)
 
     assert toast.needed == True
+
+
+def test_Recipe_add_ingredient_correct_useage_start_with_two():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        0,
+        1,
+        "slice",
+    )
+
+    toast.add_ingredient(Ingredient("Jam", 5, "g"))
+
+    assert toast.display_ingredients() == (
+        "1 slice of Bread\n" "10 g of Butter\n" "5 g of Jam"
+    )
+
+
+def test_Recipe_add_ingredient_correct_useage_start_with_one():
+    toast = Recipe(
+        "Toast",
+        [Ingredient("Bread", 1, "slice")],
+        0,
+        1,
+        "slice",
+    )
+
+    toast.add_ingredient(Ingredient("Butter", 10, "g"))
+
+    assert toast.display_ingredients() == ("1 slice of Bread\n10 g of Butter")
+
+
+def test_Recipe_add_ingredient_invalid_name():
+    toast = Recipe(
+        "Toast",
+        [Ingredient("Bread", 1, "slice")],
+        0,
+        1,
+        "slice",
+    )
+
+    with pytest.raises(Exception):
+        toast.add_ingredient(Ingredient("Butter2", 10, "g"))
+
+
+def test_Recipe_add_ingredient_invalid_unit():
+    toast = Recipe(
+        "Toast",
+        [Ingredient("Bread", 1, "slice")],
+        0,
+        1,
+        "slice",
+    )
+
+    with pytest.raises(Exception):
+        toast.add_ingredient(Ingredient("Butter", 10, "5"))
+
+
+def test_Recipe_add_ingredient_invalid_quantity():
+    toast = Recipe(
+        "Toast",
+        [Ingredient("Bread", 1, "slice")],
+        0,
+        1,
+        "slice",
+    )
+
+    with pytest.raises(Exception):
+        toast.add_ingredient(Ingredient("Butter", 0, "g"))
+    with pytest.raises(Exception):
+        toast.add_ingredient(Ingredient("Butter", -2, "g"))
+    with pytest.raises(Exception):
+        toast.add_ingredient(Ingredient("Butter", "two", "g"))
