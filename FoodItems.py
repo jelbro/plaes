@@ -153,6 +153,18 @@ class Recipe:
             raise ValueError("Ingredient to add is not valid")
 
     def delete_ingredient(self, ingredient_name):
+        """delete an ingredient from this Recipes ingredient list
+
+        Parameters
+        ----------
+        ingredient_name : str
+            the name of the ingredient to delete
+
+        Raises
+        ------
+        ValueError
+            the ingredient to delete is not in this Recipes ingredient list
+        """
         for ingredient in self.ingredients:
             if ingredient_name == ingredient.name:
                 self.ingredients.remove(ingredient)
