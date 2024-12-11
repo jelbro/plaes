@@ -521,3 +521,44 @@ def test_Recipe_add_ingredient_invalid_quantity():
         toast.add_ingredient(Ingredient("Butter", -2, "g"))
     with pytest.raises(Exception):
         toast.add_ingredient(Ingredient("Butter", "two", "g"))
+
+
+def test_Recipe_add_ingredient_duplicate_ingredient():
+    toast = Recipe(
+        "Toast",
+        [Ingredient("Bread", 1, "slice")],
+        0,
+        1,
+        "slice",
+    )
+
+    with pytest.raises(Exception):
+        toast.add_ingredient(Ingredient("Bread", 2, "slices"))
+
+
+def test_Recipe_delete_ingredient_correct_useage():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        0,
+        1,
+        "slice",
+    )
+
+    toast.delete_ingredient("Butter")
+    assert toast.display_ingredients() == ("1 slice of Bread")
+    toast.delete_ingredient("Bread")
+    assert toast.display_ingredients() == ""
+
+
+def test_Recipe_delete_ingredient_not_in_list():
+    toast = Recipe(
+        "Toast",
+        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        0,
+        1,
+        "slice",
+    )
+
+    with pytest.raises(Exception):
+        toast.delete_ingredient("Jam")

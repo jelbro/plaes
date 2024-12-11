@@ -4,14 +4,14 @@ from FoodItems import Recipe, Ingredient
 def main():
     toast = Recipe(
         "Toast",
-        (Ingredient("Bread", 1, "slice"), Ingredient("Butter", 10, "g")),
+        [Ingredient("Bread", 1, "slice")],
         0,
         1,
         "slice",
     )
 
-    # print(toast.display_ingredients())
-    print(toast)
+    toast.add_ingredient(Ingredient("Bread", 2, "slices"))
+    print(toast.display_ingredients)
 
 
 if __name__ == "__main__":

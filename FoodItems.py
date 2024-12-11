@@ -141,9 +141,9 @@ class Recipe:
             valid = True
         return valid
 
-    def add_ingredient(self, ingredient_name):
-        for ingredient in self.ingredients:
-            if ingredient_name == ingredient.name:
+    def add_ingredient(self, ingredient):
+        for current_ingredient in self.ingredients:
+            if current_ingredient.name == ingredient.name:
                 raise ValueError(
                     "Recipe ingredients must not contain duplicates"
                 )
