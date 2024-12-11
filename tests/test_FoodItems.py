@@ -562,3 +562,16 @@ def test_Recipe_delete_ingredient_not_in_list():
 
     with pytest.raises(Exception):
         toast.delete_ingredient("Jam")
+
+
+def test_Recipe_sort_ingredients_correct_useage():
+    fruit_salad = Recipe(
+        "Fruit Salad",
+        (Ingredient("Banana", 1), Ingredient("Apple", 3)),
+        0,
+        1,
+        "bowl",
+    )
+
+    fruit_salad.sort_ingredients()
+    assert fruit_salad.display_ingredients() == "3 Apple\n1 Banana"

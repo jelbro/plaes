@@ -111,6 +111,8 @@ class Recipe:
             self.ingredients = sorted(
                 self.ingredients, key=lambda ingredient: ingredient.quantity
             )
+        else:
+            raise ValueError("invalid sort_by parameter")
 
     def display_ingredients(self):
         """return this Recipe's ingredient list in a readable way
