@@ -141,12 +141,23 @@ class Recipe:
             valid = True
         return valid
 
-    def add_ingredient(self, ingredient):
+    def add_ingredient(self, ingredient_name):
+        for ingredient in self.ingredients:
+            if ingredient_name == ingredient.name:
+                raise ValueError(
+                    "Recipe ingredients must not contain duplicates"
+                )
         if self.valid_ingredient(ingredient):
-            print(type(self.ingredients))
             self.ingredients.append(ingredient)
         else:
             raise ValueError("Ingredient to add is not valid")
+
+    def delete_ingredient(self, ingredient_name):
+        for ingredient in self.ingredients:
+            if ingredient_name == ingredient.name:
+                self.ingredients.remove(ingredient)
+                return
+        raise ValueError("Ingredient is not in ingredients list")
 
     def edit_ingredient_amount(self, ingredient_name, operator, amount):
         """add or remove from an ingredient in this Recipe's ingredient list
