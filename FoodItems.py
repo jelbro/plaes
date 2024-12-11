@@ -163,6 +163,18 @@ class Recipe:
         return valid
 
     def add_ingredient(self, ingredient):
+        """add an Ingredient to this Recipes ingredient list
+
+        Parameters
+        ----------
+        ingredient : Ingredient
+            an object of type Ingredient to add to this Recipes ingredient list
+
+        Raises
+        ------
+        ValueError
+            if trying to add a duplicate ingredient
+        """
         for current_ingredient in self.ingredients:
             if current_ingredient.name == ingredient.name:
                 raise ValueError(
@@ -170,8 +182,6 @@ class Recipe:
                 )
         if self.valid_ingredient(ingredient):
             self.ingredients.append(ingredient)
-        else:
-            raise ValueError("Ingredient to add is not valid")
 
     def delete_ingredient(self, ingredient_name):
         """delete an ingredient from this Recipes ingredient list
