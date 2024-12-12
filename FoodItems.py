@@ -1,8 +1,12 @@
 import inflect
 import math
+from decimal import *
 
-
+# create an instance of the inflect engine
 inflect_engine = inflect.engine()
+
+# get decimal context, set precision to 2
+getcontext().prec = 2
 
 """a Module including the Recipe and Ingredient classes
 
