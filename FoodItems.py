@@ -438,17 +438,26 @@ class Ingredient:
         self.quantity = quantity
         self.unit = unit
 
+    def is_plural(self):
+        if self.quantity != 1:
+            return True
+        else:
+            return False
+
     def __str__(self):
         if self.unit == None:
-            return (
-                f"{self.quantity} "
-                f"{inflect_engine.plural(self.name, self.quantity)}"
-            )
+            if self.is_plural():
+                return f"{self.quantity} {inflect_engine.plural(self.name)}"
+            else:
+                return f"{self.quantity} {self.name}"
         else:
-            return (
-                f"{self.quantity} {self.unit} "
-                f"of {inflect_engine.plural(self.name, self.quantity)}"
-            )
+            if self.is_plural():
+                return (
+                    f"{self.quantity} {inflect_engine.plural(self.unit)} "
+                    f"of {self.name}"
+                )
+            else:
+                return f"{self.quantity} {self.unit} of {self.name}"
 
     def __repr__(self):
         return (
