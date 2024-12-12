@@ -13,7 +13,7 @@
     - [x] Ingredient
 - [ ] Recipes
   - [ ] Fix cases
-  - [ ] Change float to decimal?
+  - [x] Change float to decimal?
   - [ ] Check method and variable names
     - [ ] need_to_make()
     - [ ] valid_ingredients()

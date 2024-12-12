@@ -29,9 +29,9 @@ class Recipe:
         the name of the Recipe
     ingredients : list of Ingredients
         the list of Ingredients that make up the Recipe
-    quantity : float
+    quantity : Decimal
         the current quantity of this Recipe in unit
-    desired_quantity : float
+    desired_quantity : Decimal
         the desired quantity of this Recipe to have in stock in unit
     unit : str
         the unit of storage used for this Recipe
@@ -73,9 +73,9 @@ class Recipe:
             the name of the Recipe
         ingredients : list
             the list of Ingredients that make up the Recipe
-        quantity : float
+        quantity : Decimal
             the current quantity of this Recipe in unit
-        desired_quantity : float
+        desired_quantity : Decimal
             the desired quantity of this Recipe to have in stock in unit
         unit : str
             the unit of storage used for this Recipe
@@ -92,8 +92,8 @@ class Recipe:
 
     def __str__(self):
         return (
-            f"{round(self.quantity, 2)} {self.unit} of "
-            f"{inflect_engine.plural(self.name, math.ceil(self.quantity))}\n"
+            f"{self.quantity} {self.unit} of "
+            f"{inflect_engine.plural(self.name, self.quantity)}\n"
             f"{self.display_ingredients()}\n"
             f"{self.quantity} {self.unit} out of "
             f"{self.desired_quantity} {self.unit} in stock"
@@ -228,7 +228,7 @@ class Recipe:
             the name of the ingredient you wish to edit
         operator : str
             either '+' or '-'
-        amount : float
+        amount : decimal
             amount to change ingredient.amount by
 
         Raises
@@ -251,7 +251,7 @@ class Recipe:
         ingredient_name : Ingredient
             an Ingredient name that should be present in
             this Recipes ingredient list
-        amount : float
+        amount : Decimal
             an amount to remove from the ingredient
 
         Raises
@@ -264,9 +264,9 @@ class Recipe:
         if amount <= 0:
             raise ValueError("Amount must not be less than or equal to zero")
         try:
-            float(amount)
+            Decimal(amount)
         except ValueError:
-            print("{amount} is not a valid float")
+            print("{amount} is not a valid decimal")
 
         else:
             for current_ingredient in self.ingredients:
@@ -292,7 +292,7 @@ class Recipe:
         ingredient : Ingredient
             an Ingredient object that should already exist in
             this Recipes ingredient list
-        amount : float
+        amount : decimal
             an amount to add of this Ingredient
 
         Raises
@@ -306,9 +306,9 @@ class Recipe:
         if amount <= 0:
             raise ValueError("Amount must not be less than or equal to zero")
         try:
-            float(amount)
+            Decimal(amount)
         except ValueError:
-            print("{amount} is not a valid float")
+            print("{amount} is not a valid decimal")
 
         for current_ingredient in self.ingredients:
             if current_ingredient.name == ingredient_name:
@@ -324,7 +324,7 @@ class Recipe:
 
         Parameters
         ----------
-        amount : float
+        amount : Decimal
             amount to remove from this Recipes quantity
 
         Raises
@@ -335,9 +335,9 @@ class Recipe:
             if amount would result in quantity being less than or equal to zero
         """
         try:
-            float(amount)
+            amount = Decimal(amount)
         except ValueError:
-            print(f"{amount} is not a valid float")
+            print(f"{amount} is not a valid decimal")
         if amount <= 0:
             raise ValueError("Amount to remove must be greater than zero")
         elif self.quantity - amount < 0:
@@ -353,7 +353,7 @@ class Recipe:
 
         Parameters
         ----------
-        amount : float
+        amount : Decimal
             amount to add to this Recipes quantity
 
         Raises
@@ -362,9 +362,9 @@ class Recipe:
             if amount to be added is less than or equal to zero
         """
         try:
-            float(amount)
+            amount = Decimal(amount)
         except ValueError:
-            print(f"{amount} is not a valid float")
+            print(f"{amount} is not a valid decimal")
         if amount <= 0:
             raise ValueError("Amount to add must be greater than zero")
         else:
@@ -376,7 +376,7 @@ class Recipe:
 
         Parameters
         ----------
-        new_desired : float
+        new_desired : Decimal
             the number to replace this Recipes desired quantity with
 
         Raises
@@ -385,9 +385,9 @@ class Recipe:
             if the new desired quantity would be zero or less
         """
         try:
-            float(new_desired)
+            new_desired = Decimal(new_desired)
         except ValueError:
-            print(f"{new_desired} is not a valid float")
+            print(f"{new_desired} is not a valid decimal")
         if new_desired < 0:
             raise ValueError("desired_quantity cannot be zero or less")
         else:
@@ -410,7 +410,7 @@ class Ingredient:
     ----------
     name : str
         the name of the Ingredient
-    quantity : float
+    quantity : Decimal
         the current quantity of this Ingredient in unit
     unit : str
         the unit of storage used for this Ingredient
@@ -429,7 +429,7 @@ class Ingredient:
         ----------
         name : str
             the name of the Ingredient, by default None
-        quantity : float
+        quantity : decimal
             the quantity of the Ingredient, by default 0
         unit : str
             the unit of the Ingredient, by default None
@@ -441,13 +441,13 @@ class Ingredient:
     def __str__(self):
         if self.unit == None:
             return (
-                f"{round(self.quantity, 2):g} "
-                f"{inflect_engine.plural(self.name, math.ceil(self.quantity))}"
+                f"{self.quantity} "
+                f"{inflect_engine.plural(self.name, self.quantity)}"
             )
         else:
             return (
-                f"{round(self.quantity, 2):g} {self.unit} "
-                f"of {inflect_engine.plural(self.name, math.ceil(self.quantity))}"
+                f"{self.quantity} {self.unit} "
+                f"of {inflect_engine.plural(self.name, self.quantity)}"
             )
 
     def __repr__(self):
@@ -461,8 +461,8 @@ class Ingredient:
 
         Parameters
         ----------
-        amount : float
-            a positive float to remove from this Ingredient's quantity
+        amount : decimal
+            a positive decimal to remove from this Ingredient's quantity
 
         Raises
         ------
@@ -483,8 +483,8 @@ class Ingredient:
 
         Parameters
         ----------
-        amount : float
-            a positive float to add to this Ingredient's quantity
+        amount : decimal
+            a positive decimal to add to this Ingredient's quantity
 
         Raises
         ------
