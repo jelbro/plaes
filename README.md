@@ -13,6 +13,7 @@
     - [x] Ingredient
 - [ ] Recipes
   - [x] Fix cases
+  - [x] Fix validity for strings with spaces in them
   - [x] Change float to decimal?
   - [ ] Check method and variable names
     - [ ] need_to_make()
