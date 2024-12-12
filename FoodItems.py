@@ -1,7 +1,8 @@
 import inflect
 import math
 
-inflec = inflect.engine()
+
+inflect_engine = inflect.engine()
 
 """a Module including the Recipe and Ingredient classes
 
@@ -88,7 +89,7 @@ class Recipe:
     def __str__(self):
         return (
             f"{round(self.quantity, 2)} {self.unit} of "
-            f"{inflec.plural(self.name, math.ceil(self.quantity))}\n"
+            f"{inflect_engine.plural(self.name, math.ceil(self.quantity))}\n"
             f"{self.display_ingredients()}\n"
             f"{self.quantity} {self.unit} out of "
             f"{self.desired_quantity} {self.unit} in stock"
@@ -437,12 +438,12 @@ class Ingredient:
         if self.unit == None:
             return (
                 f"{round(self.quantity, 2):g} "
-                f"{inflec.plural(self.name, math.ceil(self.quantity))}"
+                f"{inflect_engine.plural(self.name, math.ceil(self.quantity))}"
             )
         else:
             return (
                 f"{round(self.quantity, 2):g} {self.unit} "
-                f"of {inflec.plural(self.name, math.ceil(self.quantity))}"
+                f"of {inflect_engine.plural(self.name, math.ceil(self.quantity))}"
             )
 
     def __repr__(self):
