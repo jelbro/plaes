@@ -12,7 +12,7 @@
     - [x] Recipe
     - [x] Ingredient
 - [ ] Recipes
-  - [ ] Fix cases
+  - [x] Fix cases
   - [x] Change float to decimal?
   - [ ] Check method and variable names
     - [ ] need_to_make()

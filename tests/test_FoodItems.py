@@ -63,7 +63,7 @@ def test_Recipe_init():
     )
 
     assert toast.name == "Toast"
-    assert toast.display_ingredients() == "1 slice of Bread\n10 g of Butter"
+    assert toast.display_ingredients() == "1 slice of Bread\n10 gs of Butter"
     assert toast.quantity == 0
     assert toast.desired_quantity == 1
     assert toast.unit == "slice"
@@ -80,10 +80,10 @@ def test_Recipe_str():
     )
 
     assert toast.__str__() == (
-        "0 slice of Toasts\n"
+        "0 slices of Toast\n"
         "1 slice of Bread\n"
-        "10 g of Butter\n"
-        "0 slice out of 1 slice in stock"
+        "10 gs of Butter\n"
+        "0 slices out of 1 slice in stock"
     )
 
 
@@ -114,7 +114,7 @@ def test_Recipe_remove_from_ingredient_correct_useage():
     )
 
     toast.remove_from_ingredient("Butter", 5)
-    assert toast.display_ingredients() == "1 slice of Bread\n5 g of Butter"
+    assert toast.display_ingredients() == "1 slice of Bread\n5 gs of Butter"
 
 
 def test_Recipe_remove_from_ingredient_removing_to_zero():
@@ -192,7 +192,7 @@ def test_Recipe_add_to_ingredient_correct_useage():
     )
 
     toast.add_to_ingredient("Butter", 5)
-    assert toast.display_ingredients() == "1 slice of Bread\n15 g of Butter"
+    assert toast.display_ingredients() == "1 slice of Bread\n15 gs of Butter"
 
 
 def test_Recipe_add_to_ingredient_with_zero():
@@ -257,7 +257,7 @@ def test_Recipe_edit_ingredient_amount_correct_useage_to_add():
     )
 
     toast.edit_ingredient_amount("Bread", "+", 1)
-    assert toast.display_ingredients() == "2 slice of Bread\n10 g of Butter"
+    assert toast.display_ingredients() == "2 slices of Bread\n10 gs of Butter"
 
 
 def test_Recipe_edit_ingredient_amount_correct_useage_to_subtract():
@@ -270,7 +270,7 @@ def test_Recipe_edit_ingredient_amount_correct_useage_to_subtract():
     )
 
     toast.edit_ingredient_amount("Bread", "-", 1)
-    assert toast.display_ingredients() == "1 slice of Bread\n10 g of Butter"
+    assert toast.display_ingredients() == "1 slice of Bread\n10 gs of Butter"
 
 
 def test_Recipe_edit_ingredient_amount_invalid_operator():
@@ -474,7 +474,7 @@ def test_Recipe_add_ingredient_correct_useage_start_with_two():
     toast.add_ingredient(Ingredient("Jam", 5, "g"))
 
     assert toast.display_ingredients() == (
-        "1 slice of Bread\n" "10 g of Butter\n" "5 g of Jam"
+        "1 slice of Bread\n" "10 gs of Butter\n" "5 gs of Jam"
     )
 
 
@@ -489,7 +489,7 @@ def test_Recipe_add_ingredient_correct_useage_start_with_one():
 
     toast.add_ingredient(Ingredient("Butter", 10, "g"))
 
-    assert toast.display_ingredients() == ("1 slice of Bread\n10 g of Butter")
+    assert toast.display_ingredients() == ("1 slice of Bread\n10 gs of Butter")
 
 
 def test_Recipe_add_ingredient_invalid_name():
@@ -586,9 +586,9 @@ def test_Recipe_sort_ingredients_correct_useage():
     )
 
     fruit_salad.sort_ingredients()
-    assert fruit_salad.display_ingredients() == "3 Apple\n1 Banana"
+    assert fruit_salad.display_ingredients() == "3 Apples\n1 Banana"
     fruit_salad.sort_ingredients(sort_by="quantity")
-    assert fruit_salad.display_ingredients() == "1 Banana\n3 Apple"
+    assert fruit_salad.display_ingredients() == "1 Banana\n3 Apples"
 
 
 def test_Recipe_sort_ingredients_invalid_sort_by():

@@ -90,14 +90,29 @@ class Recipe:
         self.unit = unit
         self.needed = self.need_to_make()
 
+    def is_plural(self):
+        if self.quantity != 1:
+            return True
+        else:
+            return False
+
     def __str__(self):
-        return (
-            f"{self.quantity} {self.unit} of "
-            f"{inflect_engine.plural(self.name, self.quantity)}\n"
-            f"{self.display_ingredients()}\n"
-            f"{self.quantity} {self.unit} out of "
-            f"{self.desired_quantity} {self.unit} in stock"
-        )
+        if self.is_plural():
+            return (
+                f"{self.quantity} {inflect_engine.plural(self.unit)} of "
+                f"{self.name}\n"
+                f"{self.display_ingredients()}\n"
+                f"{self.quantity} {inflect_engine.plural(self.unit)} out of "
+                f"{self.desired_quantity} {inflect_engine.plural(self.unit, self.desired_quantity)} in stock"
+            )
+        else:
+            return (
+                f"{self.quantity} {self.unit} of "
+                f"{self.name}\n"
+                f"{self.display_ingredients()}\n"
+                f"{self.quantity} {self.unit} out of "
+                f"{self.desired_quantity} {self.unit} in stock"
+            )
 
     def __repr__(self):
         return (
@@ -130,12 +145,10 @@ class Recipe:
         ingredient_display = ""
         for ingredient in self.ingredients:
             if ingredient.unit == None:
-                ingredient_display += (
-                    f"{round(ingredient.quantity, 2):g} {ingredient.name}\n"
-                )
+                ingredient_display += f"{ingredient.quantity} {inflect_engine.plural(ingredient.name, ingredient.quantity)}\n"
             else:
                 ingredient_display += (
-                    f"{round(ingredient.quantity, 2):g} {ingredient.unit}"
+                    f"{ingredient.quantity} {inflect_engine.plural(ingredient.unit, ingredient.quantity)}"
                     f" of {ingredient.name}\n"
                 )
         return ingredient_display.rstrip("\n")
