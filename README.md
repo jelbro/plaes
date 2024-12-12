@@ -13,7 +13,17 @@
     - [x] Ingredient
 - [ ] Recipes
   - [ ] Fix cases
+  - [ ] Change float to decimal?
+  - [ ] Check method and variable names
+    - [ ] need_to_make()
+    - [ ] valid_ingredients()
+  - [ ] Research and consider enums
+  - [ ] Resesarch and implement setters and getters
+  - [ ] Document sort_ingredients()
+  - [ ] add newline preferance to display ingredients
+  - [ ] sort out exceptions/returns
   - [x] Init
+    - [ ] add checking for None variables
   - [x] Str
   - [x] Repr
   - [x] edit_ingredient_amount
