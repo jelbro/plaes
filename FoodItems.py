@@ -79,13 +79,25 @@ class Recipe:
         unit : str
             the unit of storage used for this Recipe
         """
+        if name == None:
+            raise ValueError("Recipe must have a name")
+        else:
+            self.name = name
 
-        self.name = name
         self.ingredients = []
         for ingredient in ingredients:
             self.ingredients.append(ingredient)
-        self.quantity = quantity
-        self.desired_quantity = desired_quantity
+
+        if quantity < 0:
+            raise ValueError("Recipe must have a positive quantity")
+        else:
+            self.quantity = quantity
+
+        if desired_quantity < 0:
+            raise ValueError("Recipe must have a positive desired quantity")
+        else:
+            self.desired_quantity = desired_quantity
+
         self.unit = unit
         self.needed = self.requires_making()
 
