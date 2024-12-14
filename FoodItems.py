@@ -123,6 +123,18 @@ class Recipe:
         )
 
     def sort_ingredients(self, sort_by="name"):
+        """sorts this Recipes ingredient list by either name or quantity
+
+        Parameters
+        ----------
+        sort_by : str, optional
+            the value to sort the ingredients by, by default "name"
+
+        Raises
+        ------
+        ValueError
+            if passed an invalid sort_by parameter
+        """
         if sort_by == "name":
             self.ingredients = sorted(
                 self.ingredients, key=lambda ingredient: ingredient.name
