@@ -19,7 +19,7 @@
     - [x] need_to_make()
     - [x] valid_ingredients()
   - [ ] Research and consider enums
-  - [ ] Document sort_ingredients()
+  - [x] Document sort_ingredients()
   - [ ] add newline preferance to display ingredients
   - [ ] sort out exceptions/returns
   - [x] Init
