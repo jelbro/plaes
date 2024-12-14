@@ -4,7 +4,7 @@ from decimal import *
 # create an instance of the inflect engine
 inflect_engine = inflect.engine()
 
-# get decimal context, set precision to 2
+# set decimal precision to 2 places
 getcontext().prec = 2
 
 """a Module including the Recipe and Ingredient classes
@@ -29,9 +29,9 @@ class Recipe:
     ingredients : list of Ingredients
         the list of Ingredients that make up the Recipe
     quantity : Decimal
-        the current quantity of this Recipe in unit
+        the current quantity of this Recipe
     desired_quantity : Decimal
-        the desired quantity of this Recipe to have in stock in unit
+        the desired quantity of this Recipe to have in stock
     unit : str
         the unit of storage used for this Recipe
     needed : boolean
@@ -53,7 +53,7 @@ class Recipe:
         add n to quantity
     edit_desired(desired_quantity)
         changes desired quantity to n
-    need_to_make(quantity, desired_quantity)
+    requires_making(quantity, desired_quantity)
         returns wether the recipe needs to be made to meet the desired quantity
     """
 
@@ -73,9 +73,9 @@ class Recipe:
         ingredients : list
             the list of Ingredients that make up the Recipe
         quantity : Decimal
-            the current quantity of this Recipe in unit
+            the current quantity of this Recipe
         desired_quantity : Decimal
-            the desired quantity of this Recipe to have in stock in unit
+            the desired quantity of this Recipe to have in stock
         unit : str
             the unit of storage used for this Recipe
         """
@@ -87,7 +87,7 @@ class Recipe:
         self.quantity = quantity
         self.desired_quantity = desired_quantity
         self.unit = unit
-        self.needed = self.need_to_make()
+        self.needed = self.requires_making()
 
     def is_plural(self):
         if self.quantity != 1:
@@ -142,24 +142,24 @@ class Recipe:
         str
             a string of ingredients with the final escape removed
         """
-        ingredient_display = ""
+        output_string = ""
         for ingredient in self.ingredients:
             if ingredient.unit == None:
-                ingredient_display += (
+                output_string += (
                     f"{ingredient.quantity} "
                     f"{inflect_engine.plural(ingredient.name,
                     ingredient.quantity)}\n"
                 )
             else:
-                ingredient_display += (
+                output_string += (
                     f"{ingredient.quantity} "
                     f"{inflect_engine.plural(ingredient.unit,
                     ingredient.quantity)}"
                     f" of {ingredient.name}\n"
                 )
-        return ingredient_display.rstrip("\n")
+        return output_string.rstrip("\n")
 
-    def valid_ingredient(self, ingredient):
+    def ingredient_is_valid(self, ingredient):
         """check wether Ingredient has valid values
 
         Parameters
@@ -181,22 +181,17 @@ class Recipe:
         ValueError
             Ingredient quantity is less than or equal to zero
         """
-        valid = True
         if not ingredient.name.isalpha():
-            valid = False
             raise ValueError("Ingredient name is not alphabetic")
         elif not ingredient.unit.isalpha():
-            valid = False
             raise ValueError("Ingredient unit is not alphabetic")
         elif ingredient.quantity <= 0:
-            valid = False
             raise ValueError(
                 f"Ingredient quantity: {ingredient.quantity} is "
                 "less than or equal to zero"
             )
         else:
-            valid = True
-        return valid
+            return True
 
     def add_ingredient(self, ingredient):
         """add an Ingredient to this Recipes ingredient list
@@ -216,7 +211,7 @@ class Recipe:
                 raise ValueError(
                     "Recipe ingredients must not contain duplicates"
                 )
-        if self.valid_ingredient(ingredient):
+        if self.ingredient_is_valid(ingredient):
             self.ingredients.append(ingredient)
 
     def delete_ingredient(self, ingredient_name):
@@ -238,7 +233,7 @@ class Recipe:
                 return
         raise ValueError("Ingredient is not in ingredients list")
 
-    def edit_ingredient_amount(self, ingredient_name, operator, amount):
+    def edit_ingredient_quantity(self, ingredient_name, operator, amount):
         """add or remove from an ingredient in this Recipe's ingredient list
 
         Parameters
@@ -365,7 +360,7 @@ class Recipe:
             )
         else:
             self.quantity -= amount
-            self.needed = self.need_to_make()
+            self.needed = self.requires_making()
 
     def add(self, amount):
         """add amount to this Recipes quantity
@@ -388,7 +383,7 @@ class Recipe:
             raise ValueError("Amount to add must be greater than zero")
         else:
             self.quantity += amount
-            self.needed = self.need_to_make()
+            self.needed = self.requires_making()
 
     def edit_desired(self, new_desired):
         """Override this Recipes desired_quantity
@@ -411,9 +406,9 @@ class Recipe:
             raise ValueError("desired_quantity cannot be zero or less")
         else:
             self.desired_quantity = new_desired
-            self.needed = self.need_to_make()
+            self.needed = self.requires_making()
 
-    def need_to_make(self):
+    def requires_making(self):
         """calculate if this recipe is needing to be made."""
         if self.quantity < self.desired_quantity:
             return True

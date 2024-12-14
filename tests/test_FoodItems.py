@@ -256,7 +256,7 @@ def test_Recipe_edit_ingredient_amount_correct_useage_to_add():
         "slice",
     )
 
-    toast.edit_ingredient_amount("Bread", "+", 1)
+    toast.edit_ingredient_quantity("Bread", "+", 1)
     assert toast.display_ingredients() == "2 slices of Bread\n10 gs of Butter"
 
 
@@ -269,7 +269,7 @@ def test_Recipe_edit_ingredient_amount_correct_useage_to_subtract():
         "slice",
     )
 
-    toast.edit_ingredient_amount("Bread", "-", 1)
+    toast.edit_ingredient_quantity("Bread", "-", 1)
     assert toast.display_ingredients() == "1 slice of Bread\n10 gs of Butter"
 
 
@@ -283,9 +283,9 @@ def test_Recipe_edit_ingredient_amount_invalid_operator():
     )
 
     with pytest.raises(Exception) as e_info:
-        toast.edit_ingredient_amount("Bread", 1, 1)
+        toast.edit_ingredient_quantity("Bread", 1, 1)
     with pytest.raises(Exception) as e_info:
-        toast.edit_ingredient_amount("Bread", "add", 1)
+        toast.edit_ingredient_quantity("Bread", "add", 1)
 
 
 def test_Recipe_remove_correct_useage():
