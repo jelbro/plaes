@@ -15,11 +15,10 @@
   - [x] Fix cases
   - [x] Fix validity for strings with spaces in them
   - [x] Change float to decimal?
-  - [ ] Check method and variable names
-    - [ ] need_to_make()
-    - [ ] valid_ingredients()
+  - [x] Check method and variable names
+    - [x] need_to_make()
+    - [x] valid_ingredients()
   - [ ] Research and consider enums
-  - [ ] Resesarch and implement setters and getters
   - [ ] Document sort_ingredients()
   - [ ] add newline preferance to display ingredients
   - [ ] sort out exceptions/returns
