@@ -2,16 +2,18 @@ from FoodItems import Recipe, Ingredient
 
 
 def main():
-    toast = Recipe(
-        "Toast",
-        [Ingredient("Bread", 1, "slice")],
-        0,
-        1,
-        "slice",
+    chicken_salad = Recipe(
+        name="Chicken Salad",
+        quantity=0,
+        desired_quantity=1,
+        unit="4 litre",
     )
 
-    toast.add_ingredient(Ingredient("Bread", 2, "slices"))
-    print(toast.display_ingredients)
+    chicken_salad.add_ingredient(Ingredient("Chicken Breast", 5, "kg"))
+    chicken_salad.add_ingredient(Ingredient("Mayo", 1, "kg"))
+    chicken_salad.add_ingredient(Ingredient("Lemon", 3))
+    chicken_salad.add_ingredient(Ingredient("White Wine Vinegar", 50, "ml"))
+    print(chicken_salad)
 
 
 if __name__ == "__main__":

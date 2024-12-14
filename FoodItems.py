@@ -1,5 +1,4 @@
 import inflect
-import math
 from decimal import *
 
 # create an instance of the inflect engine
