@@ -465,8 +465,16 @@ class Ingredient:
         unit : str
             the unit of the Ingredient, by default None
         """
-        self.name = name
-        self.quantity = quantity
+        if name == None:
+            raise ValueError("Ingredient must have a name")
+        else:
+            self.name = name
+
+        if quantity < 0:
+            raise ValueError("Ingredient must have a positive quantity")
+        else:
+            self.quantity = quantity
+
         self.unit = unit
 
     def is_plural(self):

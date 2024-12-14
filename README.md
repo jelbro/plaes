@@ -18,7 +18,7 @@
   - [x] Check method and variable names
     - [x] need_to_make()
     - [x] valid_ingredients()
-  - [ ] Research and consider enums
+  - [x] Research and consider enums
   - [x] Document sort_ingredients()
   - [x] add newline preferance to display ingredients
   - [ ] sort out exceptions/returns
