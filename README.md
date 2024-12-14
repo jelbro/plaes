@@ -20,7 +20,7 @@
     - [x] valid_ingredients()
   - [ ] Research and consider enums
   - [x] Document sort_ingredients()
-  - [ ] add newline preferance to display ingredients
+  - [x] add newline preferance to display ingredients
   - [ ] sort out exceptions/returns
   - [x] Init
     - [ ] add checking for None variables

@@ -146,8 +146,13 @@ class Recipe:
         else:
             raise ValueError("invalid sort_by parameter")
 
-    def display_ingredients(self):
+    def display_ingredients(self, end="\n"):
         """return this Recipe's ingredient list in a readable way
+
+        Parameters
+        ---------
+        end : str
+            a string to end each line with, be default a new line
 
         Returns
         -------
@@ -160,16 +165,16 @@ class Recipe:
                 output_string += (
                     f"{ingredient.quantity} "
                     f"{inflect_engine.plural(ingredient.name,
-                    ingredient.quantity)}\n"
+                    ingredient.quantity)}{end}"
                 )
             else:
                 output_string += (
                     f"{ingredient.quantity} "
                     f"{inflect_engine.plural(ingredient.unit,
                     ingredient.quantity)}"
-                    f" of {ingredient.name}\n"
+                    f" of {ingredient.name}{end}"
                 )
-        return output_string.rstrip("\n")
+        return output_string.rstrip(end)
 
     def ingredient_is_valid(self, ingredient):
         """check wether Ingredient has valid values
