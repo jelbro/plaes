@@ -39,6 +39,9 @@
   - [x] edit_desired
   - [x] need_to_make
   - [x] display_ingredients
+  - [x] save_recipe 
+  - [ ] load_recipe 
+
 - [x] Ingredients
   - [x] init
   - [x] str
