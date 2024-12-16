@@ -23,7 +23,7 @@
   - [x] add newline preferance to display ingredients
   - [ ] sort out exceptions/returns
   - [x] Init
-    - [ ] add checking for None variables
+    - [xg] add checking for None variables
   - [x] Str
   - [x] Repr
   - [x] edit_ingredient_amount
