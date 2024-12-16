@@ -1,5 +1,6 @@
 import inflect
 from decimal import *
+import json
 
 # create an instance of the inflect engine
 inflect_engine = inflect.engine()
@@ -134,6 +135,38 @@ class Recipe:
             f"ingredients: {self.ingredients})"
         )
 
+    def to_json(self):
+        """converts the recipe to JSON format
+
+        Returns
+        -------
+        json.dumps
+            the Recipe serialized to JSON
+        """
+        return json.dumps(
+            self, default=lambda o: o.__dict__, sort_keys=False, indent=4
+        )
+
+    def save_recipe(self, file_path):
+        """saves this Recipe to a .json file
+
+        Parameters
+        ----------
+        file_path : str
+            a file path to a .json file
+
+        Raises
+        ------
+        FileNotFoundError
+            if passed an invalid .json file path
+        """
+        if not file_path.lower().endswith(".json"):
+            raise FileNotFoundError(
+                "file_path must be a valid .json file path"
+            )
+        with open(file_path, mode="a") as file:
+            file.write(self.to_json())
+
     def sort_ingredients(self, sort_by="name"):
         """sorts this Recipes ingredient list by either name or quantity
 
@@ -210,9 +243,14 @@ class Recipe:
         ValueError
             Ingredient quantity is less than or equal to zero
         """
-        if not ingredient.name.isalpha():
+        ingredient_name = ingredient.name.replace(" ", "")
+        if not ingredient.unit == None:
+            ingredient_unit = ingredient.unit.replace(" ", "")
+        else:
+            ingredient_unit = "None"
+        if not ingredient_name.isalpha():
             raise ValueError("Ingredient name is not alphabetic")
-        elif not ingredient.unit.isalpha():
+        elif not ingredient_unit.isalpha():
             raise ValueError("Ingredient unit is not alphabetic")
         elif ingredient.quantity <= 0:
             raise ValueError(
