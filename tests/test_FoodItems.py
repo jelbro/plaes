@@ -1,7 +1,7 @@
 import sys
 import pytest
 
-sys.path.append("/home/josh/documents/development/repos/plaes")
+sys.path.append("/Users/jelbro/repos/plaes")
 from FoodItems import Recipe, Ingredient
 
 
