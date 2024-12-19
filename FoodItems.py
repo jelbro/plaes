@@ -1,13 +1,3 @@
-import inflect
-from decimal import *
-import json
-
-# create an instance of the inflect engine
-inflect_engine = inflect.engine()
-
-# set decimal precision to 2 places
-getcontext().prec = 2
-
 """a Module including the Recipe and Ingredient classes
 
 Classes
@@ -18,8 +8,35 @@ Ingredient
     a class to represent an Ingredient
 """
 
+import inflect
+from decimal import *
+import json
+
+# create an instance of the inflect engine
+inflect_engine = inflect.engine()
+
+# set decimal precision to 2 places
+getcontext().prec = 2
+
 
 def load_recipe(file_path):
+    """helper function to load a recipe from .json
+
+    Parameters
+    ----------
+    file_path : str
+        file path of a valid .json file
+
+    Returns
+    -------
+    Recipe
+        a Recipe object from the imported .json
+
+    Raises
+    ------
+    FileNotFoundError
+        if file path does not return a valid .json file
+    """
     if not file_path.lower().endswith(".json"):
         raise FileNotFoundError("file_path must be a valid .json file path")
     with open(file_path, mode="r") as file:
@@ -34,6 +51,18 @@ def load_recipe(file_path):
 
 
 def load_ingredients(recipe):
+    """a helper function that creates Ingredient objects from imported .json
+
+    Parameters
+    ----------
+    recipe : Recipe
+        Recipe object imported from .json file
+
+    Returns
+    -------
+    List of Ingredients
+        returns a list of Ingredient objects with its values taken from the .json
+    """
     ingredient_list = []
     for ingredient in recipe["ingredients"]:
         ingredient_list.append(
