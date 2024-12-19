@@ -1,4 +1,5 @@
 from FoodItems import Recipe, Ingredient, load_recipe, load_ingredients
+from Menu import *
 import json
 
 
@@ -21,9 +22,11 @@ def main():
     chicken_salad.save_recipe(
         "test.json",
     )
-    """
     chicken_salad = load_recipe("test.json")
     print(chicken_salad)
+    """
+    instance = Menu()
+    instance.display_main_menu()
 
 
 if __name__ == "__main__":
