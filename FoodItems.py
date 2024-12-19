@@ -142,9 +142,10 @@ class Recipe:
                 f"{self.name}\n"
                 f"{self.display_ingredients()}\n"
                 f"{self.quantity} {inflect_engine.plural(self.unit)} out of "
-                f"{self.desired_quantity} {inflect_engine.plural(self.unit,
-                self.desired_quantity)} in stock"
+                f"{self.desired_quantity} "
+                f"{inflect_engine.plural(self.unit, self.desired_quantity)} in stock"
             )
+
         else:
             return (
                 f"{self.quantity} {self.unit} of "
@@ -233,18 +234,16 @@ class Recipe:
         """
         output_string = ""
         for ingredient in self.ingredients:
-            if ingredient.unit == None:
+            if ingredient.unit is None:
                 output_string += (
                     f"{ingredient.quantity} "
-                    f"{inflect_engine.plural(ingredient.name,
-                    ingredient.quantity)}{end}"
+                    f"{inflect_engine.plural(ingredient.name, ingredient.quantity)}{end}"
                 )
             else:
                 output_string += (
                     f"{ingredient.quantity} "
-                    f"{inflect_engine.plural(ingredient.unit,
-                    ingredient.quantity)}"
-                    f" of {ingredient.name}{end}"
+                    f"{inflect_engine.plural(ingredient.unit, ingredient.quantity)} "
+                    f"of {ingredient.name}{end}"
                 )
         return output_string.rstrip(end)
 
