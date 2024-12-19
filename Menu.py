@@ -3,6 +3,8 @@ import sys
 
 
 class Menu:
+    """a class that displays various navigational menus"""
+
     def __init__(self):
         os.system("clear")
 
