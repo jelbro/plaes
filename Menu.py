@@ -6,8 +6,9 @@ from FoodLists import *
 class Menu:
     """a class that displays various navigational menus"""
 
-    def __init__(self):
+    def __init__(self, ingredient_list):
         os.system("clear")
+        self.ingredient_list = ingredient_list
 
     def display_main_menu(self):
         print(
@@ -35,13 +36,16 @@ class Menu:
         choice = self.get_menu_choice(["v", "a", "d", "b"])
         match choice:
             case "v":
-                ingredient_list.display_list()
+                self.ingredient_list.display_list()
+                input()
+                self.display_ingredient_menu()
             case "a":
-                if ingredient_list is None:
-                    ingredient_list = IngredientList()
-                    ingredient_list.add_new_ingredient()
+                if self.ingredient_list is None:
+                    self.ingredient_list = IngredientList()
+                    self.ingredient_list.add_new_ingredient()
                 else:
-                    ingredient_list.add_new_ingredient()
+                    self.ingredient_list.add_new_ingredient()
+                self.display_ingredient_menu()
             case "d":
                 ...
                 # IngredientsList.delete_from_list()
