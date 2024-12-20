@@ -1,5 +1,6 @@
 import os
 import sys
+from FoodLists import *
 
 
 class Menu:
@@ -34,11 +35,13 @@ class Menu:
         choice = self.get_menu_choice(["v", "a", "d", "b"])
         match choice:
             case "v":
-                ...
-                # IngredientsList.display_list()
+                ingredient_list.display_list()
             case "a":
-                ...
-                # IngredientsList.add_to_list()
+                if ingredient_list is None:
+                    ingredient_list = IngredientList()
+                    ingredient_list.add_new_ingredient()
+                else:
+                    ingredient_list.add_new_ingredient()
             case "d":
                 ...
                 # IngredientsList.delete_from_list()
