@@ -7,7 +7,7 @@ class IngredientList:
         for ingredient in ingredient_list:
             self.ingredient_list.append(ingredient)
 
-    def add_to_list(self, ingredient):
+    def add_new_ingredient(self):
         self.ingredient_list.append(ingredient)
 
     def display_list(self):
