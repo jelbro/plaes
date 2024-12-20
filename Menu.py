@@ -37,7 +37,7 @@ class Menu:
         match choice:
             case "v":
                 self.ingredient_list.display_list()
-                input()
+                input("Press enter to continue...")
                 self.display_ingredient_menu()
             case "a":
                 if self.ingredient_list is None:
@@ -47,8 +47,8 @@ class Menu:
                     self.ingredient_list.add_new_ingredient()
                 self.display_ingredient_menu()
             case "d":
-                ...
-                # IngredientsList.delete_from_list()
+                self.ingredient_list.delete_from_list()
+                self.display_ingredient_menu()
             case "b":
                 self.display_main_menu()
 
