@@ -8,6 +8,9 @@ class IngredientList:
             self.ingredient_list.append(ingredient)
 
     def add_new_ingredient(self):
+        name = input("Ingredient name: ")
+        unit = input("Ingredient unit: ")
+        ingredient = Ingredient(name=name, quantity=0, unit=unit)
         self.ingredient_list.append(ingredient)
 
     def display_list(self):
