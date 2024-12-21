@@ -1,4 +1,25 @@
 from FoodItems import *
+import json
+
+
+def load_list(file_path="ingredient_list.json"):
+    if not file_path.lower().endswith(".json"):
+        raise FileNotFoundError("file_path must be a valid .json file")
+    with open(file_path, mode="r") as file:
+        ingredient_list_file = json.loads(file.read())
+        if len(ingredient_list_file) == 0:
+            return IngredientList()
+        else:
+            ingredient_list = []
+            for ingredient in ingredient_list_file["ingredient_list"]:
+                ingredient_list.append(
+                    Ingredient(
+                        name=ingredient["name"],
+                        quantity=ingredient["quantity"],
+                        unit=ingredient["unit"],
+                    )
+                )
+            return IngredientList(ingredient_list)
 
 
 class IngredientList:
@@ -32,6 +53,31 @@ class IngredientList:
         self.ingredient_list = []
         for ingredient in ingredient_list:
             self.ingredient_list.append(ingredient)
+
+    def to_json(self):
+        return json.dumps(
+            self, default=lambda o: o.__dict__, sort_keys=False, indent=4
+        )
+
+    def save_list(self, file_path):
+        """saves this List to a .json file
+
+        Parameters
+        ----------
+        file_path : str
+            a file path to a .json file
+
+        Raises
+        ------
+        FileNotFoundError
+            if passed an invalid .json file path
+        """
+        if not file_path.lower().endswith(".json"):
+            raise FileNotFoundError(
+                "file_path must be a valid .json file path"
+            )
+        with open(file_path, mode="w") as file:
+            file.write(self.to_json())
 
     def add_new_ingredient(self):
         """prompts the user for a name and unit, creates a new Ingredient with

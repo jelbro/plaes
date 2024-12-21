@@ -10,6 +10,9 @@ class Menu:
         os.system("clear")
         self.ingredient_list = ingredient_list
 
+    def save_lists(self, ingredient_list):
+        self.ingredient_list.save_list("ingredient_list.json")
+
     def display_main_menu(self):
         print(
             "Main Menu\n",
@@ -107,8 +110,8 @@ class Menu:
                     os.system("clear")
                     self.dsiplay_quit_menu()
             case "s":
-                ...
-                # save_lists()
+                self.save_lists(ingredient_list=self.ingredient_list)
+                sys.exit()
             case "b":
                 self.display_main_menu()
 

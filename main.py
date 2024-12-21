@@ -3,7 +3,7 @@ from Menu import *
 
 
 def main():
-    ingredient_list = None
+    ingredient_list = load_list()
     instance = Menu(ingredient_list=ingredient_list)
     instance.display_main_menu()
 

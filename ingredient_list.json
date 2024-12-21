@@ -1,0 +1,24 @@
+{
+    "ingredient_list": [
+        {
+            "name": "apple",
+            "quantity": 0,
+            "unit": ""
+        },
+        {
+            "name": "potato",
+            "quantity": 0,
+            "unit": ""
+        },
+        {
+            "name": "mayo",
+            "quantity": 0,
+            "unit": "kilogram"
+        },
+        {
+            "name": "carrot",
+            "quantity": 0,
+            "unit": ""
+        }
+    ]
+}
