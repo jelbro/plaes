@@ -6,12 +6,15 @@ from FoodLists import *
 class Menu:
     """a class that displays various navigational menus"""
 
-    def __init__(self, ingredient_list):
+    def __init__(self, ingredient_list, recipe_list):
         os.system("clear")
         self.ingredient_list = ingredient_list
+        self.recipe_list = recipe_list
 
-    def save_lists(self, ingredient_list):
-        self.ingredient_list.save_list("ingredient_list.json")
+    def menu_save_lists(self):
+        save_lists(
+            [self.ingredient_list, self.recipe_list], "plaes_lists.json"
+        )
 
     def display_main_menu(self):
         print(
@@ -110,7 +113,7 @@ class Menu:
                     os.system("clear")
                     self.dsiplay_quit_menu()
             case "s":
-                self.save_lists(ingredient_list=self.ingredient_list)
+                self.menu_save_lists()
                 sys.exit()
             case "b":
                 self.display_main_menu()
