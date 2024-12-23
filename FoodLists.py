@@ -1,5 +1,8 @@
 from FoodItems import *
 import json
+import inflect
+
+inflect_engine = inflect.engine()
 
 
 def load_list(file_path):
@@ -106,11 +109,12 @@ class IngredientList:
         """
         return self.to_json()
 
-    def add_new_ingredient(self):
+    def add_new_ingredient(self, name=None):
         """prompts the user for a name and unit, creates a new Ingredient with
         those values and adds it to the ingredient list
         """
-        name = input("Ingredient name: ")
+        if not name:
+            name = input("Ingredient name: ")
         unit = input("Ingredient unit: ")
         ingredient = Ingredient(name=name, quantity=0, unit=unit)
         self.ingredient_list.append(ingredient)
@@ -137,20 +141,6 @@ class IngredientList:
 
 
 class RecipeList:
-    """
-    A class to represent a list of Recipe objects
-
-    Attributes
-    ----------
-    recipe_list : list
-        a list of Recipe objects
-
-    Methods
-    -------
-
-
-    """
-
     def __init__(self, recipe_list=[]):
         """
         Parameters
@@ -160,7 +150,7 @@ class RecipeList:
         """
         self.recipe_list = []
         for recipe in recipe_list:
-            self.recipe_list.append(recipe_list)
+            self.recipe_list.append(recipe)
 
     def to_json(self):
         return json.dumps(
@@ -181,3 +171,57 @@ class RecipeList:
             if passed an invalid .json file path
         """
         return self.to_json()
+
+    def add_new_recipe(self, ingredient_list_obj):
+        name = input("Recipe name: ")
+        unit = input("Recipe unit: ")
+        desired_quantity = int(
+            input(f"Desired quantity of " f"{inflect_engine.plural(unit)}: ")
+        )
+
+        ingredients = []
+        ingredient_list_obj.display_list()
+        while True:
+            try:
+                while True:
+                    ingredient_added = False
+                    ingredient_name = input("Ingredient to add to recipe: ")
+
+                    ingredient_list = ingredient_list_obj.ingredient_list
+                    for ingredient in ingredient_list:
+                        if ingredient_name.lower() == ingredient.name.lower():
+                            if not ingredient.unit:
+                                ingredient_quantity = int(
+                                    input(
+                                        f"Amount of {inflect_engine.plural(ingredient_name)} in {name}? "
+                                    )
+                                )
+                            else:
+                                ingredient_quantity = int(
+                                    input(
+                                        f"{inflect_engine.plural(ingredient.unit)} of {ingredient.name} in {name}? "
+                                    )
+                                )
+                            ingredient.quantity = ingredient_quantity
+                            ingredients.append(ingredient)
+                            ingredient_added = True
+                            break
+                    if not ingredient_added:
+                        create = input(
+                            "Ingredient not in list would you like to create it? y/n "
+                        )
+                        if create.lower().strip() == "y":
+                            ingredient_list_obj.add_new_ingredient(
+                                ingredient_name
+                            )
+                        else:
+                            continue
+            except EOFError:
+                recipe = Recipe(
+                    name=name,
+                    unit=unit,
+                    desired_quantity=desired_quantity,
+                    ingredients=ingredients,
+                )
+                self.recipe_list.append(recipe)
+                break

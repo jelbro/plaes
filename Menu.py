@@ -70,8 +70,12 @@ class Menu:
                 ...
                 # RecipesList.display_list()
             case "a":
-                ...
-                # RecipesList.add_to_list()
+                if self.recipe_list is None:
+                    self.recipe_list = RecipeList()
+                    self.recipe_list.add_new_recipe(self.ingredient_list)
+                else:
+                    self.recipe_list.add_new_recipe(self.ingredient_list)
+                self.display_recipe_menu()
             case "d":
                 ...
                 # RecipesList.delete_from_list()
