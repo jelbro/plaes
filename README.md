@@ -21,9 +21,8 @@
   - [x] Research and consider enums
   - [x] Document sort_ingredients()
   - [x] add newline preferance to display ingredients
-  - [ ] sort out exceptions/returns
   - [x] Init
-    - [xg] add checking for None variables
+    - [x] add checking for None variables
   - [x] Str
   - [x] Repr
   - [x] edit_ingredient_amount
@@ -48,7 +47,11 @@
   - [x] repr
   - [x] add
   - [x] remove
-- [ ] Recipe list settings
+- [ ] List settings
+  - [x] Save recipe list
+  - [x] Save ingredient list
+  - [x] Load recipe list
+  - [x] Load ingredient list
   - [ ] Import recipe list
   - [ ] Export recipe list
   - [ ] Delete recipe list
