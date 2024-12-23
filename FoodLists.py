@@ -5,6 +5,11 @@ import json
 def load_list(file_path):
     if not file_path.lower().endswith(".json"):
         raise FileNotFoundError("file_path must be a valid .json file")
+    try:
+        file = open(file_path, mode="r")
+    except FileNotFoundError:
+        with open(file_path, mode="x"):
+            pass
     with open(file_path, mode="r") as file:
         first_char = file.read(1)
         if not first_char:
