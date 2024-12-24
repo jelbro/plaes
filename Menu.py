@@ -8,8 +8,10 @@ class Menu:
 
     def __init__(self, ingredient_list, recipe_list):
         os.system("clear")
-        self.ingredient_list = ingredient_list
-        self.recipe_list = recipe_list
+        self.ingredient_list = ingredient_list or IngredientList()
+        self.recipe_list = recipe_list or RecipeList(
+            ingredient_list=self.ingredient_list
+        )
 
     def menu_save_lists(self):
         save_lists(
@@ -46,7 +48,7 @@ class Menu:
                 input("Press enter to continue...")
                 self.display_ingredient_menu()
             case "a":
-                if self.ingredient_list is None:
+                if not self.ingredient_list:
                     self.ingredient_list = IngredientList()
                     self.ingredient_list.add_new_ingredient()
                 else:
@@ -70,11 +72,13 @@ class Menu:
                 ...
                 # RecipesList.display_list()
             case "a":
-                if self.recipe_list is None:
-                    self.recipe_list = RecipeList()
-                    self.recipe_list.add_new_recipe(self.ingredient_list)
+                if not self.recipe_list:
+                    self.recipe_list = RecipeList(
+                        ingredient_list=self.ingredient_list
+                    )
+                    self.recipe_list.add_new_recipe()
                 else:
-                    self.recipe_list.add_new_recipe(self.ingredient_list)
+                    self.recipe_list.add_new_recipe()
                 self.display_recipe_menu()
             case "d":
                 ...

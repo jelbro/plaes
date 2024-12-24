@@ -16,7 +16,10 @@ def load_list(file_path):
     with open(file_path, mode="r") as file:
         first_char = file.read(1)
         if not first_char:
-            return IngredientList(), RecipeList()
+            ingredient_list_obj = IngredientList()
+            return ingredient_list_obj, RecipeList(
+                ingredient_list=ingredient_list_obj
+            )
         else:
             file.seek(0)
             list_file = json.load(file)
@@ -44,7 +47,10 @@ def load_list(file_path):
                                 unit=recipe["unit"],
                             )
                         )
-        return IngredientList(ingredient_list), RecipeList(recipe_list)
+        ingredient_list_obj = IngredientList(ingredient_list)
+        return ingredient_list_obj, RecipeList(
+            ingredient_list=ingredient_list_obj, recipe_list=recipe_list
+        )
 
 
 def save_lists(lists, file_path):
@@ -141,7 +147,7 @@ class IngredientList:
 
 
 class RecipeList:
-    def __init__(self, recipe_list=[]):
+    def __init__(self, ingredient_list=None, recipe_list=[]):
         """
         Parameters
         ----------
@@ -151,6 +157,7 @@ class RecipeList:
         self.recipe_list = []
         for recipe in recipe_list:
             self.recipe_list.append(recipe)
+        self.ingredient_list = ingredient_list
 
     def to_json(self):
         return json.dumps(
@@ -172,50 +179,20 @@ class RecipeList:
         """
         return self.to_json()
 
-    def add_new_recipe(self, ingredient_list_obj):
+    def add_new_recipe(self):
         name = input("Recipe name: ")
         unit = input("Recipe unit: ")
         desired_quantity = int(
             input(f"Desired quantity of " f"{inflect_engine.plural(unit)}: ")
         )
-
+        self.ingredient_list.display_list()
         ingredients = []
-        ingredient_list_obj.display_list()
         while True:
             try:
-                while True:
-                    ingredient_added = False
-                    ingredient_name = input("Ingredient to add to recipe: ")
-
-                    ingredient_list = ingredient_list_obj.ingredient_list
-                    for ingredient in ingredient_list:
-                        if ingredient_name.lower() == ingredient.name.lower():
-                            if not ingredient.unit:
-                                ingredient_quantity = int(
-                                    input(
-                                        f"Amount of {inflect_engine.plural(ingredient_name)} in {name}? "
-                                    )
-                                )
-                            else:
-                                ingredient_quantity = int(
-                                    input(
-                                        f"{inflect_engine.plural(ingredient.unit)} of {ingredient.name} in {name}? "
-                                    )
-                                )
-                            ingredient.quantity = ingredient_quantity
-                            ingredients.append(ingredient)
-                            ingredient_added = True
-                            break
-                    if not ingredient_added:
-                        create = input(
-                            "Ingredient not in list would you like to create it? y/n "
-                        )
-                        if create.lower().strip() == "y":
-                            ingredient_list_obj.add_new_ingredient(
-                                ingredient_name
-                            )
-                        else:
-                            continue
+                ingredients.append(
+                    self.get_ingredient(self.ingredient_list, name)
+                )
+                print("and then here 6")
             except EOFError:
                 recipe = Recipe(
                     name=name,
@@ -225,3 +202,70 @@ class RecipeList:
                 )
                 self.recipe_list.append(recipe)
                 break
+
+    def get_ingredient(self, ingredient_list_obj, recipe_name):
+        while True:
+            ingredient_name = input("Ingredient to add to recipe: ")
+            ingredient_list = ingredient_list_obj.ingredient_list
+            if len(ingredient_list) == 0:
+                ingredient_list = []
+                if self.create_new_ingredient():
+                    ingredient_list_obj.add_new_ingredient(ingredient_name)
+                    ingredient_list = ingredient_list_obj.ingredient_list
+                else:
+                    continue
+
+            print("we got here 5")
+
+            for ingredient in ingredient_list:
+                print("we got here 1")
+                if self.ingredient_in_list(ingredient_name, ingredient):
+                    print("we got here 2")
+                    ingredient.quantity = self.get_ingredient_quantity(
+                        ingredient, ingredient_name, recipe_name
+                    )
+                    return ingredient
+                else:
+                    print("we got here 3")
+                    if self.create_new_ingredient():
+                        print("we got here 4")
+                        ingredient_list_obj.add_new_ingredient(ingredient_name)
+                        ingredient.quantity = self.get_ingredient_quantity(
+                            ingredient, ingredient_name, recipe_name
+                        )
+                        return ingredient
+                    else:
+                        break
+
+    def ingredient_in_list(self, ingredient_name, ingredient):
+        if ingredient_name.lower() == ingredient.name.lower():
+            return True
+        else:
+            return False
+
+    def get_ingredient_quantity(
+        self, ingredient, ingredient_name, recipe_name
+    ):
+        if not ingredient.unit:
+            return int(
+                input(
+                    f"Amount of {inflect_engine.plural(ingredient_name)} in "
+                    f"{recipe_name}? "
+                )
+            )
+        else:
+            return int(
+                input(
+                    f"{inflect_engine.plural(ingredient.unit)} of "
+                    f"{ingredient.name} in {recipe_name}? "
+                )
+            )
+
+    def create_new_ingredient(self):
+        create = input(
+            "Ingredient not in list would you like to create it? y/n "
+        )
+        if create.lower().strip() == "y":
+            return True
+        else:
+            return False
