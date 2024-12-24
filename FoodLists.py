@@ -189,9 +189,7 @@ class RecipeList:
         ingredients = []
         while True:
             try:
-                ingredients.append(
-                    self.get_ingredient(self.ingredient_list, name)
-                )
+                ingredients.append(self.get_ingredient(name))
                 print("and then here 6")
             except EOFError:
                 recipe = Recipe(
@@ -203,21 +201,24 @@ class RecipeList:
                 self.recipe_list.append(recipe)
                 break
 
-    def get_ingredient(self, ingredient_list_obj, recipe_name):
+    def get_ingredient(self, recipe_name):
         while True:
             ingredient_name = input("Ingredient to add to recipe: ")
-            ingredient_list = ingredient_list_obj.ingredient_list
-            if len(ingredient_list) == 0:
-                ingredient_list = []
+            # ingredient_list = ingredient_list_obj.ingredient_list
+            if len(self.ingredient_list.ingredient_list) == 0:
                 if self.create_new_ingredient():
-                    ingredient_list_obj.add_new_ingredient(ingredient_name)
-                    ingredient_list = ingredient_list_obj.ingredient_list
+                    self.ingredient_list.add_new_ingredient(ingredient_name)
+                    for ingredient in self.ingredient_list.ingredient_list:
+                        ingredient.quantity = self.get_ingredient_quantity(
+                            ingredient, ingredient_name, recipe_name
+                        )
+                        return ingredient
                 else:
                     continue
 
             print("we got here 5")
 
-            for ingredient in ingredient_list:
+            for ingredient in self.ingredient_list.ingredient_list:
                 print("we got here 1")
                 if self.ingredient_in_list(ingredient_name, ingredient):
                     print("we got here 2")
@@ -226,16 +227,18 @@ class RecipeList:
                     )
                     return ingredient
                 else:
+                    pass
+
                     print("we got here 3")
-                    if self.create_new_ingredient():
-                        print("we got here 4")
-                        ingredient_list_obj.add_new_ingredient(ingredient_name)
-                        ingredient.quantity = self.get_ingredient_quantity(
-                            ingredient, ingredient_name, recipe_name
-                        )
-                        return ingredient
-                    else:
-                        break
+            if self.create_new_ingredient():
+                print("we got here 4")
+                self.ingredient_list.add_new_ingredient(ingredient_name)
+                ingredient.quantity = self.get_ingredient_quantity(
+                    ingredient, ingredient_name, recipe_name
+                )
+                return ingredient
+            else:
+                break
 
     def ingredient_in_list(self, ingredient_name, ingredient):
         if ingredient_name.lower() == ingredient.name.lower():
