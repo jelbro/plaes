@@ -190,7 +190,6 @@ class RecipeList:
         while True:
             try:
                 ingredients.append(self.get_ingredient(name))
-                print("and then here 6")
             except EOFError:
                 recipe = Recipe(
                     name=name,
@@ -216,12 +215,8 @@ class RecipeList:
                 else:
                     continue
 
-            print("we got here 5")
-
             for ingredient in self.ingredient_list.ingredient_list:
-                print("we got here 1")
                 if self.ingredient_in_list(ingredient_name, ingredient):
-                    print("we got here 2")
                     ingredient.quantity = self.get_ingredient_quantity(
                         ingredient, ingredient_name, recipe_name
                     )
@@ -229,9 +224,7 @@ class RecipeList:
                 else:
                     pass
 
-                    print("we got here 3")
             if self.create_new_ingredient():
-                print("we got here 4")
                 self.ingredient_list.add_new_ingredient(ingredient_name)
                 ingredient.quantity = self.get_ingredient_quantity(
                     ingredient, ingredient_name, recipe_name
