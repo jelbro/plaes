@@ -9,9 +9,7 @@ class Menu:
     def __init__(self, ingredient_list, recipe_list):
         os.system("clear")
         self.ingredient_list = ingredient_list or IngredientList()
-        self.recipe_list = recipe_list or RecipeList(
-            ingredient_list=self.ingredient_list
-        )
+        self.recipe_list = recipe_list or RecipeList()
 
     def menu_save_lists(self):
         save_lists(
@@ -73,12 +71,10 @@ class Menu:
                 # RecipesList.display_list()
             case "a":
                 if not self.recipe_list:
-                    self.recipe_list = RecipeList(
-                        ingredient_list=self.ingredient_list
-                    )
-                    self.recipe_list.add_new_recipe()
+                    self.recipe_list = RecipeList()
+                    self.recipe_list.add_new_recipe(self.ingredient_list)
                 else:
-                    self.recipe_list.add_new_recipe()
+                    self.recipe_list.add_new_recipe(self.ingredient_list)
                 self.display_recipe_menu()
             case "d":
                 ...
