@@ -11,7 +11,7 @@
   - [x] FoodItems
     - [x] Recipe
     - [x] Ingredient
-- [ ] Recipes
+- [x] Recipes
   - [x] Fix cases
   - [x] Fix validity for strings with spaces in them
   - [x] Change float to decimal?
@@ -39,7 +39,8 @@
   - [x] need_to_make
   - [x] display_ingredients
   - [x] save_recipe 
-  - [x] load_recipe 
+  - [x] load_recipe
+  - [x] ingredients should store their own quantity in relation to each recipe 
 
 - [x] Ingredients
   - [x] init

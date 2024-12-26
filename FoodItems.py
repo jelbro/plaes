@@ -70,6 +70,7 @@ def load_ingredients(recipe):
                 name=ingredient["name"],
                 quantity=ingredient["quantity"],
                 unit=ingredient["unit"],
+                used_in=ingredient["used_in"],
             )
         )
     return ingredient_list
@@ -299,15 +300,17 @@ class Recipe:
             Ingredient quantity is less than or equal to zero
         """
         ingredient_name = ingredient.name.replace(" ", "")
-        if not ingredient.unit == None:
+        if not len(ingredient.unit) == 0:
             ingredient_unit = ingredient.unit.replace(" ", "")
         else:
             ingredient_unit = "None"
         if not ingredient_name.isalpha():
             raise ValueError("Ingredient name is not alphabetic")
-        elif not ingredient_unit.isalpha():
-            raise ValueError("Ingredient unit is not alphabetic")
-        elif ingredient.quantity <= 0:
+        elif not ingredient_unit.isalnum():
+            raise ValueError(
+                f"{ingredient_unit}: Ingredient unit is not alphanumeric"
+            )
+        elif ingredient.quantity < 0:
             raise ValueError(
                 f"Ingredient quantity: {ingredient.quantity} is "
                 "less than or equal to zero"
@@ -547,9 +550,12 @@ class Ingredient:
     name : str
         the name of the Ingredient
     quantity : Decimal
-        the current quantity of this Ingredient in unit
+        the current quantity of this Ingredient in unit in stock
     unit : str
         the unit of storage used for this Ingredient
+    used_in : dict
+        a dictionary containing the name's of the Recipes using
+        this ingredient and their quantitys
 
     Methods
     -------
@@ -559,7 +565,7 @@ class Ingredient:
         add n to quantity
     """
 
-    def __init__(self, name=None, quantity=0, unit=None):
+    def __init__(self, name=None, quantity=0, unit=None, used_in={}):
         """
         Parameters
         ----------
@@ -581,6 +587,7 @@ class Ingredient:
             self.quantity = quantity
 
         self.unit = unit
+        self.used_in = used_in
 
     def is_plural(self):
         if self.quantity != 1:
@@ -648,3 +655,12 @@ class Ingredient:
             raise ValueError("Amount to add can not be negative")
         else:
             self.quantity += amount
+
+    def add_ingredient_to_recipe(self, recipe, ingredient_quantity):
+        if not self.used_in:
+            self.used_in = {recipe.name: ingredient_quantity}
+        else:
+            if recipe in self.used_in:
+                self.used_in[recipe.name] = ingredient_quantity
+            else:
+                self.used_in[recipe.name] = ingredient_quantity

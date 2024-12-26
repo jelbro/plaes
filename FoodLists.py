@@ -31,6 +31,7 @@ def load_list(file_path):
                                 name=ingredient["name"],
                                 quantity=ingredient["quantity"],
                                 unit=ingredient["unit"],
+                                used_in=ingredient["used_in"],
                             )
                         )
                 if "recipe_list" in entry:
@@ -180,64 +181,61 @@ class RecipeList:
         desired_quantity = int(
             input(f"Desired quantity of " f"{inflect_engine.plural(unit)}: ")
         )
+        new_recipe = Recipe(
+            name=name, unit=unit, desired_quantity=desired_quantity
+        )
 
-        ingredients = []
         while True:
             try:
                 ingredient_list_obj.display_list()
-                ingredients.append(
-                    self.get_ingredient(name, ingredient_list_obj)
+                new_recipe.add_ingredient(
+                    self.get_ingredient(name, ingredient_list_obj, new_recipe)
                 )
-                print(ingredients)
             except EOFError:
-                recipe = Recipe(
-                    name=name,
-                    unit=unit,
-                    desired_quantity=desired_quantity,
-                    ingredients=ingredients,
-                )
-                self.recipe_list.append(recipe)
+                self.recipe_list.append(new_recipe)
+                print("\n")
                 break
 
-    def get_ingredient(self, recipe_name, ingredient_list_obj):
+    def get_ingredient(self, recipe_name, ingredient_list_obj, recipe_obj):
         while True:
             ingredient_name = input("Ingredient to add to recipe: ")
-            print(f"ingredient_name: {ingredient_name}")
-            # ingredient_list = ingredient_list_obj.ingredient_list
 
             if len(ingredient_list_obj.ingredient_list) == 0:
                 if self.create_new_ingredient():
                     ingredient_list_obj.add_new_ingredient(ingredient_name)
                     for ingredient in ingredient_list_obj.ingredient_list:
-                        ingredient.quantity = self.get_ingredient_quantity(
-                            ingredient, ingredient_name, recipe_name
+                        ingredient.add_ingredient_to_recipe(
+                            recipe_obj,
+                            self.get_ingredient_quantity(
+                                ingredient, ingredient_name, recipe_name
+                            ),
                         )
                         return ingredient
                 else:
                     continue
             else:
-
                 for ingredient in ingredient_list_obj.ingredient_list:
                     if self.ingredient_in_list(ingredient_name, ingredient):
-                        ingredient.quantity = self.get_ingredient_quantity(
-                            ingredient, ingredient_name, recipe_name
+                        ingredient.add_ingredient_to_recipe(
+                            recipe_obj,
+                            self.get_ingredient_quantity(
+                                ingredient, ingredient_name, recipe_name
+                            ),
                         )
                         return ingredient
                     else:
                         pass
-
                 if self.create_new_ingredient():
-                    print(f"ingredient_name: {ingredient_name}")
                     ingredient_list_obj.add_new_ingredient(ingredient_name)
-                    print(
-                        f"ingredient_list: {ingredient_list_obj.ingredient_list}"
-                    )
                     for ingredient in ingredient_list_obj.ingredient_list:
                         if self.ingredient_in_list(
                             ingredient_name, ingredient
                         ):
-                            ingredient.quantity = self.get_ingredient_quantity(
-                                ingredient, ingredient_name, recipe_name
+                            ingredient.add_ingredient_to_recipe(
+                                recipe_obj,
+                                self.get_ingredient_quantity(
+                                    ingredient, ingredient_name, recipe_name
+                                ),
                             )
                             return ingredient
                         else:
