@@ -6,6 +6,23 @@ inflect_engine = inflect.engine()
 
 
 def load_list(file_path):
+    """a method which loads a RecipeList and IngredientList from a .json file
+
+    Parameters
+    ----------
+    file_path : str
+        a .json file path
+
+    Returns
+    -------
+    tuple(IngredientList, RecipeList)
+        returns an initalised IngredientList and RecipeList from the .json file
+
+    Raises
+    ------
+    FileNotFoundError
+        if file_path is not a valid .json file
+    """
     if not file_path.lower().endswith(".json"):
         raise FileNotFoundError("file_path must be a valid .json file")
     try:
@@ -51,6 +68,21 @@ def load_list(file_path):
 
 
 def save_lists(lists, file_path):
+    """a function to save the IngredientList and RecipeList to the given .json
+    file_path
+
+    Parameters
+    ----------
+    lists : list(IngredientList, RecipeList)
+        a list of an IngredientList and a RecipeList
+    file_path : str
+        a valid .json file path
+
+    Raises
+    ------
+    FileNotFoundError
+        if file_path is not a valid .json file path
+    """
     if not file_path.lower().endswith(".json"):
         raise FileNotFoundError("file_path must be a valid .json file path")
     merged_lists = []
@@ -71,6 +103,8 @@ class IngredientList:
 
     Methods
     -------
+    save_list()
+        saves this IngredientList to a .json file
     add_new_ingredient()
         prompts the user for a name and unit and then creates a new Ingredient
         adding it to the ingredient list
@@ -114,7 +148,7 @@ class IngredientList:
 
     def add_new_ingredient(self, name=None):
         """prompts the user for a name and unit, creates a new Ingredient with
-        those values and adds it to the ingredient list
+        those values and appends it to the ingredient list
         """
         if not name:
             name = input("Ingredient name: ")
@@ -139,11 +173,40 @@ class IngredientList:
         """prints the list enumerating each entry"""
         num = 1
         for ingredient in self.ingredient_list:
-            print(f"{num}:{ingredient.name}, unit: {ingredient.unit}")
+            print(f"{num}: {ingredient.name}, unit: {ingredient.unit}")
             num += 1
 
 
 class RecipeList:
+    """
+    a class to represent a list of Recipe objects
+
+    Attributes
+    ----------
+    recipe_list : list
+        a list of Recipe objects
+
+    Methods
+    -------
+    save_list()
+        saves this list to a .json file
+    add_new_recipe(IngredientList)
+        Prompts the user for a name, unit, desired quantity, ingredients
+        and ingredient quantitys and creates a Recipe with these values adding
+        it to this RecipeLists recipe_list
+    get_ingredient(recipe_name, IngredientList, Recipe)
+        prompts the user for ingredients until ctrl+d is input (EOFError)
+        appending these to the Recipe's ingredient list
+    ingredient_in_list(ingredient_name, ingredient)
+        returns True if the ingredient already exists in the IngredientList
+    get_ingredient_quantity(ingredient, ingredient_name, recipe_name)
+        returns the quantity of the ingredient the user wishes to add to the
+        recipe as an int
+    create_new_ingredient()
+        prompts the user to create a new ingredient if the current ingredient
+        is not in the IngredientList
+    """
+
     def __init__(self, recipe_list=[]):
         """
         Parameters
@@ -176,6 +239,15 @@ class RecipeList:
         return self.to_json()
 
     def add_new_recipe(self, ingredient_list_obj):
+        """prompts the user for a name, unit, desired quantity constructs a new
+        recipe from this and then asks the user for the ingredients in this
+        recipe
+
+        Parameters
+        ----------
+        ingredient_list_obj : IngredientList
+            the current IngredientList to reference for existing ingredients
+        """
         name = input("Recipe name: ")
         unit = input("Recipe unit: ")
         desired_quantity = int(
@@ -197,6 +269,24 @@ class RecipeList:
                 break
 
     def get_ingredient(self, recipe_name, ingredient_list_obj, recipe_obj):
+        """asks the user for the name of the ingredient, checks if it is already
+        in the ingredient list if it is not creates that ingredient. Then asks
+        the user for the quantity of ingredient to use in the recipe
+
+        Parameters
+        ----------
+        recipe_name : str
+            the user inputted name for the recipe
+        ingredient_list_obj : IngredientList
+            the current IngredientList to reference
+        recipe_obj : Recipe
+            the newly created Recipe to add ingredients to
+
+        Returns
+        -------
+        Ingredient
+            returns a fully initialised Ingredient object
+        """
         while True:
             ingredient_name = input("Ingredient to add to recipe: ")
 
@@ -244,10 +334,22 @@ class RecipeList:
                     break
 
     def ingredient_in_list(self, ingredient_name, ingredient):
-        if ingredient_name.lower() == ingredient.name.lower():
-            return True
-        else:
-            return False
+        """checks to see if the user inputted ingredient name matches the name
+        of the current ingredient
+
+        Parameters
+        ----------
+        ingredient_name : str
+            a user inputted ingredient name
+        ingredient : Ingredient
+            the current Ingredient object the name is being checked against
+
+        Returns
+        -------
+        boolean
+            True if the names are equal
+        """
+        return ingredient_name.lower() == ingredient.name.lower()
 
     def get_ingredient_quantity(
         self, ingredient, ingredient_name, recipe_name
