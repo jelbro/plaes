@@ -387,10 +387,15 @@ class RecipeList:
             )
 
     def create_new_ingredient(self):
-        create = input(
+        """Prompts the user to ask if they would like to add the ingredient
+        to the list
+
+        Returns
+        -------
+        boolean
+            True if answer is equal to 'y'
+        """
+        answer = input(
             "Ingredient not in list would you like to create it? y/n "
         )
-        if create.lower().strip() == "y":
-            return True
-        else:
-            return False
+        return answer.lower().strip() == "y"
