@@ -265,14 +265,16 @@ class Recipe:
         output_string = ""
         for ingredient in self.ingredients:
             if ingredient.unit is None:
+                print(ingredient.used_in[self.name])
                 output_string += (
-                    f"{ingredient.quantity} "
-                    f"{inflect_engine.plural(ingredient.name, ingredient.quantity)}{end}"
+                    f"{ingredient.used_in[self.name]} "
+                    f"{inflect_engine.plural(ingredient.name, ingredient.used_in[self.name])}{end}"
                 )
             else:
+                print(ingredient.used_in[self.name])
                 output_string += (
-                    f"{ingredient.quantity} "
-                    f"{inflect_engine.plural(ingredient.unit, ingredient.quantity)} "
+                    f"{ingredient.used_in[self.name]} "
+                    f"{inflect_engine.plural(ingredient.unit, ingredient.used_in[self.name])} "
                     f"of {ingredient.name}{end}"
                 )
         return output_string.rstrip(end)

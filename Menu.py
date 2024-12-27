@@ -67,8 +67,7 @@ class Menu:
         choice = self.get_menu_choice(["v", "a", "d", "b"])
         match choice:
             case "v":
-                ...
-                # RecipesList.display_list()
+                self.display_recipes()
             case "a":
                 if not self.recipe_list:
                     self.recipe_list = RecipeList()
@@ -81,6 +80,57 @@ class Menu:
                 # RecipesList.delete_from_list()
             case "b":
                 self.display_main_menu()
+
+    def display_recipes(self):
+        self.recipe_list.display_list()
+        print("Select an option\n", "v: View Recipe b: Back")
+        choice = self.get_menu_choice(["v", "b"], clear=False)
+        match choice:
+            case "v":
+                self.display_recipe()
+            case "b":
+                self.display_recipe_menu()
+
+    def display_recipe(self):
+        recipe_name = input("Select a recipe to view it: ")
+        recipe_found = False
+        for recipe in self.recipe_list.recipe_list:
+            if recipe_name.lower() == recipe.name.lower():
+                print(recipe)
+                recipe_found = True
+            else:
+                pass
+        if not recipe_found:
+            print("Invalid recipe name")
+            self.display_recipes()
+        else:
+            print("Select an option\n", "e: Edit Recipe b: Back")
+            choice = self.get_menu_choice(["e", "b"], clear=False)
+            match choice:
+                case "e":
+                    self.display_edit_recipe(recipe)
+                case "b":
+                    self.display_recipes()
+
+    def display_edit_recipe(self, recipe):
+        print(recipe)
+        print(
+            "Select an option\n",
+            "n: Edit Name i: Edit Ingredients d: Edit Desired Quantity ",
+            "u: Edit Unit b: Back",
+        )
+        choice = self.get_menu_choice(["n", "i", "d", "u", "b"])
+        match choice:
+            case "n":
+                ...
+            case "i":
+                ...
+            case "d":
+                ...
+            case "u":
+                ...
+            case "b":
+                self.display_recipe()
 
     def display_prep_list_menu(self):
         print(
@@ -122,11 +172,12 @@ class Menu:
             case "b":
                 self.display_main_menu()
 
-    def get_menu_choice(self, options):
+    def get_menu_choice(self, options, clear=True):
         while True:
             user_input = input().lower().strip()
             if user_input in options:
-                os.system("clear")
+                if clear:
+                    os.system("clear")
                 return user_input
             else:
                 print("Invalid Input")

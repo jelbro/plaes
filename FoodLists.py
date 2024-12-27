@@ -238,6 +238,13 @@ class RecipeList:
         """
         return self.to_json()
 
+    def display_list(self):
+        """prints this RecipeList"""
+        num = 1
+        for recipe in self.recipe_list:
+            print(f"{num}: {recipe.name}, unit: {recipe.unit}")
+            num += 1
+
     def add_new_recipe(self, ingredient_list_obj):
         """prompts the user for a name, unit, desired quantity constructs a new
         recipe from this and then asks the user for the ingredients in this
