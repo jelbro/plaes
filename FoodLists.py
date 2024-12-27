@@ -395,7 +395,7 @@ class RecipeList:
         boolean
             True if answer is equal to 'y'
         """
-        answer = input(
+        response = input(
             "Ingredient not in list would you like to create it? y/n "
         )
-        return answer.lower().strip() == "y"
+        return response.lower().strip() == "y"
