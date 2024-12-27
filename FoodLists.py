@@ -354,6 +354,23 @@ class RecipeList:
     def get_ingredient_quantity(
         self, ingredient, ingredient_name, recipe_name
     ):
+        """prompts the user for the amount of the current ingredient to add
+        to the recipe
+
+        Parameters
+        ----------
+        ingredient : Ingredient
+            the current ingredient to add to the recipe
+        ingredient_name : str
+            the user input ingredient name
+        recipe_name : str
+            the name of the Recipe that is currently being created
+
+        Returns
+        -------
+        int
+            an int representing the amount of Ingredient in Recipe
+        """
         if not ingredient.unit:
             return int(
                 input(
