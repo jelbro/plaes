@@ -249,6 +249,12 @@ class Recipe:
         else:
             raise ValueError("invalid sort_by parameter")
 
+    def change_name(self, new_name):
+        old_name = self.name
+        self.name = new_name
+        for ingredient in self.ingredients:
+            ingredient.used_in[new_name] = ingredient.used_in.pop(old_name)
+
     def display_ingredients(self, end="\n"):
         """return this Recipe's ingredient list in a readable way
 
