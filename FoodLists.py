@@ -146,13 +146,14 @@ class IngredientList:
         """
         return self.to_json()
 
-    def add_new_ingredient(self, name=None):
+    def add_new_ingredient(self, name=None, unit=None):
         """prompts the user for a name and unit, creates a new Ingredient with
         those values and appends it to the ingredient list
         """
         if not name:
             name = input("Ingredient name: ")
-        unit = input("Ingredient unit: ")
+        if not unit:
+            unit = input("Ingredient unit: ")
         ingredient = Ingredient(name=name, quantity=0, unit=unit)
         self.ingredient_list.append(ingredient)
 

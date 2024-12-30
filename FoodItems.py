@@ -255,6 +255,9 @@ class Recipe:
         for ingredient in self.ingredients:
             ingredient.used_in[new_name] = ingredient.used_in.pop(old_name)
 
+    def change_used_in_quantity(self, ingredient, new_quantity):
+        ingredient.used_in[self.name] = new_quantity
+
     def display_ingredients(self, end="\n"):
         """return this Recipe's ingredient list in a readable way
 
