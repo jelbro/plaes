@@ -123,19 +123,50 @@ class Menu:
             "n: Edit Name i: Edit Ingredients d: Edit Desired Quantity ",
             "u: Edit Unit b: Back",
         )
-        choice = self.get_menu_choice(["n", "i", "d", "u", "b"])
+        choice = self.get_menu_choice(["n", "i", "d", "u", "b"], clear=False)
         match choice:
             case "n":
                 recipe.change_name(input(f"Change {recipe.name} to: "))
                 self.view_recipes()
             case "i":
-                ...
+                self.display_edit_ingredients_menu(recipe)
             case "d":
                 ...
             case "u":
                 ...
             case "b":
-                self.view_recipe()
+                self.view_recipes()
+
+    def display_edit_ingredients_menu(self, recipe):
+        recipe.display_ingredients()
+        print(
+            "Select an option\n"
+            "a: Add Ingredient e: Edit Ingredient Quantity "
+            "d: Delete Ingredient"
+        )
+        choice = self.get_menu_choice(["a", "e", "d"], clear=False)
+        recipe.display_ingredients()
+        match choice:
+            case "a":
+                ingredient_name = input("Ingredient to add to recipe: ")
+                self.ingredient_list.add_new_ingredient(ingredient_name)
+                for ingredient in self.ingredient_list.ingredient_list:
+                    if ingredient_name == ingredient.name:
+                        ingredient.add_ingredient_to_recipe(
+                            recipe,
+                            self.recipe_list.get_ingredient_quantity(
+                                ingredient, ingredient_name, recipe.name
+                            ),
+                        )
+                        recipe.add_ingredient(ingredient)
+                    else:
+                        pass
+
+                self.display_edit_recipe(recipe)
+            case "e":
+                ...
+            case "d":
+                ...
 
     def display_prep_list_menu(self):
         print(
