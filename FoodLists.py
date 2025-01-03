@@ -63,8 +63,9 @@ def load_list(file_path):
                                 unit=recipe["unit"],
                             )
                         )
-        ingredient_list_obj = IngredientList(ingredient_list)
-        return ingredient_list_obj, RecipeList(recipe_list=recipe_list)
+        return IngredientList(ingredient_list), RecipeList(
+            recipe_list=recipe_list
+        )
 
 
 def save_lists(lists, file_path):
