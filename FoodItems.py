@@ -544,6 +544,16 @@ class Recipe:
             self.desired_quantity = new_desired
             self.needed = self.requires_making()
 
+    def edit_unit(self, new_unit):
+        if len(new_unit) == 0:
+            self.unit = new_unit
+        elif new_unit.isalnum():
+            self.unit = new_unit
+        else:
+            raise ValueError(
+                f"{new_unit}: Ingredient unit is not alphanumeric or none"
+            )
+
     def requires_making(self):
         """calculate if this recipe is needing to be made."""
         if self.quantity < self.desired_quantity:

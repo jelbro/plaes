@@ -136,7 +136,13 @@ class Menu:
                 )
                 self.view_recipes()
             case "u":
-                ...
+                while True:
+                    try:
+                        recipe.edit_unit(input(f"Change {recipe.unit} to: "))
+                        break
+                    except ValueError:
+                        pass
+                self.view_recipes()
             case "b":
                 self.view_recipes()
 
