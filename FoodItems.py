@@ -50,7 +50,7 @@ def load_recipe(file_path):
     )
 
 
-def load_ingredients(recipe):
+def load_ingredients(recipe, ingredient_list_obj=[]):
     """a helper function that creates Ingredient objects from imported .json
 
     Parameters
@@ -64,15 +64,16 @@ def load_ingredients(recipe):
         returns a list of Ingredient objects with its values taken from the .json
     """
     ingredient_list = []
+
     for ingredient in recipe["ingredients"]:
-        ingredient_list.append(
-            Ingredient(
-                name=ingredient["name"],
-                quantity=ingredient["quantity"],
-                unit=ingredient["unit"],
-                used_in=ingredient["used_in"],
-            )
-        )
+        ingredient_in_list = False
+        for ing in ingredient_list_obj.ingredient_list:
+            if ingredient["name"] == ing.name:
+                ingredient_list.append(ing)
+                ingredient_in_list == True
+                break
+            else:
+                pass
     return ingredient_list
 
 

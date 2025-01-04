@@ -51,21 +51,23 @@ def load_list(file_path):
                                 used_in=ingredient["used_in"],
                             )
                         )
+                ingredient_list_obj = IngredientList(ingredient_list)
+
                 if "recipe_list" in entry:
                     recipe_list = []
                     for recipe in entry["recipe_list"]:
                         recipe_list.append(
                             Recipe(
                                 name=recipe["name"],
-                                ingredients=load_ingredients(recipe),
+                                ingredients=load_ingredients(
+                                    recipe, ingredient_list_obj
+                                ),
                                 quantity=recipe["quantity"],
                                 desired_quantity=recipe["desired_quantity"],
                                 unit=recipe["unit"],
                             )
                         )
-        return IngredientList(ingredient_list), RecipeList(
-            recipe_list=recipe_list
-        )
+        return ingredient_list_obj, RecipeList(recipe_list=recipe_list)
 
 
 def save_lists(lists, file_path):
