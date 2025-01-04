@@ -535,9 +535,9 @@ class Recipe:
             if the new desired quantity would be zero or less
         """
         try:
-            new_desired = Decimal(new_desired)
+            new_desired = int(new_desired)
         except ValueError:
-            print(f"{new_desired} is not a valid decimal")
+            print(f"{new_desired} is not a valid int")
         if new_desired < 0:
             raise ValueError("desired_quantity cannot be zero or less")
         else:

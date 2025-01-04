@@ -131,7 +131,10 @@ class Menu:
             case "i":
                 self.display_edit_ingredients_menu(recipe)
             case "d":
-                ...
+                recipe.edit_desired(
+                    int(input(f"Change desired quantity to: "))
+                )
+                self.view_recipes()
             case "u":
                 ...
             case "b":
