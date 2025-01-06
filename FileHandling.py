@@ -2,7 +2,7 @@ from FoodLists import *
 
 
 def load_list(file_path):
-    """a method which loads a RecipeList and IngredientList from a .json file
+    """a function which loads a RecipeList and IngredientList from a .json file
 
     Parameters
     ----------
@@ -64,3 +64,28 @@ def load_list(file_path):
                             )
                         )
         return ingredient_list_obj, RecipeList(recipe_list=recipe_list)
+
+
+def save_lists(lists, file_path):
+    """a function to save the IngredientList and RecipeList to the given .json
+    file_path
+
+    Parameters
+    ----------
+    lists : list(IngredientList, RecipeList)
+        a list of an IngredientList and a RecipeList
+    file_path : str
+        a valid .json file path
+
+    Raises
+    ------
+    FileNotFoundError
+        if file_path is not a valid .json file path
+    """
+    if not file_path.lower().endswith(".json"):
+        raise FileNotFoundError("file_path must be a valid .json file path")
+    merged_lists = []
+    for food_list in lists:
+        merged_lists.append(json.loads(food_list.save_list()))
+    with open(file_path, mode="w") as file:
+        json.dump(merged_lists, file, indent=4)
