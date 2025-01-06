@@ -25,15 +25,16 @@ class Menu:
                     f"{options[option_num]}: {verbose_options[option_num].title()}",
                     end="   ",
                 )
+        return self.get_menu_choice(options)
 
     def display_main_menu(self):
         os.system("clear")
-        self.print_menu(
+        choice = self.print_menu(
             "main",
             ["ingredients", "recipes", "prep list", "quit"],
             ["i", "r", "p", "q"],
         )
-        choice = self.get_menu_choice(["i", "r", "p", "q"])
+
         match choice:
             case "i":
                 self.display_ingredient_menu()
