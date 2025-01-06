@@ -16,6 +16,7 @@ class Menu:
         options = self.get_options(verbose_options)
         print(f"{menu_type.title()} Menu")
         print(f"Select an option")
+        odd = False
         for option_num in range(len(options)):
             if (option_num % 2) == 1:
                 print(
@@ -26,6 +27,8 @@ class Menu:
                     f"{options[option_num]}: {verbose_options[option_num].title()}",
                     end="   ",
                 )
+        if not len(options) % 2 == 0:
+            print()
         return self.get_menu_choice(options)
 
     def get_menu_choice(self, options, clear=True):
