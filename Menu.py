@@ -294,7 +294,7 @@ class Menu:
         match user_choice:
             case "q":
                 confirmation = input(
-                    "Are you sure you want to quit without saving y/n?"
+                    "Are you sure you want to quit without saving y/n? "
                 )
                 if confirmation.lower().strip() == "y":
                     sys.exit()
