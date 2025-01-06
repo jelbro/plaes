@@ -13,6 +13,20 @@ class Menu:
         self.recipe_list = recipe_list or RecipeList()
 
     def print_menu(self, menu_type, verbose_options):
+        """prints a menu and returns the user's selected option
+
+        Parameters
+        ----------
+        menu_type : str
+            the type of menu to display
+        verbose_options : list
+            a list of options to offer the user
+
+        Returns
+        -------
+        str
+            a str representing the user's choice
+        """
         options = self.get_options(verbose_options)
         print(f"{menu_type.title()} Menu")
         print(f"Select an option")
@@ -27,11 +41,25 @@ class Menu:
                     f"{options[option_num]}: {verbose_options[option_num].title()}",
                     end="   ",
                 )
-        if not len(options) % 2 == 0:
+        if len(options) % 2 == 1:
             print()
         return self.get_menu_choice(options)
 
     def get_menu_choice(self, options, clear=True):
+        """asks the user for input from a selection of options
+
+        Parameters
+        ----------
+        options : list
+            a selection of options for the user to choose from
+        clear : bool, optional
+            clears the terminal if true, by default True
+
+        Returns
+        -------
+        str
+            the user's chosen char
+        """
         while True:
             user_input = input().lower().strip()
             if user_input in options:
@@ -43,6 +71,18 @@ class Menu:
                 pass
 
     def get_options(self, verbose_options):
+        """returns the first letter of each option given in a list
+
+        Parameters
+        ----------
+        verbose_options : str
+            a list of options to offer the user
+
+        Returns
+        -------
+        list
+            a list of single character options
+        """
         options = []
         for option in verbose_options:
             options.append(option[0])
