@@ -1,7 +1,7 @@
 from FoodLists import *
 
 
-def load_list(file_path):
+def load_lists(file_path):
     """a function which loads a RecipeList and IngredientList from a .json file
 
     Parameters
