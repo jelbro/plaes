@@ -1,6 +1,7 @@
 import os
 import sys
 from FoodLists import *
+from FileHandling import *
 
 
 class Menu:
@@ -10,11 +11,6 @@ class Menu:
         os.system("clear")
         self.ingredient_list = ingredient_list or IngredientList()
         self.recipe_list = recipe_list or RecipeList()
-
-    def menu_save_lists(self):
-        save_lists(
-            [self.ingredient_list, self.recipe_list], "plaes_lists.json"
-        )
 
     def display_main_menu(self):
         print(
@@ -224,7 +220,10 @@ class Menu:
                     os.system("clear")
                     self.dsiplay_quit_menu()
             case "s":
-                self.menu_save_lists()
+                save_lists(
+                    [self.ingredient_list, self.recipe_list],
+                    "plaes_lists.json",
+                )
                 sys.exit()
             case "b":
                 self.display_main_menu()
