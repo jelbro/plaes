@@ -87,8 +87,9 @@ class IngredientList:
         """prints the list enumerating each entry"""
         num = 1
         for ingredient in self.ingredient_list:
-            print(f"{num}: {ingredient.name}, unit: {ingredient.unit}")
+            print(f"{num}: {ingredient.name.title()}, unit: {ingredient.unit}")
             num += 1
+        input("Press enter to continue...")
 
 
 class RecipeList:

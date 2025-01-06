@@ -12,7 +12,7 @@ class Menu:
         self.ingredient_list = ingredient_list or IngredientList()
         self.recipe_list = recipe_list or RecipeList()
 
-    def print_menu(self, menu_type, verbose_options):
+    def print_menu(self, menu_type, verbose_options, clear=True):
         """prints a menu and returns the user's selected option
 
         Parameters
@@ -27,10 +27,11 @@ class Menu:
         str
             a str representing the user's choice
         """
+        if clear:
+            os.system("clear")
         options = self.get_options(verbose_options)
         print(f"{menu_type.title()} Menu")
         print(f"Select an option")
-        odd = False
         for option_num in range(len(options)):
             if (option_num % 2) == 1:
                 print(
@@ -117,20 +118,13 @@ class Menu:
         match user_choice:
             case "v":
                 self.ingredient_list.display_list()
-                input("Press enter to continue...")
-                self.display_ingredient_menu()
             case "a":
-                if not self.ingredient_list:
-                    self.ingredient_list = IngredientList()
-                    self.ingredient_list.add_new_ingredient()
-                else:
-                    self.ingredient_list.add_new_ingredient()
-                self.display_ingredient_menu()
+                self.ingredient_list.add_new_ingredient()
             case "d":
                 self.ingredient_list.delete_from_list()
-                self.display_ingredient_menu()
             case "b":
                 self.display_main_menu()
+        self.display_ingredient_menu()
 
     def display_recipe_menu(self):
         user_choice = self.print_menu(
