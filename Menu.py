@@ -90,13 +90,17 @@ class Menu:
                 self.display_main_menu()
 
     def display_recipe_menu(self):
-        print(
-            "Recipe Menu\n",
-            "Select an option\n",
-            "v: View Recipes a: Add Recipe d: Delete Recipe b: Back",
+        user_choice = self.print_menu(
+            "recipe",
+            [
+                "view recipes",
+                "add recipe",
+                "delete recipe",
+                "back",
+            ],
         )
-        choice = self.get_menu_choice(["v", "a", "d", "b"])
-        match choice:
+
+        match user_choice:
             case "v":
                 self.view_recipes()
             case "a":
@@ -221,13 +225,16 @@ class Menu:
                 ...
 
     def display_prep_list_menu(self):
-        print(
-            "Preperation List Menu\n",
-            "Select an option\n",
-            "t: Take stock c: Create Prep list b: Back",
+        user_choice = self.print_menu(
+            "preperation list",
+            [
+                "take stock",
+                "create prep list",
+                "back",
+            ],
         )
-        choice = self.get_menu_choice(["t", "c", "b"])
-        match choice:
+
+        match user_choice:
             case "t":
                 ...
                 # PreperationList.take_stock()
@@ -238,13 +245,16 @@ class Menu:
                 self.display_main_menu()
 
     def dsiplay_quit_menu(self):
-        print(
-            "Quit\n",
-            "Select an option\n",
-            "q: Quit WITHOUT saving s: Save & Quit b: Back",
+        user_choice = self.print_menu(
+            "quit",
+            [
+                "quit WITHOUT saving",
+                "save & quit",
+                "back",
+            ],
         )
-        choice = self.get_menu_choice(["q", "s", "b"])
-        match choice:
+
+        match user_choice:
             case "q":
                 confirmation = input(
                     "Are you sure you want to quit without saving y/n?"
