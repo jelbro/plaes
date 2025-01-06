@@ -12,11 +12,26 @@ class Menu:
         self.ingredient_list = ingredient_list or IngredientList()
         self.recipe_list = recipe_list or RecipeList()
 
+    def print_menu(self, menu_type, verbose_options, options):
+        print(f"{menu_type.title()} Menu")
+        print(f"Select an option")
+        for option_num in range(len(options)):
+            if (option_num % 2) == 1:
+                print(
+                    f"{options[option_num]}: {verbose_options[option_num].title()}"
+                )
+            else:
+                print(
+                    f"{options[option_num]}: {verbose_options[option_num].title()}",
+                    end="   ",
+                )
+
     def display_main_menu(self):
-        print(
-            "Main Menu\n",
-            "Select an option\n",
-            "i: Ingredients r: Recipes p: Prep List q: Quit",
+        os.system("clear")
+        self.print_menu(
+            "main",
+            ["ingredients", "recipes", "prep list", "quit"],
+            ["i", "r", "p", "q"],
         )
         choice = self.get_menu_choice(["i", "r", "p", "q"])
         match choice:
