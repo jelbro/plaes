@@ -19,64 +19,6 @@ inflect_engine = inflect.engine()
 getcontext().prec = 2
 
 
-def load_recipe(file_path):
-    """helper function to load a recipe from .json
-
-    Parameters
-    ----------
-    file_path : str
-        file path of a valid .json file
-
-    Returns
-    -------
-    Recipe
-        a Recipe object from the imported .json
-
-    Raises
-    ------
-    FileNotFoundError
-        if file path does not return a valid .json file
-    """
-    if not file_path.lower().endswith(".json"):
-        raise FileNotFoundError("file_path must be a valid .json file path")
-    with open(file_path, mode="r") as file:
-        recipe = json.loads(file.read())
-    return Recipe(
-        name=recipe["name"],
-        ingredients=load_ingredients(recipe),
-        quantity=recipe["quantity"],
-        desired_quantity=recipe["desired_quantity"],
-        unit=recipe["unit"],
-    )
-
-
-def load_ingredients(recipe, ingredient_list_obj=[]):
-    """a helper function that creates Ingredient objects from imported .json
-
-    Parameters
-    ----------
-    recipe : Recipe
-        Recipe object imported from .json file
-
-    Returns
-    -------
-    List of Ingredients
-        returns a list of Ingredient objects with its values taken from the .json
-    """
-    ingredient_list = []
-
-    for ingredient in recipe["ingredients"]:
-        ingredient_in_list = False
-        for ing in ingredient_list_obj.ingredient_list:
-            if ingredient["name"] == ing.name:
-                ingredient_list.append(ing)
-                ingredient_in_list == True
-                break
-            else:
-                pass
-    return ingredient_list
-
-
 class Recipe:
     """
     A class used to represent a Recipe
