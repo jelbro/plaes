@@ -12,7 +12,8 @@ class Menu:
         self.ingredient_list = ingredient_list or IngredientList()
         self.recipe_list = recipe_list or RecipeList()
 
-    def print_menu(self, menu_type, verbose_options, options):
+    def print_menu(self, menu_type, verbose_options):
+        options = self.get_options(verbose_options)
         print(f"{menu_type.title()} Menu")
         print(f"Select an option")
         for option_num in range(len(options)):
@@ -27,15 +28,29 @@ class Menu:
                 )
         return self.get_menu_choice(options)
 
+    def get_menu_choice(self, options, clear=True):
+        while True:
+            user_input = input().lower().strip()
+            if user_input in options:
+                if clear:
+                    os.system("clear")
+                return user_input
+            else:
+                print("Invalid Input")
+                pass
+
+    def get_options(self, verbose_options):
+        options = []
+        for option in verbose_options:
+            options.append(option[0])
+        return options
+
     def display_main_menu(self):
-        os.system("clear")
-        choice = self.print_menu(
-            "main",
-            ["ingredients", "recipes", "prep list", "quit"],
-            ["i", "r", "p", "q"],
+        user_choice = self.print_menu(
+            "main", ["ingredients", "recipes", "prep list", "quit"]
         )
 
-        match choice:
+        match user_choice:
             case "i":
                 self.display_ingredient_menu()
             case "r":
@@ -46,13 +61,17 @@ class Menu:
                 self.dsiplay_quit_menu()
 
     def display_ingredient_menu(self):
-        print(
-            "Ingredient Menu\n",
-            "Select an option\n",
-            "v: View Ingredients a: Add Ingredient d: Delete Ingredient b: Back",
+        user_choice = self.print_menu(
+            "ingredient",
+            [
+                "view ingredients",
+                "add ingredients",
+                "delete ingredients",
+                "back",
+            ],
         )
-        choice = self.get_menu_choice(["v", "a", "d", "b"])
-        match choice:
+
+        match user_choice:
             case "v":
                 self.ingredient_list.display_list()
                 input("Press enter to continue...")
@@ -243,14 +262,3 @@ class Menu:
                 sys.exit()
             case "b":
                 self.display_main_menu()
-
-    def get_menu_choice(self, options, clear=True):
-        while True:
-            user_input = input().lower().strip()
-            if user_input in options:
-                if clear:
-                    os.system("clear")
-                return user_input
-            else:
-                print("Invalid Input")
-                pass
