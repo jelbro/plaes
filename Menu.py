@@ -141,23 +141,22 @@ class Menu:
             case "v":
                 self.view_recipes()
             case "a":
-                if not self.recipe_list:
-                    self.recipe_list = RecipeList()
-                    self.recipe_list.add_new_recipe(self.ingredient_list)
-                else:
-                    self.recipe_list.add_new_recipe(self.ingredient_list)
-                self.display_recipe_menu()
+                self.recipe_list.add_new_recipe(self.ingredient_list)
             case "d":
                 ...
                 # RecipesList.delete_from_list()
             case "b":
                 self.display_main_menu()
+        self.display_recipe_menu()
 
     def view_recipes(self):
         self.recipe_list.display_list()
-        print("Select an option\n", "v: View Recipe b: Back")
-        choice = self.get_menu_choice(["v", "b"], clear=False)
-        match choice:
+        user_choice = self.print_menu(
+            "recipe view", ["view recipe", "back"], clear=False
+        )
+        self.recipe_list.display_list()
+
+        match user_choice:
             case "v":
                 self.view_recipe()
             case "b":

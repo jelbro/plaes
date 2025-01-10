@@ -83,13 +83,20 @@ class IngredientList:
         self.display_list()
         input("Press enter to continue...")
 
-    def display_list(self):
-        """prints the list enumerating each entry"""
+    def display_list(self, wait=True):
+        """prints the list enumerating each entry
+
+        Parameters
+        ----------
+        wait : bool, optional
+            if True wait for user input before continuing, by default True
+        """
         num = 1
         for ingredient in self.ingredient_list:
             print(f"{num}: {ingredient.name.title()}, unit: {ingredient.unit}")
             num += 1
-        input("Press enter to continue...")
+        if wait:
+            input("Press enter to continue...")
 
 
 class RecipeList:
@@ -181,7 +188,7 @@ class RecipeList:
 
         while True:
             try:
-                ingredient_list_obj.display_list()
+                ingredient_list_obj.display_list(wait=False)
                 new_recipe.add_ingredient(
                     self.get_ingredient(name, ingredient_list_obj, new_recipe)
                 )
