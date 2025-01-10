@@ -30,7 +30,8 @@ class Menu:
         if clear:
             os.system("clear")
         options = self.get_options(verbose_options)
-        print(f"{menu_type.title()} Menu")
+        if menu_type != None:
+            print(f"{menu_type.title()} Menu")
         print(f"Select an option")
         for option_num in range(len(options)):
             if (option_num % 2) == 1:
@@ -152,7 +153,7 @@ class Menu:
     def view_recipes(self):
         self.recipe_list.display_list()
         user_choice = self.print_menu(
-            "recipe view", ["view recipe", "back"], clear=False
+            None, ["view recipe", "back"], clear=False
         )
         self.recipe_list.display_list()
 
@@ -165,9 +166,11 @@ class Menu:
     def view_recipe(self):
         recipe = self.recipe_list.display_recipe()
 
-        print("Select an option\n", "e: Edit Recipe b: Back")
-        choice = self.get_menu_choice(["e", "b"], clear=False)
-        match choice:
+        user_choice = self.print_menu(
+            None, ["edit recipe", "back"], clear=False
+        )
+
+        match user_choice:
             case "e":
                 self.display_edit_recipe(recipe)
             case "b":
