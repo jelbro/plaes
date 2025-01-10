@@ -1,8 +1,13 @@
 from FoodItems import *
+import os
 import json
 import inflect
 
 inflect_engine = inflect.engine()
+
+
+def clear():
+    os.system("clear")
 
 
 class IngredientList:
@@ -74,14 +79,14 @@ class IngredientList:
         """displays the ingredient list then prompts the user for the ingredient
         to remove
         """
-        self.display_list()
+        self.display_list(wait=False)
         name = input("Name of ingredient to remove: ")
         name = name.lower().strip()
         for ingredient in self.ingredient_list:
             if ingredient.name == name:
                 self.ingredient_list.remove(ingredient)
+        clear()
         self.display_list()
-        input("Press enter to continue...")
 
     def display_list(self, wait=True):
         """prints the list enumerating each entry

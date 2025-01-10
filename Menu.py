@@ -4,6 +4,10 @@ from FoodLists import *
 from FileHandling import *
 
 
+def clear():
+    os.system("clear")
+
+
 class Menu:
     """a class that displays various navigational menus"""
 
@@ -29,8 +33,7 @@ class Menu:
         str
             a str representing the user's choice
         """
-        if clear:
-            os.system("clear")
+
         options = self.get_options(verbose_options, ignore_prefix)
         if menu_type != None:
             print(f"{menu_type.title()} Menu")
@@ -67,8 +70,6 @@ class Menu:
         while True:
             user_input = input().lower().strip()
             if user_input in options:
-                if clear:
-                    os.system("clear")
                 return user_input
             else:
                 print("Invalid Input")
@@ -100,6 +101,7 @@ class Menu:
         user_choice = self.print_menu(
             "main", ["ingredients", "recipes", "prep list", "quit"]
         )
+        clear()
 
         match user_choice:
             case "i":
@@ -121,6 +123,7 @@ class Menu:
                 "back",
             ],
         )
+        clear()
 
         match user_choice:
             case "v":
@@ -130,7 +133,9 @@ class Menu:
             case "d":
                 self.ingredient_list.delete_from_list()
             case "b":
+                clear()
                 self.display_main_menu()
+        clear()
         self.display_ingredient_menu()
 
     def display_recipe_menu(self):
@@ -143,6 +148,7 @@ class Menu:
                 "back",
             ],
         )
+        clear()
 
         match user_choice:
             case "v":
@@ -153,7 +159,9 @@ class Menu:
                 ...
                 # RecipesList.delete_from_list()
             case "b":
+                clear()
                 self.display_main_menu()
+        clear()
         self.display_recipe_menu()
 
     def view_recipes(self):
@@ -161,17 +169,20 @@ class Menu:
         user_choice = self.print_menu(
             None, ["view recipe", "back"], clear=False
         )
+        clear()
         self.recipe_list.display_list()
 
         match user_choice:
             case "v":
                 self.view_recipe()
             case "b":
+                clear()
                 self.display_recipe_menu()
 
     def view_recipe(self):
         recipe = self.recipe_list.search_and_display_recipe()
-
+        clear()
+        print(recipe)
         user_choice = self.print_menu(
             None, ["edit recipe", "back"], clear=False
         )
@@ -180,9 +191,11 @@ class Menu:
             case "e":
                 self.display_edit_recipe(recipe)
             case "b":
+                clear()
                 self.view_recipes()
 
     def display_edit_recipe(self, recipe):
+        clear()
         print(recipe)
         user_choice = self.print_menu(
             None,
@@ -199,14 +212,12 @@ class Menu:
         match user_choice:
             case "n":
                 recipe.change_name(input(f"Change {recipe.name} to: "))
-                self.view_recipes()
             case "i":
                 self.display_edit_ingredients_menu(recipe)
             case "d":
                 recipe.edit_desired(
                     int(input(f"Change desired quantity to: "))
                 )
-                self.view_recipes()
             case "u":
                 while True:
                     try:
@@ -214,20 +225,26 @@ class Menu:
                         break
                     except ValueError:
                         pass
-                self.view_recipes()
             case "b":
+                clear()
                 self.view_recipes()
+        clear()
+        self.display_edit_recipe(recipe)
 
     def display_edit_ingredients_menu(self, recipe):
-        recipe.display_ingredients()
-        print(
-            "Select an option\n"
-            "a: Add Ingredient e: Edit Ingredient Quantity "
-            "d: Delete Ingredient"
+        clear()
+        print(recipe.display_ingredients())
+        user_choice = self.print_menu(
+            None,
+            [
+                "add ingredient",
+                "edit ingredient quantity",
+                "delete ingredient",
+                "back",
+            ],
+            clear=False,
         )
-        choice = self.get_menu_choice(["a", "e", "d"], clear=False)
-        recipe.display_ingredients()
-        match choice:
+        match user_choice:
             case "a":
                 ingredient_name = input("Ingredient to add to recipe: ")
                 self.ingredient_list.add_new_ingredient(ingredient_name)
@@ -257,9 +274,12 @@ class Menu:
 
                     else:
                         pass
-                self.view_recipes()
+                self.display_edit_recipe(recipe)
             case "d":
                 ...
+            case "b":
+                clear()
+                self.display_edit_recipe(recipe)
 
     def display_prep_list_menu(self):
         user_choice = self.print_menu(
@@ -282,6 +302,7 @@ class Menu:
                 self.display_main_menu()
 
     def dsiplay_quit_menu(self):
+        clear()
         user_choice = self.print_menu(
             "quit",
             [
@@ -290,6 +311,7 @@ class Menu:
                 "back",
             ],
         )
+        clear()
 
         match user_choice:
             case "q":
@@ -299,7 +321,7 @@ class Menu:
                 if confirmation.lower().strip() == "y":
                     sys.exit()
                 else:
-                    os.system("clear")
+                    clear()
                     self.dsiplay_quit_menu()
             case "s":
                 save_lists(
@@ -308,4 +330,5 @@ class Menu:
                 )
                 sys.exit()
             case "b":
+                clear()
                 self.display_main_menu()
