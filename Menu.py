@@ -12,7 +12,9 @@ class Menu:
         self.ingredient_list = ingredient_list or IngredientList()
         self.recipe_list = recipe_list or RecipeList()
 
-    def print_menu(self, menu_type, verbose_options, clear=True):
+    def print_menu(
+        self, menu_type, verbose_options, clear=True, ignore_prefix=None
+    ):
         """prints a menu and returns the user's selected option
 
         Parameters
@@ -29,7 +31,7 @@ class Menu:
         """
         if clear:
             os.system("clear")
-        options = self.get_options(verbose_options)
+        options = self.get_options(verbose_options, ignore_prefix)
         if menu_type != None:
             print(f"{menu_type.title()} Menu")
         print(f"Select an option")
@@ -72,7 +74,7 @@ class Menu:
                 print("Invalid Input")
                 pass
 
-    def get_options(self, verbose_options):
+    def get_options(self, verbose_options, ignore_prefix=None):
         """returns the first letter of each option given in a list
 
         Parameters
@@ -87,7 +89,11 @@ class Menu:
         """
         options = []
         for option in verbose_options:
-            options.append(option[0])
+            if ignore_prefix != None:
+                option = option.replace(f"{ignore_prefix} ", "")
+                options.append(option[0])
+            else:
+                options.append(option[0])
         return options
 
     def display_main_menu(self):
@@ -164,7 +170,7 @@ class Menu:
                 self.display_recipe_menu()
 
     def view_recipe(self):
-        recipe = self.recipe_list.display_recipe()
+        recipe = self.recipe_list.search_and_display_recipe()
 
         user_choice = self.print_menu(
             None, ["edit recipe", "back"], clear=False
@@ -178,13 +184,19 @@ class Menu:
 
     def display_edit_recipe(self, recipe):
         print(recipe)
-        print(
-            "Select an option\n",
-            "n: Edit Name i: Edit Ingredients d: Edit Desired Quantity ",
-            "u: Edit Unit b: Back",
+        user_choice = self.print_menu(
+            None,
+            [
+                "edit name",
+                "edit ingredients",
+                "edit desired quantity",
+                "edit unit",
+                "back",
+            ],
+            clear=False,
+            ignore_prefix="edit",
         )
-        choice = self.get_menu_choice(["n", "i", "d", "u", "b"], clear=False)
-        match choice:
+        match user_choice:
             case "n":
                 recipe.change_name(input(f"Change {recipe.name} to: "))
                 self.view_recipes()

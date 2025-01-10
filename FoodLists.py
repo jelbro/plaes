@@ -167,7 +167,7 @@ class RecipeList:
             print(f"{num}: {recipe.name}, unit: {recipe.unit}")
             num += 1
 
-    def display_recipe(self):
+    def search_and_display_recipe(self):
         while True:
             try:
                 recipe = self.find_recipe(
