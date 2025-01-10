@@ -167,6 +167,25 @@ class RecipeList:
             print(f"{num}: {recipe.name}, unit: {recipe.unit}")
             num += 1
 
+    def display_recipe(self):
+        while True:
+            try:
+                recipe = self.find_recipe(
+                    input("Select a recipe to view it: ")
+                )
+                print(recipe)
+                return recipe
+            except ValueError:
+                print("Invalid recpie name")
+
+    def find_recipe(self, recipe_to_find):
+        for recipe in self.recipe_list:
+            if recipe_to_find.lower() == recipe.name.lower():
+                return recipe
+            else:
+                pass
+        raise ValueError
+
     def add_new_recipe(self, ingredient_list_obj):
         """prompts the user for a name, unit, desired quantity constructs a new
         recipe from this and then asks the user for the ingredients in this

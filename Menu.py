@@ -163,29 +163,15 @@ class Menu:
                 self.display_recipe_menu()
 
     def view_recipe(self):
-        recipe_name = input("Select a recipe to view it: ")
-        recipe_found = False
-        for recipe in self.recipe_list.recipe_list:
-            if recipe_name.lower() == recipe.name.lower():
-                print(recipe)
-                recipe_found = True
-            else:
-                pass
-        if not recipe_found:
-            print("Invalid recipe name")
-            self.view_recipes()
-        else:
-            print("Select an option\n", "e: Edit Recipe b: Back")
-            choice = self.get_menu_choice(["e", "b"], clear=False)
-            match choice:
-                case "e":
-                    for recipe in self.recipe_list.recipe_list:
-                        if recipe_name.lower() == recipe.name.lower():
-                            self.display_edit_recipe(recipe)
-                        else:
-                            pass
-                case "b":
-                    self.view_recipes()
+        recipe = self.recipe_list.display_recipe()
+
+        print("Select an option\n", "e: Edit Recipe b: Back")
+        choice = self.get_menu_choice(["e", "b"], clear=False)
+        match choice:
+            case "e":
+                self.display_edit_recipe(recipe)
+            case "b":
+                self.view_recipes()
 
     def display_edit_recipe(self, recipe):
         print(recipe)
