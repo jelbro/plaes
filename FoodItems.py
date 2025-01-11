@@ -293,6 +293,47 @@ class Recipe:
         if self.ingredient_is_valid(ingredient):
             self.ingredients.append(ingredient)
 
+    def edit_ingredient_used_in_quantity(self, ingredient_list, recipe_list):
+        while True:
+            try:
+                ingredient = self.search_for_ingredient(
+                    "Ingredient to edit quantity: "
+                )
+                self.change_used_in_quantity(
+                    ingredient,
+                    recipe_list.get_ingredient_quantity(
+                        ingredient, ingredient.name, self.name
+                    ),
+                )
+                break
+            except ValueError:
+                pass
+
+    def search_for_ingredient(self, prompt, error=None):
+        while True:
+            ingredient = input(prompt)
+            try:
+                ingredient = self.find_ingredient(ingredient)
+                return ingredient
+            except ValueError:
+                if error == "add":
+                    if self.create_new_ingredient():
+                        self.add_new_ingredient(
+                            name=ingredient,
+                        )
+                    return self.find_ingredient(ingredient)
+                else:
+                    print("Ingredient not in recipe")
+                    pass
+
+    def find_ingredient(self, ingredient_to_find):
+        for ingredient in self.ingredients:
+            if ingredient_to_find.lower() == ingredient.name.lower():
+                return ingredient
+            else:
+                pass
+        raise ValueError
+
     def add_ingredient_to_existing_recipe(self, ingredient_list, recipe_list):
         while True:
             try:

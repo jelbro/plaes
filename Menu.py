@@ -254,6 +254,10 @@ class Menu:
                 )
                 self.display_edit_recipe(recipe)
             case "e":
+                recipe.edit_ingredient_used_in_quantity(
+                    self.ingredient_list, self.recipe_list
+                )
+                """
                 ingredient_name = input("Ingredient to edit: ")
                 for ingredient in self.ingredient_list.ingredient_list:
                     if ingredient_name == ingredient.name:
@@ -266,6 +270,7 @@ class Menu:
 
                     else:
                         pass
+                    """
                 self.display_edit_recipe(recipe)
             case "d":
                 ...
