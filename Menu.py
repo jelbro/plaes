@@ -183,7 +183,6 @@ class Menu:
         recipe = self.recipe_list.search_for_recipe(
             "Select a recipe to view it: "
         )
-        print(recipe)
         clear()
         print(recipe)
         user_choice = self.print_menu(
