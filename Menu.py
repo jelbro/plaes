@@ -252,31 +252,16 @@ class Menu:
                 recipe.add_ingredient_to_existing_recipe(
                     self.ingredient_list, self.recipe_list
                 )
-                self.display_edit_recipe(recipe)
             case "e":
                 recipe.edit_ingredient_used_in_quantity(
                     self.ingredient_list, self.recipe_list
                 )
-                """
-                ingredient_name = input("Ingredient to edit: ")
-                for ingredient in self.ingredient_list.ingredient_list:
-                    if ingredient_name == ingredient.name:
-                        recipe.change_used_in_quantity(
-                            ingredient,
-                            self.recipe_list.get_ingredient_quantity(
-                                ingredient, ingredient_name, recipe.name
-                            ),
-                        )
-
-                    else:
-                        pass
-                    """
-                self.display_edit_recipe(recipe)
             case "d":
                 ...
             case "b":
                 clear()
-                self.display_edit_recipe(recipe)
+        clear()
+        self.display_edit_recipe(recipe)
 
     def display_prep_list_menu(self):
         user_choice = self.print_menu(
