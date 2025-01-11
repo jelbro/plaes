@@ -64,6 +64,22 @@ class IngredientList:
         """
         return self.to_json()
 
+    def search_for_ingredient(self, prompt):
+        while True:
+            try:
+                ingredient = self.find_recipe(input(prompt))
+                return ingredient
+            except ValueError:
+                print("Invalid ingredient name")
+
+    def find_ingredient(self, ingredient_to_find):
+        for ingredient in self.ingredient_list:
+            if ingredient_to_find.lower() == ingredient.name.lower():
+                return ingredient
+            else:
+                pass
+        raise ValueError
+
     def add_new_ingredient(self, name=None, unit=None):
         """prompts the user for a name and unit, creates a new Ingredient with
         those values and appends it to the ingredient list
