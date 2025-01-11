@@ -240,6 +240,8 @@ class RecipeList:
             print(f"{num}: {recipe.name}, unit: {recipe.unit}")
             num += 1
 
+    def delete_from_list(): ...
+
     def search_for_recipe(self, prompt):
         while True:
             try:

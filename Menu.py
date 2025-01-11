@@ -156,8 +156,8 @@ class Menu:
             case "a":
                 self.recipe_list.add_new_recipe(self.ingredient_list)
             case "d":
-                ...
-                # RecipesList.delete_from_list()
+                # TODO
+                self.recipes_list.delete_from_list()
             case "b":
                 clear()
                 self.display_main_menu()
@@ -264,6 +264,7 @@ class Menu:
         self.display_edit_recipe(recipe)
 
     def display_prep_list_menu(self):
+        # TODO
         user_choice = self.print_menu(
             "preperation list",
             [
