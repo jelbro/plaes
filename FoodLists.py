@@ -188,12 +188,10 @@ class RecipeList:
             print(f"{num}: {recipe.name}, unit: {recipe.unit}")
             num += 1
 
-    def search_for_recipe(self):
+    def search_for_recipe(self, prompt):
         while True:
             try:
-                recipe = self.find_recipe(
-                    input("Select a recipe to view it: ")
-                )
+                recipe = self.find_recipe(input(prompt))
                 return recipe
             except ValueError:
                 print("Invalid recpie name")

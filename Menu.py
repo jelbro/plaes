@@ -180,7 +180,9 @@ class Menu:
                 self.display_recipe_menu()
 
     def view_recipe(self):
-        recipe = self.recipe_list.search_for_recipe()
+        recipe = self.recipe_list.search_for_recipe(
+            "Select a recipe to view it: "
+        )
         print(recipe)
         clear()
         print(recipe)
