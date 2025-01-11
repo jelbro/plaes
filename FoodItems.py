@@ -8,6 +8,7 @@ Ingredient
     a class to represent an Ingredient
 """
 
+from FoodLists import *
 import inflect
 from decimal import *
 import json
@@ -291,6 +292,26 @@ class Recipe:
                 )
         if self.ingredient_is_valid(ingredient):
             self.ingredients.append(ingredient)
+
+    def add_ingredient_to_existing_recipe(self, ingredient_list, recipe_list):
+        while True:
+            try:
+                ingredient = ingredient_list.search_for_ingredient(
+                    "Ingredient to add to recipe: ", "add"
+                )
+                ingredient.add_ingredient_to_recipe(
+                    self,
+                    recipe_list.get_ingredient_quantity(
+                        ingredient=ingredient,
+                        ingredient_name=ingredient.name,
+                        recipe_name=self.name,
+                    ),
+                )
+                self.add_ingredient(ingredient)
+                break
+            except ValueError:
+                print("Recipe cannot contain duplicate ingredients")
+                pass
 
     def delete_ingredient(self, ingredient_name):
         """delete an ingredient from this Recipes ingredient list
