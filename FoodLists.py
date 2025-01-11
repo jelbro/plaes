@@ -113,18 +113,48 @@ class IngredientList:
         ingredient = Ingredient(name=name, quantity=0, unit=unit)
         self.ingredient_list.append(ingredient)
 
-    def delete_from_list(self):
+    def delete_from_list(self, recipe_list):
         """displays the ingredient list then prompts the user for the ingredient
         to remove
         """
         self.display_list(wait=False)
         name = input("Name of ingredient to remove: ")
-        name = name.lower().strip()
-        for ingredient in self.ingredient_list:
-            if ingredient.name == name:
-                self.ingredient_list.remove(ingredient)
-        clear()
-        self.display_list()
+        if self.confirm_deletion(name, recipe_list):
+            name = name.lower().strip()
+            for ingredient in self.ingredient_list:
+                if ingredient.name == name:
+                    self.ingredient_list.remove(ingredient)
+            for recipe in recipe_list.recipe_list:
+                for ingredient_in_recipe in recipe.ingredients:
+                    if ingredient_in_recipe.name == name:
+                        recipe.ingredients.remove(ingredient_in_recipe)
+            clear()
+            self.display_list()
+        else:
+            pass
+
+    def confirm_deletion(self, name, recipe_list):
+        recipes_used_in = []
+        for recipe in recipe_list.recipe_list:
+            for ingredient in recipe.ingredients:
+                if name == ingredient.name:
+                    recipes_used_in.append(recipe.name.title())
+                else:
+                    pass
+        recipes_text = ""
+        for recipe_name in recipes_used_in:
+            if recipe_name == recipes_used_in[0]:
+                recipes_text += recipe_name
+            else:
+                recipes_text += f", {recipe_name}"
+
+        user_choice = input(
+            f"Are you sure you want to delete {name}? "
+            f"This ingredient is used in {recipes_text}."
+            " This cannot be undone y/n?"
+        )
+
+        return user_choice.lower().strip() == "y"
 
     def display_list(self, wait=True):
         """prints the list enumerating each entry
