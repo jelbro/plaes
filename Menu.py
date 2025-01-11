@@ -249,20 +249,18 @@ class Menu:
         )
         match user_choice:
             case "a":
-                ingredient_name = input("Ingredient to add to recipe: ")
-                self.ingredient_list.add_new_ingredient(ingredient_name)
-                for ingredient in self.ingredient_list.ingredient_list:
-                    if ingredient_name == ingredient.name:
-                        ingredient.add_ingredient_to_recipe(
-                            recipe,
-                            self.recipe_list.get_ingredient_quantity(
-                                ingredient, ingredient_name, recipe.name
-                            ),
-                        )
-                        recipe.add_ingredient(ingredient)
-                    else:
-                        pass
-
+                ingredient = self.ingredient_list.search_for_ingredient(
+                    "Ingredient to add to recipe: ", "add"
+                )
+                ingredient.add_ingredient_to_recipe(
+                    recipe,
+                    self.recipe_list.get_ingredient_quantity(
+                        ingredient=ingredient,
+                        ingredient_name=ingredient.name,
+                        recipe_name=recipe.name,
+                    ),
+                )
+                recipe.add_ingredient(ingredient)
                 self.display_edit_recipe(recipe)
             case "e":
                 ingredient_name = input("Ingredient to edit: ")
