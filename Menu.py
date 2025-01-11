@@ -209,6 +209,7 @@ class Menu:
             clear=False,
             ignore_prefix="edit",
         )
+        clear()
         match user_choice:
             case "n":
                 recipe.change_name(input(f"Change {recipe.name} to: "))
@@ -319,6 +320,7 @@ class Menu:
                     "Are you sure you want to quit without saving y/n? "
                 )
                 if confirmation.lower().strip() == "y":
+                    clear()
                     sys.exit()
                 else:
                     clear()
