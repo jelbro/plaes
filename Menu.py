@@ -156,8 +156,7 @@ class Menu:
             case "a":
                 self.recipe_list.add_new_recipe(self.ingredient_list)
             case "d":
-                # TODO
-                self.recipes_list.delete_from_list()
+                self.recipe_list.delete_from_list()
             case "b":
                 clear()
                 self.display_main_menu()

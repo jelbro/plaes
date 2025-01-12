@@ -233,14 +233,32 @@ class RecipeList:
         """
         return self.to_json()
 
-    def display_list(self):
+    def display_list(self, wait=False):
         """prints this RecipeList"""
         num = 1
         for recipe in self.recipe_list:
             print(f"{num}: {recipe.name}, unit: {recipe.unit}")
             num += 1
+            if wait:
+                input("Press enter to continue...")
 
-    def delete_from_list(): ...
+    def delete_from_list(self):
+        self.display_list(wait=False)
+        recipe = self.search_for_recipe("Name of recipe to remove: ")
+        if self.confirm_deletion(recipe.name):
+            self.recipe_list.remove(recipe)
+            clear()
+            self.display_list()
+        else:
+            pass
+
+    def confirm_deletion(self, name):
+        user_choice = input(
+            f"Are you sure you want to delete {name}? "
+            " This cannot be undone y/n?"
+        )
+
+        return user_choice.lower().strip() == "y"
 
     def search_for_recipe(self, prompt):
         while True:
