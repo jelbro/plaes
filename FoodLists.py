@@ -118,16 +118,14 @@ class IngredientList:
         to remove
         """
         self.display_list(wait=False)
-        name = input("Name of ingredient to remove: ")
-        if self.confirm_deletion(name, recipe_list):
-            name = name.lower().strip()
-            for ingredient in self.ingredient_list:
-                if ingredient.name == name:
-                    self.ingredient_list.remove(ingredient)
+        ingredient = self.search_for_ingredient(
+            "Name of ingredient to remove: "
+        )
+        if self.confirm_deletion(ingredient.name, recipe_list):
+            self.ingredient_list.remove(ingredient)
             for recipe in recipe_list.recipe_list:
-                for ingredient_in_recipe in recipe.ingredients:
-                    if ingredient_in_recipe.name == name:
-                        recipe.ingredients.remove(ingredient_in_recipe)
+                if ingredient in recipe.ingredients:
+                    recipe.ingredients.remove(ingredient)
             clear()
             self.display_list()
         else:
@@ -147,11 +145,13 @@ class IngredientList:
                 recipes_text += recipe_name
             else:
                 recipes_text += f", {recipe_name}"
+        if recipes_text == "":
+            recipes_text += "no recipes"
 
         user_choice = input(
             f"Are you sure you want to delete {name}? "
             f"This ingredient is used in {recipes_text}."
-            " This cannot be undone y/n?"
+            " This cannot be undone y/n? "
         )
 
         return user_choice.lower().strip() == "y"
