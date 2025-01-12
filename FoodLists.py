@@ -247,6 +247,8 @@ class RecipeList:
         recipe = self.search_for_recipe("Name of recipe to remove: ")
         if self.confirm_deletion(recipe.name):
             self.recipe_list.remove(recipe)
+            for ingredient in recipe.ingredients:
+                ingredient.used_in.pop(recipe.name)
             clear()
             self.display_list()
         else:
@@ -255,7 +257,7 @@ class RecipeList:
     def confirm_deletion(self, name):
         user_choice = input(
             f"Are you sure you want to delete {name}? "
-            " This cannot be undone y/n?"
+            "This cannot be undone y/n? "
         )
 
         return user_choice.lower().strip() == "y"
