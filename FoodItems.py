@@ -525,6 +525,10 @@ class Recipe:
             self.quantity += amount
             self.needed = self.requires_making()
 
+    def change_quantity(self, amount):
+        self.quantity = amount
+        self.needed = self.requires_making()
+
     def edit_desired(self, new_desired):
         """Override this Recipes desired_quantity
 

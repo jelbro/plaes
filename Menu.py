@@ -264,24 +264,27 @@ class Menu:
 
     def display_prep_list_menu(self):
         # TODO
+        clear()
         user_choice = self.print_menu(
             "preperation list",
             [
-                "take stock",
-                "create prep list",
+                "make prep list",
+                "view exisiting prep list",
                 "back",
             ],
         )
+        clear()
 
         match user_choice:
-            case "t":
-                ...
-                # PreperationList.take_stock()
-            case "c":
-                ...
-                # PreperationList.create_prep_list()
+            case "m":
+                self.recipe_list.take_stock()
+                self.recipe_list.create_prep_list()
+                self.recipe_list.display_prep_list()
+            case "v":
+                self.recipe_list.display_prep_list()
             case "b":
                 self.display_main_menu()
+        self.display_prep_list_menu()
 
     def dsiplay_quit_menu(self):
         clear()

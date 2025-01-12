@@ -213,6 +213,8 @@ class RecipeList:
         for recipe in recipe_list:
             self.recipe_list.append(recipe)
 
+        self.prep_list = []
+
     def to_json(self):
         return json.dumps(
             self, default=lambda o: o.__dict__, sort_keys=False, indent=4
@@ -439,3 +441,32 @@ class RecipeList:
             "Ingredient not in list would you like to create it? y/n "
         )
         return response.lower().strip() == "y"
+
+    def take_stock(self):
+        for recipe in self.recipe_list:
+            recipe.change_quantity(
+                int(
+                    input(
+                        f"How many {inflect_engine.plural(recipe.unit)} "
+                        f"of {recipe.name} are in stock? "
+                    )
+                )
+            )
+        input("Stock taking complete, press enter to continue...")
+
+    def create_prep_list(self):
+        self.prep_list.clear()
+        for recipe in self.recipe_list:
+            if recipe.needed:
+                self.prep_list.append(recipe)
+            else:
+                pass
+
+    def display_prep_list(self):
+        for recipe in self.prep_list:
+            print(
+                f"Make {recipe.name} as you have {recipe.quantity} "
+                f"out of {recipe.desired_quantity} "
+                f"{inflect_engine.plural(recipe.unit)} in stock"
+            )
+        input("Press enter to continue...")
