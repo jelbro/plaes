@@ -452,7 +452,6 @@ class RecipeList:
                     )
                 )
             )
-        input("Stock taking complete, press enter to continue...")
 
     def create_prep_list(self):
         self.prep_list.clear()
