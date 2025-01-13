@@ -583,9 +583,10 @@ class Recipe:
                 amount_of_batches += 1
                 quantity += self.batch_size
         return amount_of_batches
-    
+
     def priority(self):
-        #TODO
+        # TODO
+        ...
 
     def requires_making(self):
         """calculate if this recipe is needing to be made."""
