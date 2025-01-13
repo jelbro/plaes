@@ -104,7 +104,7 @@ class Recipe:
         if batch_size < 0:
             raise ValueError("Recipe must have a positive batch size")
         else:
-            self.batch_size = batch_size
+            self.batch_size = int(batch_size)
 
         self.unit = unit
         self.needed = self.requires_making()
@@ -567,6 +567,14 @@ class Recipe:
             raise ValueError(
                 f"{new_unit}: Ingredient unit is not alphanumeric or none"
             )
+
+    def amount_to_make(self):
+        amount = 1
+        for amount in self.desired_quantity:
+            if self.quantity + self.batch_size == self.desired_quantity:
+                return amount
+            else:
+                pass
 
     def requires_making(self):
         """calculate if this recipe is needing to be made."""
