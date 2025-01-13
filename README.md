@@ -41,7 +41,7 @@
   - [x] save_recipe 
   - [x] load_recipe
   - [x] ingredients should store their own quantity in relation to each recipe
-  - [ ] recipe batch size
+  - [x] recipe batch size
   - [ ] calculate priority based on differnce of quantity, desired quantity and general priority 
 - [x] Ingredients
   - [x] init
