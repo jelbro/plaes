@@ -466,12 +466,23 @@ class RecipeList:
         current_date = datetime.date.today()
         one_day = datetime.timedelta(days=1)
         prep_list_date = current_date + one_day
+        prep_list_date = prep_list_date.strftime("%A %d %B")
 
         print(f"Prep list for {prep_list_date}")
+        self.draw_underline(len(prep_list_date), 14)
+
         for recipe in self.prep_list:
             print(
                 f"Make {recipe.name} as you have {recipe.quantity} "
                 f"out of {recipe.desired_quantity} "
                 f"{inflect_engine.plural(recipe.unit)} in stock"
             )
+        self.draw_underline(len(prep_list_date), 14)
         input("Press enter to continue...")
+
+    def draw_underline(self, date_length, string_length):
+        total_length = date_length + string_length
+
+        for i in range(total_length):
+            print("-", end="")
+        print()
