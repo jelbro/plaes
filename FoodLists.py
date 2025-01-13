@@ -2,6 +2,7 @@ from FoodItems import *
 import os
 import json
 import inflect
+import datetime
 
 inflect_engine = inflect.engine()
 
@@ -462,6 +463,11 @@ class RecipeList:
                 pass
 
     def display_prep_list(self):
+        current_date = datetime.date.today()
+        one_day = datetime.timedelta(days=1)
+        prep_list_date = current_date + one_day
+
+        print(f"Prep list for {prep_list_date}")
         for recipe in self.prep_list:
             print(
                 f"Make {recipe.name} as you have {recipe.quantity} "
