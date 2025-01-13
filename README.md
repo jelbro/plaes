@@ -43,6 +43,7 @@
   - [x] ingredients should store their own quantity in relation to each recipe
   - [x] recipe batch size
   - [ ] calculate priority based on differnce of quantity, desired quantity and general priority 
+  - [ ] recipes as ingredients in recipes
 - [x] Ingredients
   - [x] init
   - [x] str
