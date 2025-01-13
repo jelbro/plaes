@@ -66,6 +66,7 @@ class Recipe:
         quantity=0,
         desired_quantity=0,
         unit=None,
+        batch_size=0,
     ):
         """
         Parameters
@@ -99,6 +100,11 @@ class Recipe:
             raise ValueError("Recipe must have a positive desired quantity")
         else:
             self.desired_quantity = desired_quantity
+
+        if batch_size < 0:
+            raise ValueError("Recipe must have a positive batch size")
+        else:
+            self.batch_size = batch_size
 
         self.unit = unit
         self.needed = self.requires_making()
