@@ -61,6 +61,7 @@ def load_lists(file_path):
                                 quantity=recipe["quantity"],
                                 desired_quantity=recipe["desired_quantity"],
                                 unit=recipe["unit"],
+                                batch_size=recipe["batch_size"],
                             )
                         )
         return ingredient_list_obj, RecipeList(recipe_list=recipe_list)
@@ -119,6 +120,7 @@ def load_recipe(file_path):
         quantity=recipe["quantity"],
         desired_quantity=recipe["desired_quantity"],
         unit=recipe["unit"],
+        batch_size=recipe["batch_size"],
     )
 
 
