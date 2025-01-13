@@ -57,7 +57,7 @@
 - [ ] Make prep list
   - [x] Take stock
   - [x] Create prep list
-  - [ ] Give prep list current date
+  - [x] Give prep list current date
   - [ ] Create ingredient list
   - [ ] Sort in order of priority to make
   - [ ] Batch size to create
