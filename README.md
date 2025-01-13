@@ -40,26 +40,28 @@
   - [x] display_ingredients
   - [x] save_recipe 
   - [x] load_recipe
-  - [x] ingredients should store their own quantity in relation to each recipe 
-
+  - [x] ingredients should store their own quantity in relation to each recipe
+  - [ ] recipe batch size
+  - [ ] calculate priority based on differnce of quantity, desired quantity and general priority 
 - [x] Ingredients
   - [x] init
   - [x] str
   - [x] repr
   - [x] add
   - [x] remove
-- [ ] List settings
+- [x] List settings
   - [x] Save recipe list
   - [x] Save ingredient list
   - [x] Load recipe list
   - [x] Load ingredient list
-  - [ ] Import recipe list
-  - [ ] Export recipe list
-  - [ ] Delete recipe list
 - [ ] Make prep list
-  - [ ] Take stock
-  - [ ] Create prep list
+  - [x] Take stock
+  - [x] Create prep list
+  - [ ] Give prep list current date
   - [ ] Create ingredient list
+  - [ ] Sort in order of priority to make
+  - [ ] Batch size to create
+  - [ ] Create order list
 - [ ] Create UI
   - [ ] Design UI
   - [ ] Implement UI
