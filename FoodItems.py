@@ -571,8 +571,8 @@ class Recipe:
     def amount_to_make(self):
         quantity = self.quantity
         amount_of_batches = 0
-        while quantity < int(self.desired_quantity):
-            if quantity + int(self.batch_size) >= int(self.desired_quantity):
+        while quantity < self.desired_quantity:
+            if quantity + self.batch_size >= self.desired_quantity:
                 if quantity == 0:
                     amount_of_batches += 1
                     return amount_of_batches
