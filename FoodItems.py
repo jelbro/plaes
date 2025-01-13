@@ -569,12 +569,20 @@ class Recipe:
             )
 
     def amount_to_make(self):
-        amount = 1
-        for amount in self.desired_quantity:
-            if self.quantity + self.batch_size == self.desired_quantity:
-                return amount
+        quantity = self.quantity
+        amount_of_batches = 0
+        while quantity < int(self.desired_quantity):
+            if quantity + int(self.batch_size) >= int(self.desired_quantity):
+                if quantity == 0:
+                    amount_of_batches += 1
+                    return amount_of_batches
+                else:
+                    amount_of_batches += 1
+                    return amount_of_batches
             else:
-                pass
+                amount_of_batches += 1
+                quantity += self.batch_size
+        return amount_of_batches
 
     def requires_making(self):
         """calculate if this recipe is needing to be made."""

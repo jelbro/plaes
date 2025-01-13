@@ -481,11 +481,7 @@ class RecipeList:
         self.draw_underline(len(prep_list_date), 14)
 
         for recipe in self.prep_list:
-            print(
-                f"Make {recipe.name} as you have {recipe.quantity} "
-                f"out of {recipe.desired_quantity} "
-                f"{inflect_engine.plural(recipe.unit)} in stock"
-            )
+            print(f"Make {recipe.amount_to_make()}x {recipe.name}")
         self.draw_underline(len(prep_list_date), 14)
         input("Press enter to continue...")
 
