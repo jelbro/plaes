@@ -296,8 +296,17 @@ class RecipeList:
         desired_quantity = int(
             input(f"Desired quantity of " f"{inflect_engine.plural(unit)}: ")
         )
+        batch_size = int(
+            input(
+                f"How many {inflect_engine.plural(unit)} of {name} "
+                "does one batch make: "
+            )
+        )
         new_recipe = Recipe(
-            name=name, unit=unit, desired_quantity=desired_quantity
+            name=name,
+            unit=unit,
+            desired_quantity=desired_quantity,
+            batch_size=batch_size,
         )
 
         while True:
