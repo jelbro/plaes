@@ -106,6 +106,7 @@ class Recipe:
         else:
             self.batch_size = int(batch_size)
 
+        self.get_priority()
         self.unit = unit
         self.needed = self.requires_making()
 
@@ -584,9 +585,14 @@ class Recipe:
                 quantity += self.batch_size
         return amount_of_batches
 
-    def priority(self):
-        # TODO
-        ...
+    def get_priority(self):
+        # the larger the difference of the desired quantity and the quantity
+        # the higher the priority to make
+        difference = self.desired_quantity - self.quantity
+        if self.quantity == 0:
+            self.priority = 10000000000000000
+        else:
+            self.priority = difference
 
     def requires_making(self):
         """calculate if this recipe is needing to be made."""

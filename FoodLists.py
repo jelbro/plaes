@@ -462,6 +462,7 @@ class RecipeList:
                     )
                 )
             )
+            recipe.get_priority()
 
     def create_prep_list(self):
         self.prep_list.clear()
@@ -470,6 +471,12 @@ class RecipeList:
                 self.prep_list.append(recipe)
             else:
                 pass
+        self.sort_by_priority()
+
+    def sort_by_priority(self):
+        self.prep_list = sorted(
+            self.prep_list, key=lambda recipe: recipe.priority
+        )
 
     def display_prep_list(self):
         current_date = datetime.date.today()
