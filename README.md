@@ -60,7 +60,7 @@
   - [x] Create prep list
   - [x] Give prep list current date
   - [ ] Create ingredient list
-  - [ ] Sort in order of priority to make
+  - [x] Sort in order of priority to make
   - [x] Batch size to create
   - [ ] Create order list
 - [ ] Create UI
