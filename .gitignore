@@ -1,4 +1,5 @@
 plaes
 test.json
-__pycache__
+__pycache__/
+.pytest_cache
 plaes_lists.json
