@@ -103,6 +103,10 @@ class IngredientList:
         )
         return response.lower().strip() == "y"
 
+    def clear_ingredient_quantitys(self):
+        for ingredient in self.ingredient_list:
+            ingredient.quantity = 0
+
     def add_new_ingredient(self, name=None, unit=None):
         """prompts the user for a name and unit, creates a new Ingredient with
         those values and appends it to the ingredient list
@@ -215,6 +219,7 @@ class RecipeList:
             self.recipe_list.append(recipe)
 
         self.prep_list = []
+        self.prep_ingredient_list = []
 
     def to_json(self):
         return json.dumps(
@@ -472,6 +477,7 @@ class RecipeList:
             else:
                 pass
         self.sort_by_priority()
+        self.create_prep_ingredient_list()
 
     def sort_by_priority(self):
         self.prep_list = sorted(
@@ -490,7 +496,38 @@ class RecipeList:
         for recipe in self.prep_list:
             print(f"Make {recipe.amount_to_make()}x {recipe.name}")
         self.draw_underline(len(prep_list_date), 14)
+
+        print("Ingredients needed:")
+        for ingredient in self.prep_ingredient_list:
+            if not ingredient.unit:
+                print(
+                    f"- {ingredient.quantity} "
+                    f"{inflect_engine.plural(ingredient.name)}"
+                )
+            else:
+                print(
+                    f"- {ingredient.quantity}"
+                    f"{inflect_engine.plural(ingredient.unit)} {ingredient.name}"
+                )
+        self.draw_underline(len(prep_list_date), 14)
         input("Press enter to continue...")
+
+    def create_prep_ingredient_list(self):
+
+        self.prep_ingredient_list.clear()
+        for recipe in self.prep_list:
+            for ingredient in recipe.ingredients:
+                if ingredient in self.prep_ingredient_list:
+                    ingredient.quantity += (
+                        recipe.amount_to_make()
+                        * ingredient.used_in[recipe.name]
+                    )
+                else:
+                    self.prep_ingredient_list.append(ingredient)
+                    ingredient.quantity += (
+                        recipe.amount_to_make()
+                        * ingredient.used_in[recipe.name]
+                    )
 
     def draw_underline(self, date_length, string_length):
         total_length = date_length + string_length

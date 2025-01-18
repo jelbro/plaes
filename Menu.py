@@ -277,6 +277,7 @@ class Menu:
 
         match user_choice:
             case "m":
+                self.ingredient_list.clear_ingredient_quantitys()
                 self.recipe_list.take_stock()
                 clear()
                 self.recipe_list.create_prep_list()
