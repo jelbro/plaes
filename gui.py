@@ -1,51 +1,63 @@
 from tkinter import *
 from tkinter import ttk
+from FoodLists import *
 
 
-def main_menu(content):
-    clear_window(content)
+class Gui:
 
-    plaes_label = ttk.Label(content, text="Plaes")
-    ingredients_button = ttk.Button(
-        content, text="Ingredients", command=lambda: ingredient_menu(content)
-    )
-    recipes_button = ttk.Button(content, text="Recipes")
-    prep_list_button = ttk.Button(content, text="Prep List")
+    def __init__(self, ingredient_list, recipe_list):
+        self.ingredient_list = ingredient_list or IngredientList()
+        self.recipe_list = recipe_list or RecipeList()
 
-    content.grid(column=0, row=0)
-    plaes_label.grid(sticky=N, column=0, row=0, columnspan=2)
-    ingredients_button.grid(column=0, row=1)
-    recipes_button.grid(column=1, row=1)
-    prep_list_button.grid(column=0, row=3, columnspan=2)
+        self.root = Tk()
+        self.root.title("Plaes")
+        self.content = ttk.Frame(self.root, padding=(3, 3, 12, 12))
+        self.main_menu()
+        self.root.mainloop()
 
-    for child in content.winfo_children():
-        child.grid_configure(padx=10, pady=10)
+    def clear_window(self):
+        for child in self.content.winfo_children():
+            child.destroy()
 
-    root.columnconfigure(0, weight=1)
-    root.rowconfigure(0, weight=1)
+    def pad_window(self):
+        for child in self.content.winfo_children():
+            child.grid_configure(padx=10, pady=10)
 
+    def main_menu(self):
+        self.clear_window()
 
-def ingredient_menu(content):
-    clear_window(content)
+        main_menu_label = ttk.Label(self.content, text="Main Menu")
+        ingredients_button = ttk.Button(
+            self.content,
+            text="Ingredients",
+            command=lambda: self.ingredient_menu(),
+        )
+        recipes_button = ttk.Button(self.content, text="Recipes")
+        prep_list_button = ttk.Button(self.content, text="Prep List")
 
-    ingredient_list = Listbox(content, height=10)
-    ingredient_list.grid(column=0, row=0)
+        self.content.grid(column=0, row=0)
+        main_menu_label.grid(sticky=N, column=0, row=0, columnspan=2)
+        ingredients_button.grid(column=0, row=1)
+        recipes_button.grid(column=1, row=1)
+        prep_list_button.grid(column=0, row=3, columnspan=2)
 
-    back_button = ttk.Button(
-        content,
-        text="Back to Main Menu",
-        command=lambda: main_menu(content),
-    )
-    back_button.grid(column=0, row=1)
+        self.pad_window()
 
+        self.root.columnconfigure(0, weight=1)
+        self.root.rowconfigure(0, weight=1)
 
-def clear_window(content):
-    for child in content.winfo_children():
-        child.destroy()
+    def ingredient_menu(self):
+        self.clear_window()
 
+        ingredients_var = StringVar(value=self.ingredient_list.ingredient_list)
+        ingredient_list = Listbox(
+            self.content, listvariable=ingredients_var, height=10
+        )
+        ingredient_list.grid(column=0, row=0)
 
-root = Tk()
-root.title("Plaes")
-content = ttk.Frame(root, padding=(3, 3, 12, 12))
-main_menu(content)
-root.mainloop()
+        back_button = ttk.Button(
+            self.content,
+            text="Back to Main Menu",
+            command=lambda: self.main_menu(),
+        )
+        back_button.grid(column=0, row=1)

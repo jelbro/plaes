@@ -657,6 +657,9 @@ class Ingredient:
             return False
 
     def __str__(self):
+        return self.name.title()
+
+    def __str__with_plural(self):
         if len(self.unit) == 0:
             if self.is_plural():
                 return f"{self.quantity} {inflect_engine.plural(self.name)}"
