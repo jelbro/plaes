@@ -2,8 +2,10 @@ from tkinter import *
 from tkinter import ttk
 
 
-def main_menu(root):
-    content = ttk.Frame(root, padding=(3, 3, 12, 12))
+def main_menu(root, content):
+    for child in content.winfo_children():
+        child.destroy()
+
     plaes_label = ttk.Label(content, text="Plaes")
     ingredients_button = ttk.Button(
         content, text="Ingredients", command=lambda: ingredient_menu(content)
@@ -33,12 +35,13 @@ def ingredient_menu(content):
     back_button = ttk.Button(
         content,
         text="Back to Main Menu",
-        command=lambda: main_menu(content.master),
+        command=lambda: main_menu(content.master, content),
     )
     back_button.grid(column=0, row=1)
 
 
 root = Tk()
 root.title("Plaes")
-main_menu(root)
+content = ttk.Frame(root, padding=(3, 3, 12, 12))
+main_menu(root, content)
 root.mainloop()
