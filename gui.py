@@ -47,17 +47,32 @@ class Gui:
         self.root.rowconfigure(0, weight=1)
 
     def ingredient_menu(self):
+
         self.clear_window()
 
+        ingredient_menu_label = ttk.Label(self.content, text="Ingredients")
+        ingredient_menu_label.grid(column=0, row=0, columnspan=3)
+
         ingredients_var = StringVar(value=self.ingredient_list.ingredient_list)
-        ingredient_list = Listbox(
+        ingredient_list_box = Listbox(
             self.content, listvariable=ingredients_var, height=10
         )
-        ingredient_list.grid(column=0, row=0)
+        ingredient_list_box.grid(column=0, row=1, columnspan=2, rowspan=2)
+
+        add_ingredient_button = ttk.Button(self.content, text="Add ingredient")
+        add_ingredient_button.grid(column=3, row=1, sticky=N)
+
+        delete_ingredient_button = ttk.Button(
+            self.content,
+            text="Delete ingredient",
+        )
+        delete_ingredient_button.grid(column=3, row=1)
 
         back_button = ttk.Button(
             self.content,
             text="Back to Main Menu",
             command=lambda: self.main_menu(),
         )
-        back_button.grid(column=0, row=1)
+        back_button.grid(column=0, row=3, sticky=(S, W))
+
+        self.pad_window()
