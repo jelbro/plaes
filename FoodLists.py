@@ -3,6 +3,7 @@ import os
 import json
 import inflect
 import datetime
+from tkinter import ttk
 
 inflect_engine = inflect.engine()
 
@@ -107,16 +108,33 @@ class IngredientList:
         for ingredient in self.ingredient_list:
             ingredient.quantity = 0
 
-    def add_new_ingredient(self, name=None, unit=None):
+    def add_new_ingredient(self, gui, name=None, unit=None):
         """prompts the user for a name and unit, creates a new Ingredient with
         those values and appends it to the ingredient list
         """
+        no_name_error = ttk.Label(gui.content, text="No Name given.")
+        duplicate_ingredient_error = ttk.Label(
+            gui.content, text="Duplicate ingredient name given."
+        )
+        valid_name = True
         if not name:
-            name = input("Ingredient name: ")
-        if not unit:
-            unit = input("Ingredient unit: ")
-        ingredient = Ingredient(name=name, quantity=0, unit=unit)
-        self.ingredient_list.append(ingredient)
+            duplicate_ingredient_error.destroy()
+            no_name_error.grid(column=0, row=4, columnspan=2)
+            valid_name = False
+        for ingredient in self.ingredient_list:
+            if name == ingredient.name:
+                no_name_error.destroy()
+                duplicate_ingredient_error.grid(column=0, row=4, columnspan=2)
+                valid_name = False
+            else:
+                pass
+
+        if valid_name:
+            ingredient = Ingredient(name=name, quantity=0, unit=unit)
+            self.ingredient_list.append(ingredient)
+            gui.ingredient_menu()
+        else:
+            pass
 
     def delete_from_list(self, recipe_list):
         """displays the ingredient list then prompts the user for the ingredient
@@ -135,6 +153,13 @@ class IngredientList:
             self.display_list()
         else:
             pass
+
+    def delete_ingredient_from_list(self, gui):
+        index = gui.ingredient_list_box.curselection()[0]
+        ingredient_to_remove = self.ingredient_list[index]
+
+        self.ingredient_list.remove(ingredient_to_remove)
+        gui.ingredients_var.set(self.ingredient_list)
 
     def confirm_deletion(self, name, recipe_list):
         recipes_used_in = []
