@@ -117,6 +117,8 @@ class Recipe:
             return False
 
     def __str__(self):
+        return self.name.title()
+        """
         if self.is_plural():
             return (
                 f"{self.quantity} {inflect_engine.plural(self.unit)} of "
@@ -135,6 +137,7 @@ class Recipe:
                 f"{self.quantity} {self.unit} out of "
                 f"{self.desired_quantity} {self.unit} in stock"
             )
+        """
 
     def __repr__(self):
         return (

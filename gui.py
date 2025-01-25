@@ -29,9 +29,11 @@ class Gui:
         ingredients_button = ttk.Button(
             self.content,
             text="Ingredients",
-            command=lambda: self.ingredient_menu(),
+            command=self.ingredient_menu,
         )
-        recipes_button = ttk.Button(self.content, text="Recipes")
+        recipes_button = ttk.Button(
+            self.content, text="Recipes", command=self.recipe_menu
+        )
         prep_list_button = ttk.Button(self.content, text="Prep List")
 
         self.content.grid(column=0, row=0)
@@ -90,7 +92,7 @@ class Gui:
         add_ingredient_menu_label = ttk.Label(
             self.content, text="Add Ingredient"
         )
-        add_ingredient_menu_label.grid(column=0, row=0, columnspan=2)
+        add_ingredient_menu_label.grid(column=0, row=0, columnspan=4)
 
         ingredient_name_label = ttk.Label(
             self.content, text="Ingredient name:"
@@ -129,3 +131,49 @@ class Gui:
         back_button.grid(column=0, row=3)
 
         self.pad_window()
+
+    def recipe_menu(self):
+        self.clear_window()
+
+        recipe_menu_label = ttk.Label(self.content, text="Recipes")
+        recipe_menu_label.grid(column=0, row=0, columnspan=4)
+
+        self.recipes_var = StringVar(value=self.recipe_list.recipe_list)
+        self.recipes_list_box = Listbox(
+            self.content, listvariable=self.recipes_var, height=10
+        )
+        self.recipes_list_box.grid(column=0, row=1, columnspan=2, rowspan=3)
+
+        edit_recipe_button = ttk.Button(
+            self.content,
+            text="Edit recipe",
+            command=self.edit_recipe_menu,
+        )
+        edit_recipe_button.grid(column=3, row=1)
+
+        add_recipe_button = ttk.Button(
+            self.content,
+            text="Add recipe",
+            command=self.add_recipe_menu,
+        )
+        add_recipe_button.grid(column=3, row=2)
+
+        delete_recipe_button = ttk.Button(
+            self.content,
+            text="Delete recipe",
+            command=lambda: self.recipe_list.delete_from_list(self),
+        )
+        delete_recipe_button.grid(column=3, row=3)
+
+        back_button = ttk.Button(
+            self.content,
+            text="Back to Main Menu",
+            command=lambda: self.main_menu(),
+        )
+        back_button.grid(column=0, row=4, sticky=(S, W))
+
+        self.pad_window()
+
+    def edit_recipe_menu(self): ...
+
+    def add_recipe_menu(self): ...

@@ -188,15 +188,6 @@ class IngredientList:
         return messagebox.askyesno(
             message=message_text, icon="question", title="Delete Ingredient"
         )
-        """
-        user_choice = input(
-            f"Are you sure you want to delete {name}? "
-            f"This ingredient is used in {recipes_text}."
-            " This cannot be undone y/n? "
-        )
-        """
-
-        return user_choice.lower().strip() == "y"
 
     def display_list(self, wait=True):
         """prints the list enumerating each entry
@@ -287,7 +278,7 @@ class RecipeList:
             if wait:
                 input("Press enter to continue...")
 
-    def delete_from_list(self):
+    """def delete_from_list(self):
         self.display_list(wait=False)
         recipe = self.search_for_recipe("Name of recipe to remove: ")
         if self.confirm_deletion(recipe.name):
@@ -298,14 +289,23 @@ class RecipeList:
             self.display_list()
         else:
             pass
+        """
+
+    def delete_from_list(self, gui):
+        index = gui.recipes_list_box.curselection()[0]
+        recipe_to_remove = self.recipe_list[index]
+        if self.confirm_deletion(recipe_to_remove.name):
+            self.recipe_list.remove(recipe_to_remove)
+            gui.recipes_var.set(self.recipe_list)
+        else:
+            pass
 
     def confirm_deletion(self, name):
-        user_choice = input(
-            f"Are you sure you want to delete {name}? "
-            "This cannot be undone y/n? "
+        return messagebox.askyesno(
+            title="Delete Recipe",
+            message=(f"Are you sure you want to delete {name.title()}?"),
+            icon="question",
         )
-
-        return user_choice.lower().strip() == "y"
 
     def search_for_recipe(self, prompt):
         while True:
