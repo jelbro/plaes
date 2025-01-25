@@ -3,7 +3,8 @@ import os
 import json
 import inflect
 import datetime
-from tkinter import ttk
+from tkinter import *
+from tkinter import ttk, messagebox
 
 inflect_engine = inflect.engine()
 
@@ -154,12 +155,14 @@ class IngredientList:
         else:
             pass
 
-    def delete_ingredient_from_list(self, gui):
+    def delete_ingredient_from_list(self, gui, recipe_list):
         index = gui.ingredient_list_box.curselection()[0]
         ingredient_to_remove = self.ingredient_list[index]
-
-        self.ingredient_list.remove(ingredient_to_remove)
-        gui.ingredients_var.set(self.ingredient_list)
+        if self.confirm_deletion(ingredient_to_remove.name, recipe_list):
+            self.ingredient_list.remove(ingredient_to_remove)
+            gui.ingredients_var.set(self.ingredient_list)
+        else:
+            pass
 
     def confirm_deletion(self, name, recipe_list):
         recipes_used_in = []
@@ -178,11 +181,20 @@ class IngredientList:
         if recipes_text == "":
             recipes_text += "no recipes"
 
+        message_text = (
+            f"Are you sure you want to delete {name.title()}? "
+            f"This ingredient is used in {recipes_text}."
+        )
+        return messagebox.askyesno(
+            message=message_text, icon="question", title="Delete Ingredient"
+        )
+        """
         user_choice = input(
             f"Are you sure you want to delete {name}? "
             f"This ingredient is used in {recipes_text}."
             " This cannot be undone y/n? "
         )
+        """
 
         return user_choice.lower().strip() == "y"
 

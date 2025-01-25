@@ -70,7 +70,7 @@ class Gui:
             self.content,
             text="Delete ingredient",
             command=lambda: self.ingredient_list.delete_ingredient_from_list(
-                self
+                self, self.recipe_list
             ),
         )
         delete_ingredient_button.grid(column=3, row=1)
