@@ -214,14 +214,30 @@ class Gui:
         desired_quantity_entry.grid(row=1, column=1, sticky=W)
 
         batch_size_label = ttk.Label(self.content, text="Batch Size:")
-        batch_size = ttk.Label(self.content, text=recipe.batch_size)
+        batch_size = StringVar()
+        batch_size.set(recipe.batch_size)
+
+        def on_batch_size_change(event):
+            recipe.edit_batch_size(batch_size.get())
+
+        batch_size_entry = ttk.Entry(self.content, textvariable=batch_size)
+        batch_size_entry.bind("<Return>", on_batch_size_change)
+        batch_size_entry.bind("<FocusOut>", on_batch_size_change)
         batch_size_label.grid(row=2, column=0, sticky=(N, E))
-        batch_size.grid(row=2, column=1, sticky=W)
+        batch_size_entry.grid(row=2, column=1, sticky=W)
 
         unit_label = ttk.Label(self.content, text="Unit:")
-        unit = ttk.Label(self.content, text=recipe.unit)
+        unit = StringVar()
+        unit.set(recipe.unit)
+
+        def on_unit_change(event):
+            recipe.edit_unit(unit.get())
+
+        unit_entry = ttk.Entry(self.content, textvariable=unit)
+        unit_entry.bind("<Return>", on_unit_change)
+        unit_entry.bind("<FocusOut>", on_unit_change)
         unit_label.grid(row=3, column=0, sticky=(N, E))
-        unit.grid(row=3, column=1, sticky=W)
+        unit_entry.grid(row=3, column=1, sticky=W)
 
         ingredients_label = ttk.Label(self.content, text="Ingredients:")
         self.recipe_ingredients_var = StringVar(value=recipe.ingredients)

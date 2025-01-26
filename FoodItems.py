@@ -562,6 +562,16 @@ class Recipe:
             self.desired_quantity = new_desired
             self.needed = self.requires_making()
 
+    def edit_batch_size(self, new_batch_size):
+        try:
+            new_batch_size = int(new_batch_size)
+        except ValueError:
+            print(f"{new_batch_size} is not a valid int")
+        if new_batch_size < 0:
+            raise ValueError("desired_quantity cannot be zero or less")
+        else:
+            self.batch_size = new_batch_size
+
     def edit_unit(self, new_unit):
         if len(new_unit) == 0:
             self.unit = new_unit
