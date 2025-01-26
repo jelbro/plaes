@@ -240,19 +240,28 @@ class Gui:
         unit_entry.grid(row=3, column=1, sticky=W)
 
         ingredients_label = ttk.Label(self.content, text="Ingredients:")
-        self.recipe_ingredients_var = StringVar(value=recipe.ingredients)
+        self.recipe_ingredients_var = StringVar(
+            value=recipe.get_ingredient_amounts()
+        )
         self.recipe_ingredient_list_box = Listbox(
             self.content, listvariable=self.recipe_ingredients_var, height=8
         )
         ingredients_label.grid(row=4, column=0, sticky=(N, E))
         self.recipe_ingredient_list_box.grid(column=1, row=4)
 
+        remove_ingredient_button = ttk.Button(
+            self.content,
+            text="Remove ingredient",
+            command=lambda: recipe.remove_ingredient_from_recipe(self),
+        )
+        remove_ingredient_button.grid(column=0, row=4, sticky=())
+
         back_button = ttk.Button(
             self.content,
             text="Back to Recipes",
             command=lambda: self.recipe_menu(),
         )
-        back_button.grid(column=0, row=5, sticky=(S, W))
+        back_button.grid(column=0, row=6, sticky=(S, W))
 
         self.pad_window()
 

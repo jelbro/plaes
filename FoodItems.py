@@ -12,6 +12,8 @@ from FoodLists import *
 import inflect
 from decimal import *
 import json
+from tkinter import *
+from tkinter import messagebox
 
 # create an instance of the inflect engine
 inflect_engine = inflect.engine()
@@ -613,6 +615,53 @@ class Recipe:
             return True
         else:
             return False
+
+    def get_ingredient_amounts(self):
+        ingredients_with_amounts = []
+        for ingredient in self.ingredients:
+            ingredients_with_amounts.append(
+                self.pluralise_ingredient(ingredient)
+            )
+        return ingredients_with_amounts
+
+    def ingredient_is_plural(self, ingredient):
+        if ingredient.used_in[self.name] != 1:
+            return True
+        else:
+            return False
+
+    def pluralise_ingredient(self, ingredient):
+        if len(ingredient.unit) == 0:
+            if self.ingredient_is_plural(ingredient):
+                return f"{ingredient.used_in[self.name]} {inflect_engine.plural(ingredient.name.title())}"
+            else:
+                return f"{ingredient.used_in[self.name]} {ingredient.name.title()}"
+        else:
+            if self.ingredient_is_plural(ingredient):
+                return (
+                    f"{ingredient.used_in[self.name]} {inflect_engine.plural(ingredient.unit)} "
+                    f"of {ingredient.name.title()}"
+                )
+            else:
+                return f"{ingredient.used_in[self.name]} {ingredient.unit} of {ingredient.name.title()}"
+
+    def remove_ingredient_from_recipe(self, gui):
+        index = gui.recipe_ingredient_list_box.curselection()[0]
+        ingredient_to_remove = self.ingredients[index]
+        if self.confirm_deletion(ingredient_to_remove):
+            self.ingredients.remove(ingredient_to_remove)
+            gui.recipe_ingredients_var.set(self.get_ingredient_amounts())
+        else:
+            pass
+
+    def confirm_deletion(self, ingredient):
+        return messagebox.askyesno(
+            title="Remove Ingredient",
+            message=(
+                f"Are you sure you want to remove {ingredient.name.title()} from {self.name.title()}?"
+            ),
+            icon="question",
+        )
 
 
 class Ingredient:
