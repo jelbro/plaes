@@ -148,7 +148,9 @@ class Gui:
             self.content,
             text="Edit recipe",
             command=lambda: self.edit_recipe_menu(
-                self.recipes_list_box.curselection()[0]
+                self.recipe_list.recipe_list[
+                    self.recipes_list_box.curselection()[0]
+                ]
             ),
         )
         edit_recipe_button.grid(column=3, row=1)
@@ -176,9 +178,9 @@ class Gui:
 
         self.pad_window()
 
-    def edit_recipe_menu(self, index):
+    def edit_recipe_menu(self, recipe):
         self.clear_window()
-        recipe = self.recipe_list.recipe_list[index]
+        # recipe = self.recipe_list.recipe_list[index]
 
         recipe_name_label = ttk.Label(self.content, text="Name:")
         recipe_name = StringVar()
@@ -249,12 +251,19 @@ class Gui:
         ingredients_label.grid(row=4, column=0, sticky=(N, E))
         self.recipe_ingredient_list_box.grid(column=1, row=4)
 
+        add_ingredient_button = ttk.Button(
+            self.content,
+            text="Add ingredient",
+            command=lambda: self.add_ingredient_to_recipe_menu(recipe),
+        )
+        add_ingredient_button.grid(column=0, row=4)
+
         remove_ingredient_button = ttk.Button(
             self.content,
             text="Remove ingredient",
             command=lambda: recipe.remove_ingredient_from_recipe(self),
         )
-        remove_ingredient_button.grid(column=0, row=4, sticky=())
+        remove_ingredient_button.grid(column=0, row=4, sticky=(S))
 
         back_button = ttk.Button(
             self.content,
@@ -262,6 +271,65 @@ class Gui:
             command=lambda: self.recipe_menu(),
         )
         back_button.grid(column=0, row=6, sticky=(S, W))
+
+        self.pad_window()
+
+    def add_ingredient_to_recipe_menu(self, recipe):
+        self.clear_window()
+
+        add_ingredient_menu_label = ttk.Label(
+            self.content, text=f"Add Ingredient to {recipe.name.title()}"
+        )
+        add_ingredient_menu_label.grid(column=0, row=0, columnspan=4)
+
+        ingredient_name_label = ttk.Label(
+            self.content, text="Ingredient name:"
+        )
+        ingredient_name = StringVar()
+        ingredient_name_entry = ttk.Entry(
+            self.content, textvariable=ingredient_name
+        )
+        ingredient_name_label.grid(column=0, row=1)
+        ingredient_name_entry.grid(column=1, row=1)
+
+        ingredient_unit_label = ttk.Label(
+            self.content, text="Ingredient unit (Leave blank if n/a):"
+        )
+        ingredient_unit = StringVar()
+        ingredient_name_entry = ttk.Entry(
+            self.content, textvariable=ingredient_unit
+        )
+        ingredient_unit_label.grid(column=0, row=2)
+        ingredient_name_entry.grid(column=1, row=2)
+
+        ingredient_amount_label = ttk.Label(
+            self.content, text=f"Amount of ingredient in {recipe.name}:"
+        )
+        ingredient_amount = StringVar()
+        ingredient_amount_entry = ttk.Entry(
+            self.content, textvariable=ingredient_amount
+        )
+        ingredient_amount_label.grid(column=0, row=2)
+        ingredient_amount_entry.grid(column=1, row=2)
+
+        submit_button = ttk.Button(
+            self.content,
+            text="Okay",
+            command=lambda: recipe.add_new_ingredient(
+                self,
+                ingredient_name.get(),
+                ingredient_unit.get(),
+                ingredient_amount.get(),
+            ),
+        )
+        submit_button.grid(column=1, row=4)
+
+        back_button = ttk.Button(
+            self.content,
+            text="Back",
+            command=self.edit_recipe_menu(recipe),
+        )
+        back_button.grid(column=0, row=4)
 
         self.pad_window()
 

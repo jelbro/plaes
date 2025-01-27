@@ -366,6 +366,10 @@ class Recipe:
                 print("Recipe cannot contain duplicate ingredients")
                 pass
 
+    def add_new_ingredient(self, gui, name, unit, amount):
+        self.ingredients.append(Ingredient(name, unit, amount))
+        gui.edit_recipe_menu(self)
+
     def delete_ingredient(self, ingredient_name):
         """delete an ingredient from this Recipes ingredient list
 
@@ -432,7 +436,7 @@ class Recipe:
         try:
             Decimal(amount)
         except ValueError:
-            print("{amount} is not a valid decimal")
+            print(f"{amount} is not a valid decimal")
 
         else:
             for current_ingredient in self.ingredients:
@@ -474,7 +478,7 @@ class Recipe:
         try:
             Decimal(amount)
         except ValueError:
-            print("{amount} is not a valid decimal")
+            print(f"{amount} is not a valid decimal")
 
         for current_ingredient in self.ingredients:
             if current_ingredient.name == ingredient_name:
