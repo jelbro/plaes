@@ -307,10 +307,21 @@ class Gui:
             column=1, row=4, rowspan=4, sticky=S
         )
 
+        def new_ingredient_or_existing():
+            answer = messagebox.askyesno(
+                message="Would you like to create a new ingredient?",
+                icon="question",
+                title="Create new ingredient",
+            )
+            if answer:
+                self.add_new_ingredient_to_recipe_menu(recipe)
+            else:
+                self.add_existing_ingredient_to_recipe_menu(recipe)
+
         add_ingredient_button = ttk.Button(
             self.content,
             text="Add ingredient",
-            command=lambda: self.add_ingredient_to_recipe_menu(recipe),
+            command=new_ingredient_or_existing,
         )
         add_ingredient_button.grid(column=0, row=5)
 
@@ -342,7 +353,7 @@ class Gui:
 
         self.pad_window()
 
-    def add_ingredient_to_recipe_menu(self, recipe):
+    def add_new_ingredient_to_recipe_menu(self, recipe):
         self.clear_window()
 
         add_ingredient_menu_label = ttk.Label(
@@ -400,6 +411,71 @@ class Gui:
         back_button.grid(column=0, row=4)
 
         self.pad_window()
+
+    def add_existing_ingredient_to_recipe_menu(self, recipe):
+        self.clear_window()
+
+        add_ingredient_menu_label = ttk.Label(
+            self.content, text=f"Add Ingredient to {recipe.name.title()}"
+        )
+        add_ingredient_menu_label.grid(column=0, row=0, columnspan=4)
+
+        self.ingredients_var = StringVar(
+            value=self.ingredient_list.ingredient_list
+        )
+        self.ingredient_list_box = Listbox(
+            self.content, listvariable=self.ingredients_var, height=10
+        )
+        self.ingredient_list_box.grid(column=0, row=1, columnspan=2, rowspan=2)
+
+        submit_button = ttk.Button(
+            self.content,
+            text="Select ingredient",
+            command=lambda: self.get_existing_ingredient_quantity(
+                self.ingredient_list.ingredient_list[
+                    self.ingredient_list_box.curselection()[0]
+                ],
+                recipe,
+            ),
+        )
+        submit_button.grid(column=1, row=4)
+
+        back_button = ttk.Button(
+            self.content,
+            text="Back",
+            command=lambda: self.edit_recipe_menu(recipe),
+        )
+        back_button.grid(column=0, row=4)
+
+        self.pad_window()
+
+    def get_existing_ingredient_quantity(self, ingredient, recipe):
+        self.clear_window()
+
+        add_ingredient_menu_label = ttk.Label(
+            self.content,
+            text=f"Add {ingredient.name} to {recipe.name.title()}",
+        )
+        add_ingredient_menu_label.grid(column=0, row=0, columnspan=4)
+
+        ingredient_quantity_label = ttk.Label(
+            self.content, text=f"Amount of {ingredient.unit} to add:"
+        )
+        ingredient_quantity_label.grid(column=0, row=1)
+        ingredient_quantity = StringVar()
+        ingredient_quantity_entry = ttk.Entry(
+            self.content, textvariable=ingredient_quantity
+        )
+        ingredient_quantity_entry.grid(column=1, row=1)
+
+        submit_button = ttk.Button(
+            self.content,
+            text="Okay",
+            command=lambda: recipe.add_existing_ingredient(
+                self, ingredient_quantity.get(), ingredient
+            ),
+        )
+        submit_button.grid(column=1, row=2)
 
     def edit_recipe_ingredient_menu(self, ingredient, recipe):
         self.clear_window()

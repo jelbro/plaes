@@ -366,6 +366,11 @@ class Recipe:
                 print("Recipe cannot contain duplicate ingredients")
                 pass
 
+    def add_existing_ingredient(self, gui, amount, ingredient):
+        ingredient.used_in[self.name] = amount
+        self.ingredients.append(ingredient)
+        gui.edit_recipe_menu(self)
+
     def add_new_ingredient(self, gui, name, unit, amount):
         new_ingredient = Ingredient(name=name.title(), unit=unit)
         new_ingredient.used_in[self.name] = amount
