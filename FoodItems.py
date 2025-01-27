@@ -367,7 +367,9 @@ class Recipe:
                 pass
 
     def add_new_ingredient(self, gui, name, unit, amount):
-        self.ingredients.append(Ingredient(name, unit, amount))
+        new_ingredient = Ingredient(name=name.title(), unit=unit)
+        new_ingredient.used_in[self.name] = amount
+        self.ingredients.append(new_ingredient)
         gui.edit_recipe_menu(self)
 
     def delete_ingredient(self, ingredient_name):
@@ -715,6 +717,9 @@ class Ingredient:
 
         self.unit = unit
         self.used_in = used_in
+
+    def set_used_in(self, recipe, amount):
+        self.used_in[recipe.name] = amount
 
     def is_plural(self):
         if self.quantity != 1:
