@@ -362,6 +362,17 @@ class RecipeList:
                 print("\n")
                 break
 
+    def create_new_recipe(self, name, desired_quantity, unit, batch_size):
+        new_recipe = Recipe(
+            name=name,
+            desired_quantity=int(desired_quantity),
+            unit=unit,
+            batch_size=int(batch_size),
+            ingredients=[],
+        )
+        self.recipe_list.append(new_recipe)
+        return new_recipe
+
     def get_ingredient(self, recipe_name, ingredient_list_obj, recipe_obj):
         """asks the user for the name of the ingredient, checks if it is already
         in the ingredient list if it is not creates that ingredient. Then asks

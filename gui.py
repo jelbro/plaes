@@ -477,6 +477,8 @@ class Gui:
         )
         submit_button.grid(column=1, row=2)
 
+        self.pad_window()
+
     def edit_recipe_ingredient_menu(self, ingredient, recipe):
         self.clear_window()
 
@@ -520,4 +522,59 @@ class Gui:
 
         self.pad_window()
 
-    def add_recipe_menu(self): ...
+    def add_recipe_menu(self):
+        self.clear_window()
+
+        create_recipe_label = ttk.Label(self.content, text="Create New Recipe")
+        create_recipe_label.grid(column=0, row=0, columnspan=2)
+
+        name_entry_label = ttk.Label(self.content, text="Name:")
+        name = StringVar()
+        name_entry = ttk.Entry(self.content, textvariable=name)
+        name_entry_label.grid(column=0, row=1, sticky=E)
+        name_entry.grid(column=1, row=1)
+
+        desired_quantity_entry_label = ttk.Label(
+            self.content, text="Desired Quantity:"
+        )
+        desired_quantity = StringVar()
+        desired_quantity_entry = ttk.Entry(
+            self.content, textvariable=desired_quantity
+        )
+        desired_quantity_entry_label.grid(column=0, row=2, sticky=E)
+        desired_quantity_entry.grid(column=1, row=2)
+
+        unit_entry_label = ttk.Label(
+            self.content, text="Unit (leave blank if n/a):"
+        )
+        unit = StringVar()
+        unit_entry = ttk.Entry(self.content, textvariable=unit)
+        unit_entry_label.grid(column=0, row=3, sticky=E)
+        unit_entry.grid(column=1, row=3)
+
+        batch_size_label = ttk.Label(self.content, text="Batch size:")
+        batch_size = StringVar()
+        batch_size_entry = ttk.Entry(self.content, textvariable=batch_size)
+        batch_size_label.grid(column=0, row=4, sticky=E)
+        batch_size_entry.grid(column=1, row=4)
+
+        cancel_button = ttk.Button(
+            self.content, text="Cancel", command=self.recipe_menu
+        )
+        cancel_button.grid(column=0, row=5)
+
+        add_ingredients_button = ttk.Button(
+            self.content,
+            text="Add Ingredients",
+            command=lambda: self.edit_recipe_menu(
+                self.recipe_list.create_new_recipe(
+                    name=name.get(),
+                    desired_quantity=desired_quantity.get(),
+                    unit=unit.get(),
+                    batch_size=batch_size.get(),
+                ),
+            ),
+        )
+        add_ingredients_button.grid(column=1, row=5)
+
+        self.pad_window()
