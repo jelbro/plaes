@@ -391,6 +391,9 @@ class Gui:
         ingredient_amount_label.grid(column=0, row=3)
         ingredient_amount_entry.grid(column=1, row=3)
 
+        # TODO
+        # This should add a new ingredient to the ingredient list, and then
+        # add that to the recipe
         submit_button = ttk.Button(
             self.content,
             text="Okay",
