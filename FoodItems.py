@@ -371,9 +371,10 @@ class Recipe:
         self.ingredients.append(ingredient)
         gui.edit_recipe_menu(self)
 
-    def add_new_ingredient(self, gui, name, unit, amount):
+    def add_new_ingredient(self, gui, name, unit, amount, ingredient_list):
         new_ingredient = Ingredient(name=name.title(), unit=unit)
         new_ingredient.used_in[self.name] = amount
+        ingredient_list.ingredient_list.append(new_ingredient)
         self.ingredients.append(new_ingredient)
         gui.edit_recipe_menu(self)
 
@@ -502,7 +503,7 @@ class Recipe:
         Parameters
         ----------
         amount : Decimal
-            amount to remove from this Recipes quantity
+        amount to remove from this Recipes quantity
 
         Raises
         ------

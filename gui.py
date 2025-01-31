@@ -34,7 +34,9 @@ class Gui:
         recipes_button = ttk.Button(
             self.content, text="Recipes", command=self.recipe_menu
         )
-        prep_list_button = ttk.Button(self.content, text="Prep List")
+        prep_list_button = ttk.Button(
+            self.content, text="Prep List", command=self.prep_list_menu
+        )
 
         self.content.grid(column=0, row=0)
         main_menu_label.grid(sticky=N, column=0, row=0, columnspan=2)
@@ -391,9 +393,6 @@ class Gui:
         ingredient_amount_label.grid(column=0, row=3)
         ingredient_amount_entry.grid(column=1, row=3)
 
-        # TODO
-        # This should add a new ingredient to the ingredient list, and then
-        # add that to the recipe
         submit_button = ttk.Button(
             self.content,
             text="Okay",
@@ -402,6 +401,7 @@ class Gui:
                 ingredient_name.get(),
                 ingredient_unit.get(),
                 ingredient_amount.get(),
+                self.ingredient_list,
             ),
         )
         submit_button.grid(column=1, row=4)
@@ -581,3 +581,40 @@ class Gui:
         add_ingredients_button.grid(column=1, row=5)
 
         self.pad_window()
+
+    def prep_list_menu(self):
+
+        if self.stock_take_dialog():
+            ...
+        else:
+            ...
+
+        self.clear_window()
+        prep_list_place_holder = ["1xChicken Salad", "3xSlaw"]
+
+        prep_list_var = StringVar()
+        prep_list_var.set(prep_list_place_holder)
+        self.prep_list_listbox = Listbox(
+            self.content, listvariable=prep_list_var
+        )
+        self.prep_list_listbox.grid(column=0, row=0, rowspan=4, sticky=(N, W))
+
+        view_recipe_button = Button(self.content, text="View Recipe")
+        view_recipe_button.grid(column=1, row=0, sticky=(N, W))
+
+        edit_stock_button = Button(self.content, text="Edit Stock")
+        edit_stock_button.grid(column=1, row=1, sticky=(N, W))
+
+        back_button = ttk.Button(
+            self.content, text="Back to Main Menu", command=self.main_menu
+        )
+        back_button.grid(column=0, row=4, sticky=(S, W))
+
+        self.pad_window()
+
+    def stock_take_dialog(self):
+        return messagebox.askyesno(
+            title="Take Stock",
+            message="Would you like to take stock?",
+            icon="question",
+        )

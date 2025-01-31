@@ -160,6 +160,13 @@ class IngredientList:
         ingredient_to_remove = self.ingredient_list[index]
         if self.confirm_deletion(ingredient_to_remove.name, recipe_list):
             self.ingredient_list.remove(ingredient_to_remove)
+            for recipe in recipe_list.recipe_list:
+                for ingredient in recipe.ingredients:
+                    if (
+                        ingredient.name.lower()
+                        == ingredient_to_remove.name.lower()
+                    ):
+                        recipe.ingredients.remove(ingredient)
             gui.ingredients_var.set(self.ingredient_list)
         else:
             pass

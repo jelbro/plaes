@@ -263,7 +263,6 @@ class Menu:
         self.display_edit_recipe(recipe)
 
     def display_prep_list_menu(self):
-        # TODO
         clear()
         user_choice = self.print_menu(
             "preperation list",
