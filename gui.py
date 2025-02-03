@@ -1,6 +1,9 @@
 from tkinter import *
 from tkinter import ttk
 from FoodLists import *
+from inflect import *
+
+inflect_engine = inflect.engine()
 
 
 class Gui:
@@ -8,7 +11,8 @@ class Gui:
     def __init__(self, master, ingredient_list, recipe_list):
         self.ingredient_list = ingredient_list or IngredientList()
         self.recipe_list = recipe_list or RecipeList()
-
+        self.recipe_index = 0
+        self.stock_taken = False
         self.master = master
         self.content = ttk.Frame(master, padding=(3, 3, 12, 12))
 
@@ -35,7 +39,9 @@ class Gui:
             self.content, text="Recipes", command=self.recipe_menu
         )
         prep_list_button = ttk.Button(
-            self.content, text="Prep List", command=self.prep_list_menu
+            self.content,
+            text="Prep List",
+            command=self.prep_list_menu,
         )
 
         self.content.grid(column=0, row=0)
@@ -583,27 +589,44 @@ class Gui:
         self.pad_window()
 
     def prep_list_menu(self):
-
-        if self.stock_take_dialog():
-            ...
-        else:
-            ...
+        if not self.stock_taken:
+            if self.stock_take_dialog():
+                self.stock_take_menu()
+                return
+        self.recipe_list.create_prep_list()
 
         self.clear_window()
-        prep_list_place_holder = ["1xChicken Salad", "3xSlaw"]
+        current_date = datetime.date.today()
+        one_day = datetime.timedelta(days=1)
+        prep_list_date = current_date + one_day
+        prep_list_date = prep_list_date.strftime("%A %d %B")
+        prep_list_label = ttk.Label(
+            self.content, text=f"Prep list for {prep_list_date}"
+        )
+        prep_list_label.grid(column=0, row=0, columnspan=3)
 
         prep_list_var = StringVar()
-        prep_list_var.set(prep_list_place_holder)
+        prep_list_var.set(self.recipe_list.printable_prep_list)
         self.prep_list_listbox = Listbox(
             self.content, listvariable=prep_list_var
         )
-        self.prep_list_listbox.grid(column=0, row=0, rowspan=4, sticky=(N, W))
+        self.prep_list_listbox.grid(column=0, row=1, rowspan=3, sticky=(N, W))
 
-        view_recipe_button = Button(self.content, text="View Recipe")
-        view_recipe_button.grid(column=1, row=0, sticky=(N, W))
+        view_recipe_button = Button(
+            self.content,
+            text="View Recipe",
+            command=lambda: self.edit_recipe_menu(
+                self.recipe_list.prep_list[
+                    self.prep_list_listbox.curselection()[0]
+                ]
+            ),
+        )
+        view_recipe_button.grid(column=1, row=1, sticky=(N, W))
 
-        edit_stock_button = Button(self.content, text="Edit Stock")
-        edit_stock_button.grid(column=1, row=1, sticky=(N, W))
+        edit_stock_button = Button(
+            self.content, text="Edit Stock", command=self.stock_take_menu
+        )
+        edit_stock_button.grid(column=1, row=2, sticky=(N, W))
 
         back_button = ttk.Button(
             self.content, text="Back to Main Menu", command=self.main_menu
@@ -618,3 +641,76 @@ class Gui:
             message="Would you like to take stock?",
             icon="question",
         )
+
+    def stock_take_menu(self):
+        self.clear_window()
+        recipe = self.recipe_list.recipe_list[self.recipe_index]
+
+        take_stock_label = ttk.Label(
+            self.content, text=f"Take Stock of {recipe.name}"
+        )
+        take_stock_label.grid(column=0, row=0, columnspan=3)
+
+        if recipe.unit:
+            amount_label = ttk.Label(
+                self.content,
+                text=f"How many {(inflect_engine.plural(recipe.unit)).title()} of {recipe.name} in stock?",
+            )
+        else:
+            amount_label = ttk.Label(
+                self.contnet,
+                text=f"How many {inflect_engine.plural(recipe.name)} in stock",
+            )
+        amount_label.grid(column=0, row=1)
+
+        def on_entry_focus(event):
+            event.widget.select_range(0, END)
+
+        amount_in_stock = StringVar()
+        amount_in_stock.set(recipe.quantity)
+        amount_entry = ttk.Entry(
+            self.content,
+            textvariable=amount_in_stock,
+        )
+        amount_entry.grid(column=1, row=1, sticky=W)
+        amount_entry.bind("<FocusIn>", on_entry_focus)
+        amount_entry.focus_set()
+
+        def on_confirm_button_click():
+            recipe.change_quantity(int(amount_in_stock.get()))
+            recipe.get_priority()
+            if self.recipe_index != len(self.recipe_list.recipe_list) - 1:
+                self.recipe_index += 1
+                self.stock_take_menu()
+            else:
+                self.recipe_index = 0
+                self.stock_taken = True
+                self.prep_list_menu()
+
+        confirm_button = ttk.Button(
+            self.content,
+            text="Confirm",
+            command=on_confirm_button_click,
+        )
+        confirm_button.grid(column=1, row=2)
+
+        def on_previous_button_click():
+            if self.recipe_index != 0:
+                self.recipe_index -= 1
+                self.stock_take_menu()
+            else:
+                pass
+
+        previous_button = ttk.Button(
+            self.content,
+            text="Previous Recipe",
+            command=on_previous_button_click,
+        )
+        previous_button.grid(column=0, row=2, sticky=E)
+
+        cancel_button = ttk.Button(
+            self.content, text="Cancel", command=self.main_menu
+        )
+        cancel_button.grid(column=0, row=2, sticky=W)
+
+        self.pad_window()

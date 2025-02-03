@@ -255,6 +255,7 @@ class RecipeList:
 
         self.prep_list = []
         self.prep_ingredient_list = []
+        self.printable_prep_list = []
 
     def to_json(self):
         return json.dumps(
@@ -533,6 +534,14 @@ class RecipeList:
                 pass
         self.sort_by_priority()
         self.create_prep_ingredient_list()
+        self.make_printable_prep_list()
+
+    def make_printable_prep_list(self):
+        self.printable_prep_list.clear()
+        for recipe in self.prep_list:
+            self.printable_prep_list.append(
+                f"Make {recipe.amount_to_make()}x {recipe.name}"
+            )
 
     def sort_by_priority(self):
         self.prep_list = sorted(
