@@ -123,7 +123,7 @@ class IngredientList:
             no_name_error.grid(column=0, row=4, columnspan=2)
             valid_name = False
         for ingredient in self.ingredient_list:
-            if name == ingredient.name:
+            if name.lower().strip() == ingredient.name.lower().strip():
                 no_name_error.destroy()
                 duplicate_ingredient_error.grid(column=0, row=4, columnspan=2)
                 valid_name = False
@@ -131,7 +131,9 @@ class IngredientList:
                 pass
 
         if valid_name:
-            ingredient = Ingredient(name=name, quantity=0, unit=unit)
+            ingredient = Ingredient(
+                name=name.title().strip(), quantity=0, unit=unit
+            )
             self.ingredient_list.append(ingredient)
             gui.ingredient_menu()
         else:
