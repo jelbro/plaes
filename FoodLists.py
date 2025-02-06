@@ -382,16 +382,100 @@ class RecipeList:
                 print("\n")
                 break
 
-    def create_new_recipe(self, name, desired_quantity, unit, batch_size):
-        new_recipe = Recipe(
-            name=name,
-            desired_quantity=int(desired_quantity),
-            unit=unit,
-            batch_size=int(batch_size),
-            ingredients=[],
+    def valid_recipe(self, name, desired_quantity, unit, batch_size, gui):
+
+        if (
+            self.valid_recipe_name(name, gui)
+            and self.valid_desired_quantity(desired_quantity, gui)
+            and self.valid_unit(unit, gui)
+            and self.valid_batch_size(batch_size, gui)
+        ):
+            return True
+        else:
+            return False
+
+    def valid_batch_size(self, batch_size, gui):
+        not_number_error = ttk.Label(
+            gui.content, text="Batch Size is not a positive number."
         )
-        self.recipe_list.append(new_recipe)
-        return new_recipe
+        valid_batch_size = True
+
+        if not batch_size.isnumeric():
+            not_number_error.grid(column=0, row=7, columnspan=2)
+            valid_batch_size = False
+
+        return valid_batch_size
+
+    def valid_unit(self, unit, gui):
+        invalid_unit_error = ttk.Label(
+            gui.content, text="Invalid Unit Entered."
+        )
+        valid_unit = True
+
+        if not unit.isalnum() and len(unit) > 0:
+            valid_unit = False
+            invalid_unit_error.grid(column=0, row=7, columnspan=2)
+
+        return valid_unit
+
+    def valid_desired_quantity(self, desired_quantity, gui):
+        not_number_error = ttk.Label(
+            gui.content, text="Desired Quantity is not a positive number."
+        )
+        valid_desired_quantity = True
+
+        if not desired_quantity.isnumeric():
+            not_number_error.grid(column=0, row=7, columnspan=2)
+            valid_desired_quantity = False
+
+        return valid_desired_quantity
+
+    def valid_recipe_name(self, name, gui):
+        no_name_error = ttk.Label(gui.content, text="No Name given.")
+        duplicate_ingredient_error = ttk.Label(
+            gui.content, text="Duplicate ingredient name given."
+        )
+        invalid_name_error = ttk.Label(
+            gui.content, text="Invalid Name entered."
+        )
+        valid_name = True
+
+        if not name:
+            duplicate_ingredient_error.destroy()
+            invalid_name_error.destroy()
+            no_name_error.grid(column=0, row=7, columnspan=2)
+            valid_name = False
+
+        for recipe in self.recipe_list:
+            if name.lower().strip() == recipe.name.lower().strip():
+                no_name_error.destroy()
+                invalid_name_error.destroy()
+                duplicate_ingredient_error.grid(column=0, row=7, columnspan=2)
+                valid_name = False
+            else:
+                pass
+
+        if not name.isalpha():
+            valid_name = False
+            no_name_error.destroy()
+            duplicate_ingredient_error.destroy()
+            invalid_name_error.grid(column=0, row=7, columnspan=2)
+
+        return valid_name
+
+    def create_new_recipe(self, name, desired_quantity, unit, batch_size, gui):
+        if self.valid_recipe(name, desired_quantity, unit, batch_size, gui):
+            new_recipe = Recipe(
+                name=name,
+                desired_quantity=int(desired_quantity),
+                unit=unit,
+                batch_size=int(batch_size),
+                ingredients=[],
+            )
+            self.recipe_list.append(new_recipe)
+            return new_recipe
+        else:
+            pass
 
     def get_ingredient(self, recipe_name, ingredient_list_obj, recipe_obj):
         """asks the user for the name of the ingredient, checks if it is already

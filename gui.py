@@ -581,6 +581,7 @@ class Gui:
                     desired_quantity=desired_quantity.get(),
                     unit=unit.get(),
                     batch_size=batch_size.get(),
+                    gui=self,
                 ),
             ),
         )
