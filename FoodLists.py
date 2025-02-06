@@ -117,18 +117,28 @@ class IngredientList:
         duplicate_ingredient_error = ttk.Label(
             gui.content, text="Duplicate ingredient name given."
         )
+        invalid_name_error = ttk.Label(
+            gui.content, text="Invalid Name entered."
+        )
         valid_name = True
         if not name:
             duplicate_ingredient_error.destroy()
+            invalid_name_error.destroy()
             no_name_error.grid(column=0, row=4, columnspan=2)
             valid_name = False
         for ingredient in self.ingredient_list:
             if name.lower().strip() == ingredient.name.lower().strip():
                 no_name_error.destroy()
+                invalid_name_error.destroy()
                 duplicate_ingredient_error.grid(column=0, row=4, columnspan=2)
                 valid_name = False
             else:
                 pass
+        if not name.isalpha():
+            valid_name = False
+            no_name_error.destroy()
+            duplicate_ingredient_error.destroy()
+            invalid_name_error.grid(column=0, row=4, columnspan=2)
 
         if valid_name:
             ingredient = Ingredient(
