@@ -367,15 +367,15 @@ class Recipe:
                 pass
 
     def add_existing_ingredient(self, gui, amount, ingredient):
-        ingredient.used_in[self.name] = amount
-        self.ingredients.append(ingredient)
+        ingredient.add_ingredient_to_recipe(self, amount)
+        self.add_ingredient(ingredient)
         gui.edit_recipe_menu(self)
 
     def add_new_ingredient(self, gui, name, unit, amount, ingredient_list):
         new_ingredient = Ingredient(name=name.title(), unit=unit)
-        new_ingredient.used_in[self.name] = amount
         ingredient_list.ingredient_list.append(new_ingredient)
-        self.ingredients.append(new_ingredient)
+        new_ingredient.add_ingredient_to_recipe(self, amount)
+        self.add_ingredient(new_ingredient)
         gui.edit_recipe_menu(self)
 
     def delete_ingredient(self, ingredient_name):
