@@ -59,7 +59,7 @@ class Gui:
         self.clear_window()
 
         ingredient_menu_label = ttk.Label(self.content, text="Ingredients")
-        ingredient_menu_label.grid(column=0, row=0, columnspan=3)
+        ingredient_menu_label.grid(column=0, row=0, columnspan=4)
 
         self.ingredients_var = StringVar(
             value=self.ingredient_list.ingredient_list
