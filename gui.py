@@ -37,7 +37,7 @@ class Gui:
 
         self.error_message = ttk.Label(self.content, text=message)
         self.error_message.grid(
-            column=0, row=(window_height + 1), columnspan=window_width + 1
+            column=0, row=(window_height + 1), columnspan=(window_width + 1)
         )
         self.error_on_screen = True
 

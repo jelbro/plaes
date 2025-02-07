@@ -114,7 +114,9 @@ class IngredientList:
         those values and appends it to the ingredient list
         """
 
-        if self.valid_ingredient_name(name=name, gui=gui):
+        if self.valid_ingredient_name(name=name, gui=gui) and self.valid_unit(
+            unit, gui
+        ):
             ingredient = Ingredient(
                 name=name.title().strip(), quantity=0, unit=unit
             )
@@ -122,6 +124,16 @@ class IngredientList:
             gui.ingredient_menu()
         else:
             pass
+
+    def valid_unit(self, unit, gui):
+        if unit:
+            if not unit.isalnum():
+                gui.display_error_message("Invalid Unit given.")
+                return False
+            else:
+                return True
+        else:
+            return True
 
     def valid_ingredient_name(self, name, gui):
         valid_name = True
