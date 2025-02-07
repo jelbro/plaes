@@ -74,22 +74,16 @@ class Gui:
         self.clear_window()
 
         ingredient_menu_label = ttk.Label(self.content, text="Ingredients")
-        ingredient_menu_label.grid(column=0, row=0, columnspan=4)
+        ingredient_menu_label.grid(column=0, row=0, columnspan=3)
 
         self.ingredients_var = StringVar(
             value=self.ingredient_list.ingredient_list
         )
         self.ingredient_list_box = Listbox(
-            self.content, listvariable=self.ingredients_var, height=10
-        )
-        self.ingredient_list_box.grid(column=0, row=1, columnspan=2, rowspan=2)
-
-        add_ingredient_button = ttk.Button(
             self.content,
-            text="Add ingredient",
-            command=self.add_ingredient_menu,
+            listvariable=self.ingredients_var,
         )
-        add_ingredient_button.grid(column=3, row=1, sticky=N)
+        self.ingredient_list_box.grid(column=0, row=1, rowspan=3)
 
         edit_ingredient_button = ttk.Button(
             self.content,
@@ -100,7 +94,14 @@ class Gui:
                 ]
             ),
         )
-        edit_ingredient_button.grid(column=3, row=2, sticky=N)
+        edit_ingredient_button.grid(column=1, row=1)
+
+        add_ingredient_button = ttk.Button(
+            self.content,
+            text="Add ingredient",
+            command=self.add_ingredient_menu,
+        )
+        add_ingredient_button.grid(column=1, row=2)
 
         delete_ingredient_button = ttk.Button(
             self.content,
@@ -109,7 +110,7 @@ class Gui:
                 self, self.recipe_list
             ),
         )
-        delete_ingredient_button.grid(column=3, row=3)
+        delete_ingredient_button.grid(column=1, row=3)
 
         back_button = ttk.Button(
             self.content,
@@ -126,27 +127,27 @@ class Gui:
         add_ingredient_menu_label = ttk.Label(
             self.content, text="Add Ingredient"
         )
-        add_ingredient_menu_label.grid(column=0, row=0, columnspan=4)
+        add_ingredient_menu_label.grid(column=0, row=0, columnspan=3)
 
         ingredient_name_label = ttk.Label(
             self.content, text="Ingredient name:"
         )
         ingredient_name = StringVar()
         ingredient_name_entry = ttk.Entry(
-            self.content, textvariable=ingredient_name
+            self.content, textvariable=ingredient_name, width=15
         )
-        ingredient_name_label.grid(column=0, row=1)
-        ingredient_name_entry.grid(column=1, row=1)
+        ingredient_name_label.grid(column=0, row=1, sticky=E)
+        ingredient_name_entry.grid(column=1, row=1, sticky=W)
 
         ingredient_unit_label = ttk.Label(
             self.content, text="Ingredient unit (Leave blank if n/a):"
         )
         ingredient_unit = StringVar()
         ingredient_name_entry = ttk.Entry(
-            self.content, textvariable=ingredient_unit
+            self.content, textvariable=ingredient_unit, width=15
         )
-        ingredient_unit_label.grid(column=0, row=2)
-        ingredient_name_entry.grid(column=1, row=2)
+        ingredient_unit_label.grid(column=0, row=2, sticky=E)
+        ingredient_name_entry.grid(column=1, row=2, columnspan=2, sticky=W)
 
         submit_button = ttk.Button(
             self.content,
@@ -155,19 +156,26 @@ class Gui:
                 self, ingredient_name.get(), ingredient_unit.get()
             ),
         )
-        submit_button.grid(column=1, row=3)
+        submit_button.grid(
+            column=1,
+            row=3,
+        )
 
         back_button = ttk.Button(
-            self.content,
-            text="Back",
-            command=self.ingredient_menu,
+            self.content, text="Back", command=self.ingredient_menu
         )
-        back_button.grid(column=0, row=3)
+        back_button.grid(
+            column=0,
+            row=3,
+        )
 
         self.pad_window()
 
     def edit_ingredient_menu(self, ingredient):
         self.clear_window()
+
+        edit_ingredient_label = ttk.Label(self.content, text="Edit Ingredient")
+        edit_ingredient_label.grid(row=0, column=0, columnspan=3)
 
         ingredient_name_label = ttk.Label(self.content, text="Name:")
         ingredient_name = StringVar()
@@ -182,8 +190,8 @@ class Gui:
         )
         ingredient_name_entry.bind("<Return>", on_name_change)
         ingredient_name_entry.bind("<FocusOut>", on_name_change)
-        ingredient_name_label.grid(row=0, column=0, sticky=E)
-        ingredient_name_entry.grid(row=0, column=1, sticky=W)
+        ingredient_name_label.grid(row=1, column=0, sticky=W)
+        ingredient_name_entry.grid(row=1, column=1, sticky=W)
 
         ingredient_unit_label = ttk.Label(self.content, text="Unit:")
         ingredient_unit = StringVar()
@@ -197,15 +205,15 @@ class Gui:
         )
         ingredient_unit_entry.bind("<Return>", on_ingredient_unit_change)
         ingredient_unit_entry.bind("<FocusOut>", on_ingredient_unit_change)
-        ingredient_unit_label.grid(row=1, column=0, sticky=(N, E))
-        ingredient_unit_entry.grid(row=1, column=1, sticky=W)
+        ingredient_unit_label.grid(row=2, column=0, sticky=W)
+        ingredient_unit_entry.grid(row=2, column=1, sticky=W)
 
         back_button = ttk.Button(
             self.content,
             text="Back to ingredients",
             command=lambda: self.ingredient_menu(),
         )
-        back_button.grid(column=0, row=6, sticky=(S, W))
+        back_button.grid(column=0, row=3, sticky=(S, W), columnspan=2)
 
         self.pad_window()
 
@@ -257,7 +265,6 @@ class Gui:
 
     def edit_recipe_menu(self, recipe):
         self.clear_window()
-        # recipe = self.recipe_list.recipe_list[index]
 
         recipe_name_label = ttk.Label(self.content, text="Name:")
         recipe_name = StringVar()
@@ -275,22 +282,18 @@ class Gui:
         recipe_name_label.grid(row=0, column=0, sticky=E)
         recipe_name_entry.grid(row=0, column=1, sticky=W)
 
-        desired_quantity_label = ttk.Label(
-            self.content, text="Desired Quantity:"
-        )
-        desired_quantity = StringVar()
-        desired_quantity.set(recipe.desired_quantity)
+        unit_label = ttk.Label(self.content, text="Unit:")
+        unit = StringVar()
+        unit.set(recipe.unit)
 
-        def on_desired_quantity_change(event):
-            recipe.edit_desired(desired_quantity.get())
+        def on_unit_change(event):
+            recipe.edit_unit(unit.get())
 
-        desired_quantity_entry = ttk.Entry(
-            self.content, textvariable=desired_quantity
-        )
-        desired_quantity_entry.bind("<Return>", on_desired_quantity_change)
-        desired_quantity_entry.bind("<FocusOut>", on_desired_quantity_change)
-        desired_quantity_label.grid(row=1, column=0, sticky=(N, E))
-        desired_quantity_entry.grid(row=1, column=1, sticky=W)
+        unit_entry = ttk.Entry(self.content, textvariable=unit)
+        unit_entry.bind("<Return>", on_unit_change)
+        unit_entry.bind("<FocusOut>", on_unit_change)
+        unit_label.grid(row=1, column=0, sticky=(N, E))
+        unit_entry.grid(row=1, column=1, sticky=W)
 
         batch_size_label = ttk.Label(self.content, text="Batch Size:")
         batch_size = StringVar()
@@ -305,18 +308,22 @@ class Gui:
         batch_size_label.grid(row=2, column=0, sticky=(N, E))
         batch_size_entry.grid(row=2, column=1, sticky=W)
 
-        unit_label = ttk.Label(self.content, text="Unit:")
-        unit = StringVar()
-        unit.set(recipe.unit)
+        desired_quantity_label = ttk.Label(
+            self.content, text="Desired Quantity:"
+        )
+        desired_quantity = StringVar()
+        desired_quantity.set(recipe.desired_quantity)
 
-        def on_unit_change(event):
-            recipe.edit_unit(unit.get())
+        def on_desired_quantity_change(event):
+            recipe.edit_desired(desired_quantity.get())
 
-        unit_entry = ttk.Entry(self.content, textvariable=unit)
-        unit_entry.bind("<Return>", on_unit_change)
-        unit_entry.bind("<FocusOut>", on_unit_change)
-        unit_label.grid(row=3, column=0, sticky=(N, E))
-        unit_entry.grid(row=3, column=1, sticky=W)
+        desired_quantity_entry = ttk.Entry(
+            self.content, textvariable=desired_quantity
+        )
+        desired_quantity_entry.bind("<Return>", on_desired_quantity_change)
+        desired_quantity_entry.bind("<FocusOut>", on_desired_quantity_change)
+        desired_quantity_label.grid(row=3, column=0, sticky=(N, E))
+        desired_quantity_entry.grid(row=3, column=1, sticky=W)
 
         ingredients_label = ttk.Label(self.content, text="Ingredients:")
         self.recipe_ingredients_var = StringVar(
@@ -558,6 +565,20 @@ class Gui:
         name_entry_label.grid(column=0, row=1, sticky=E)
         name_entry.grid(column=1, row=1)
 
+        unit_entry_label = ttk.Label(
+            self.content, text="Unit (leave blank if n/a):"
+        )
+        unit = StringVar()
+        unit_entry = ttk.Entry(self.content, textvariable=unit)
+        unit_entry_label.grid(column=0, row=2, sticky=E)
+        unit_entry.grid(column=1, row=2)
+
+        batch_size_label = ttk.Label(self.content, text="Batch size:")
+        batch_size = StringVar()
+        batch_size_entry = ttk.Entry(self.content, textvariable=batch_size)
+        batch_size_label.grid(column=0, row=3, sticky=E)
+        batch_size_entry.grid(column=1, row=3)
+
         desired_quantity_entry_label = ttk.Label(
             self.content, text="Desired Quantity:"
         )
@@ -565,22 +586,8 @@ class Gui:
         desired_quantity_entry = ttk.Entry(
             self.content, textvariable=desired_quantity
         )
-        desired_quantity_entry_label.grid(column=0, row=2, sticky=E)
-        desired_quantity_entry.grid(column=1, row=2)
-
-        unit_entry_label = ttk.Label(
-            self.content, text="Unit (leave blank if n/a):"
-        )
-        unit = StringVar()
-        unit_entry = ttk.Entry(self.content, textvariable=unit)
-        unit_entry_label.grid(column=0, row=3, sticky=E)
-        unit_entry.grid(column=1, row=3)
-
-        batch_size_label = ttk.Label(self.content, text="Batch size:")
-        batch_size = StringVar()
-        batch_size_entry = ttk.Entry(self.content, textvariable=batch_size)
-        batch_size_label.grid(column=0, row=4, sticky=E)
-        batch_size_entry.grid(column=1, row=4)
+        desired_quantity_entry_label.grid(column=0, row=4, sticky=E)
+        desired_quantity_entry.grid(column=1, row=4)
 
         cancel_button = ttk.Button(
             self.content, text="Cancel", command=self.recipe_menu
