@@ -26,6 +26,17 @@ class Gui:
         for child in self.content.winfo_children():
             child.grid_configure(padx=10, pady=10)
 
+    def display_error_message(self, message):
+        max_row = max(
+            [
+                widget.grid_info()["row"]
+                for widget in self.content.grid_slaves(column=0)
+            ]
+            or [0]
+        )
+        error_message = ttk.Label(self.content, text=message)
+        error_message.grid(column=0, row=(max_row + 1), columnspan=3)
+
     def main_menu(self):
         self.clear_window()
 
@@ -575,14 +586,12 @@ class Gui:
         add_ingredients_button = ttk.Button(
             self.content,
             text="Add Ingredients",
-            command=lambda: self.edit_recipe_menu(
-                self.recipe_list.create_new_recipe(
-                    name=name.get(),
-                    desired_quantity=desired_quantity.get(),
-                    unit=unit.get(),
-                    batch_size=batch_size.get(),
-                    gui=self,
-                ),
+            command=lambda: self.recipe_list.create_new_recipe(
+                name=name.get(),
+                desired_quantity=desired_quantity.get(),
+                unit=unit.get(),
+                batch_size=batch_size.get(),
+                gui=self,
             ),
         )
         add_ingredients_button.grid(column=1, row=5)

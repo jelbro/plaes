@@ -431,35 +431,22 @@ class RecipeList:
         return valid_desired_quantity
 
     def valid_recipe_name(self, name, gui):
-        no_name_error = ttk.Label(gui.content, text="No Name given.")
-        duplicate_ingredient_error = ttk.Label(
-            gui.content, text="Duplicate ingredient name given."
-        )
-        invalid_name_error = ttk.Label(
-            gui.content, text="Invalid Name entered."
-        )
         valid_name = True
 
         if not name:
-            duplicate_ingredient_error.destroy()
-            invalid_name_error.destroy()
-            no_name_error.grid(column=0, row=7, columnspan=2)
+            gui.display_error_message("Recipe must have a name.")
             valid_name = False
 
         for recipe in self.recipe_list:
             if name.lower().strip() == recipe.name.lower().strip():
-                no_name_error.destroy()
-                invalid_name_error.destroy()
-                duplicate_ingredient_error.grid(column=0, row=7, columnspan=2)
+                gui.display_error_message("Recipe already exists")
                 valid_name = False
             else:
                 pass
 
         if not name.isalpha():
+            gui.display_error_message("Recipe is not alphabetic.")
             valid_name = False
-            no_name_error.destroy()
-            duplicate_ingredient_error.destroy()
-            invalid_name_error.grid(column=0, row=7, columnspan=2)
 
         return valid_name
 
@@ -473,7 +460,7 @@ class RecipeList:
                 ingredients=[],
             )
             self.recipe_list.append(new_recipe)
-            return new_recipe
+            gui.edit_recipe_menu(new_recipe)
         else:
             pass
 
