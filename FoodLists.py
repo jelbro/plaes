@@ -395,37 +395,30 @@ class RecipeList:
             return False
 
     def valid_batch_size(self, batch_size, gui):
-        not_number_error = ttk.Label(
-            gui.content, text="Batch Size is not a positive number."
-        )
         valid_batch_size = True
 
         if not batch_size.isnumeric():
-            not_number_error.grid(column=0, row=7, columnspan=2)
+            gui.display_error_message("Batch Size is not a positive number.")
             valid_batch_size = False
 
         return valid_batch_size
 
     def valid_unit(self, unit, gui):
-        invalid_unit_error = ttk.Label(
-            gui.content, text="Invalid Unit Entered."
-        )
         valid_unit = True
 
         if not unit.isalnum() and len(unit) > 0:
             valid_unit = False
-            invalid_unit_error.grid(column=0, row=7, columnspan=2)
+            gui.display_error_message("Invalid Unit Entered.")
 
         return valid_unit
 
     def valid_desired_quantity(self, desired_quantity, gui):
-        not_number_error = ttk.Label(
-            gui.content, text="Desired Quantity is not a positive number."
-        )
         valid_desired_quantity = True
 
         if not desired_quantity.isnumeric():
-            not_number_error.grid(column=0, row=7, columnspan=2)
+            gui.display_error_message(
+                "Desired Quantity is not a positive number."
+            )
             valid_desired_quantity = False
 
         return valid_desired_quantity

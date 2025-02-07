@@ -13,6 +13,7 @@ class Gui:
         self.recipe_list = recipe_list or RecipeList()
         self.recipe_index = 0
         self.stock_taken = False
+        self.error_on_screen = False
         self.master = master
         self.content = ttk.Frame(master, padding=(3, 3, 12, 12))
 
@@ -27,6 +28,10 @@ class Gui:
             child.grid_configure(padx=10, pady=10)
 
     def display_error_message(self, message):
+        if self.error_on_screen:
+            self.error_message.destroy()
+            self.error_on_screen = False
+
         max_row = max(
             [
                 widget.grid_info()["row"]
@@ -34,8 +39,9 @@ class Gui:
             ]
             or [0]
         )
-        error_message = ttk.Label(self.content, text=message)
-        error_message.grid(column=0, row=(max_row + 1), columnspan=3)
+        self.error_message = ttk.Label(self.content, text=message)
+        self.error_message.grid(column=0, row=(max_row + 1), columnspan=3)
+        self.error_on_screen = True
 
     def main_menu(self):
         self.clear_window()
