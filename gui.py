@@ -691,7 +691,7 @@ class Gui:
         amount_entry.focus_set()
 
         def on_confirm_button_click():
-            recipe.change_quantity(int(amount_in_stock.get()))
+            recipe.change_quantity(amount_in_stock.get())
             recipe.get_priority()
             if self.recipe_index != len(self.recipe_list.recipe_list) - 1:
                 self.recipe_index += 1

@@ -93,10 +93,7 @@ class Recipe:
         for ingredient in ingredients:
             self.ingredients.append(ingredient)
 
-        if quantity < 0:
-            raise ValueError("Recipe must have a positive quantity")
-        else:
-            self.quantity = quantity
+        self.quantity = Decimal(quantity)
 
         if desired_quantity < 0:
             raise ValueError("Recipe must have a positive desired quantity")
@@ -549,8 +546,8 @@ class Recipe:
             self.quantity += amount
             self.needed = self.requires_making()
 
-    def change_quantity(self, amount):
-        self.quantity = amount
+    def change_quantity(self, quantity):
+        self.quantity = Decimal(quantity)
         self.needed = self.requires_making()
 
     def edit_desired(self, new_desired):

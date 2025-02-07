@@ -273,6 +273,9 @@ class RecipeList:
         self.printable_prep_list = []
 
     def to_json(self):
+        for recipe in self.recipe_list:
+            recipe.quantity = str(recipe.quantity)
+            recipe.priority = str(recipe.priority)
         return json.dumps(
             self, default=lambda o: o.__dict__, sort_keys=False, indent=4
         )
