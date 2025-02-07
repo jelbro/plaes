@@ -439,12 +439,13 @@ class RecipeList:
 
         for recipe in self.recipe_list:
             if name.lower().strip() == recipe.name.lower().strip():
-                gui.display_error_message("Recipe already exists")
+                gui.display_error_message("Recipe already exists.")
                 valid_name = False
             else:
                 pass
 
-        if not name.isalpha():
+        trimmed_name = name.replace(" ", "")
+        if not trimmed_name.isalpha():
             gui.display_error_message("Recipe is not alphabetic.")
             valid_name = False
 
