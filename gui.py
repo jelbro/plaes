@@ -32,15 +32,13 @@ class Gui:
             self.error_message.destroy()
             self.error_on_screen = False
 
-        max_row = max(
-            [
-                widget.grid_info()["row"]
-                for widget in self.content.grid_slaves(column=0)
-            ]
-            or [0]
-        )
+        window_height = len(self.content.grid_slaves(column=0))
+        window_width = len(self.content.grid_slaves(row=0))
+
         self.error_message = ttk.Label(self.content, text=message)
-        self.error_message.grid(column=0, row=(max_row + 1), columnspan=3)
+        self.error_message.grid(
+            column=0, row=(window_height + 1), columnspan=window_width + 1
+        )
         self.error_on_screen = True
 
     def main_menu(self):

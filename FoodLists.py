@@ -113,34 +113,8 @@ class IngredientList:
         """prompts the user for a name and unit, creates a new Ingredient with
         those values and appends it to the ingredient list
         """
-        no_name_error = ttk.Label(gui.content, text="No Name given.")
-        duplicate_ingredient_error = ttk.Label(
-            gui.content, text="Duplicate ingredient name given."
-        )
-        invalid_name_error = ttk.Label(
-            gui.content, text="Invalid Name entered."
-        )
-        valid_name = True
-        if not name:
-            duplicate_ingredient_error.destroy()
-            invalid_name_error.destroy()
-            no_name_error.grid(column=0, row=4, columnspan=2)
-            valid_name = False
-        for ingredient in self.ingredient_list:
-            if name.lower().strip() == ingredient.name.lower().strip():
-                no_name_error.destroy()
-                invalid_name_error.destroy()
-                duplicate_ingredient_error.grid(column=0, row=4, columnspan=2)
-                valid_name = False
-            else:
-                pass
-        if not name.isalpha():
-            valid_name = False
-            no_name_error.destroy()
-            duplicate_ingredient_error.destroy()
-            invalid_name_error.grid(column=0, row=4, columnspan=2)
 
-        if valid_name:
+        if self.valid_ingredient_name(name=name, gui=gui):
             ingredient = Ingredient(
                 name=name.title().strip(), quantity=0, unit=unit
             )
@@ -148,6 +122,23 @@ class IngredientList:
             gui.ingredient_menu()
         else:
             pass
+
+    def valid_ingredient_name(self, name, gui):
+        valid_name = True
+        if not name:
+            gui.display_error_message("No Name given.")
+            valid_name = False
+        for ingredient in self.ingredient_list:
+            if name.lower().strip() == ingredient.name.lower().strip():
+                gui.display_error_message("Duplicate name given.")
+                valid_name = False
+            else:
+                pass
+        stripped_name = name.replace(" ", "")
+        if not stripped_name.isalpha():
+            gui.display_error_message("Invalid Name given.")
+            valid_name = False
+        return valid_name
 
     def delete_from_list(self, recipe_list):
         """displays the ingredient list then prompts the user for the ingredient
