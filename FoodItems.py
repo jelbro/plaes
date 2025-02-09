@@ -94,10 +94,7 @@ class Recipe:
 
         self.desired_quantity = Decimal(desired_quantity)
 
-        if batch_size < 0:
-            raise ValueError("Recipe must have a positive batch size")
-        else:
-            self.batch_size = int(batch_size)
+        self.batch_size = Decimal(batch_size)
 
         self.get_priority()
         self.unit = unit
@@ -562,20 +559,20 @@ class Recipe:
         except ValueError:
             print(f"{new_desired} is not a valid decimal")
         if new_desired < 0:
-            raise ValueError("desired_quantity cannot be less than zero")
+            raise ValueError("Desired quantity cannot be less than zero")
         else:
             self.desired_quantity = Decimal(new_desired)
             self.needed = self.requires_making()
 
     def edit_batch_size(self, new_batch_size):
         try:
-            new_batch_size = int(new_batch_size)
+            new_batch_size = Decimal(new_batch_size)
         except ValueError:
-            print(f"{new_batch_size} is not a valid int")
+            print(f"{new_batch_size} is not a valid Decimal")
         if new_batch_size < 0:
-            raise ValueError("desired_quantity cannot be zero or less")
+            raise ValueError("Batch size cannot be less than zero")
         else:
-            self.batch_size = new_batch_size
+            self.batch_size = Decimal(new_batch_size)
 
     def edit_unit(self, new_unit):
         if len(new_unit) == 0:
