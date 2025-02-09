@@ -41,6 +41,11 @@ class Gui:
         )
         self.error_on_screen = True
 
+    def question_box(self, title, message):
+        return messagebox.askyesno(
+            title=title, message=message, icon="question"
+        )
+
     def main_menu(self):
         self.clear_window()
 
@@ -287,7 +292,7 @@ class Gui:
         unit.set(recipe.unit)
 
         def on_unit_change(event):
-            recipe.edit_unit(unit.get())
+            recipe.edit_unit(unit.get(), self)
 
         unit_entry = ttk.Entry(self.content, textvariable=unit)
         unit_entry.bind("<Return>", on_unit_change)
@@ -300,7 +305,7 @@ class Gui:
         batch_size.set(recipe.batch_size)
 
         def on_batch_size_change(event):
-            recipe.edit_batch_size(batch_size.get())
+            recipe.edit_batch_size(batch_size.get(), self)
 
         batch_size_entry = ttk.Entry(self.content, textvariable=batch_size)
         batch_size_entry.bind("<Return>", on_batch_size_change)
@@ -315,7 +320,7 @@ class Gui:
         desired_quantity.set(recipe.desired_quantity)
 
         def on_desired_quantity_change(event):
-            recipe.edit_desired(desired_quantity.get())
+            recipe.edit_desired(desired_quantity.get(), self)
 
         desired_quantity_entry = ttk.Entry(
             self.content, textvariable=desired_quantity
