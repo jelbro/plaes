@@ -84,10 +84,7 @@ class Recipe:
         unit : str
             the unit of storage used for this Recipe
         """
-        if name == None:
-            raise ValueError("Recipe must have a name")
-        else:
-            self.name = name
+        self.name = name
 
         self.ingredients = []
         for ingredient in ingredients:
@@ -95,10 +92,7 @@ class Recipe:
 
         self.quantity = Decimal(quantity)
 
-        if desired_quantity < 0:
-            raise ValueError("Recipe must have a positive desired quantity")
-        else:
-            self.desired_quantity = desired_quantity
+        self.desired_quantity = Decimal(desired_quantity)
 
         if batch_size < 0:
             raise ValueError("Recipe must have a positive batch size")
@@ -564,13 +558,13 @@ class Recipe:
             if the new desired quantity would be zero or less
         """
         try:
-            new_desired = int(new_desired)
+            new_desired = Decimal(new_desired)
         except ValueError:
-            print(f"{new_desired} is not a valid int")
+            print(f"{new_desired} is not a valid decimal")
         if new_desired < 0:
-            raise ValueError("desired_quantity cannot be zero or less")
+            raise ValueError("desired_quantity cannot be less than zero")
         else:
-            self.desired_quantity = new_desired
+            self.desired_quantity = Decimal(new_desired)
             self.needed = self.requires_making()
 
     def edit_batch_size(self, new_batch_size):

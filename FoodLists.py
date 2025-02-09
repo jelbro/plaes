@@ -276,6 +276,7 @@ class RecipeList:
         for recipe in self.recipe_list:
             recipe.quantity = str(recipe.quantity)
             recipe.priority = str(recipe.priority)
+            recipe.desired_quantity = str(recipe.desired_quantity)
         return json.dumps(
             self, default=lambda o: o.__dict__, sort_keys=False, indent=4
         )
