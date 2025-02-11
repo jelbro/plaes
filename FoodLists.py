@@ -3,10 +3,22 @@ import os
 import json
 import inflect
 import datetime
+from decimal import *
 from tkinter import *
 from tkinter import ttk, messagebox
 
 inflect_engine = inflect.engine()
+
+getcontext().prec = 100
+TWO_PLACES = Decimal("0.01")
+
+
+def limit_decimal_places(value):
+    decimal_value = Decimal(value).quantize(TWO_PLACES)
+    if decimal_value % 1 != 0:
+        return decimal_value
+    else:
+        return decimal_value.quantize(Decimal("1"))
 
 
 def clear():
@@ -228,6 +240,10 @@ class IngredientList:
         if wait:
             input("Press enter to continue...")
 
+    def reset_ingredient_quantity(self):
+        for ingredient in self.ingredient_list:
+            ingredient.quantity = 0
+
 
 class RecipeList:
     """
@@ -273,6 +289,7 @@ class RecipeList:
         self.prep_list = []
         self.prep_ingredient_list = []
         self.printable_prep_list = []
+        self.printable_prep_ingredient_list = []
 
     def to_json(self):
         for recipe in self.recipe_list:
@@ -620,8 +637,9 @@ class RecipeList:
             else:
                 pass
         self.sort_by_priority()
-        # self.create_prep_ingredient_list()
+        self.create_prep_ingredient_list()
         self.make_printable_prep_list()
+        self.make_printable_ingredient_prep_list()
 
     def make_printable_prep_list(self):
         self.printable_prep_list.clear()
@@ -664,20 +682,45 @@ class RecipeList:
         input("Press enter to continue...")
 
     def create_prep_ingredient_list(self):
-
         self.prep_ingredient_list.clear()
         for recipe in self.prep_list:
             for ingredient in recipe.ingredients:
                 if ingredient in self.prep_ingredient_list:
-                    ingredient.quantity += (
+                    ingredient.quantity += limit_decimal_places(
                         recipe.amount_to_make()
-                        * ingredient.used_in[recipe.name]
-                    )
+                    ) * Decimal(ingredient.used_in[recipe.name])
                 else:
                     self.prep_ingredient_list.append(ingredient)
-                    ingredient.quantity += (
-                        recipe.amount_to_make()
-                        * ingredient.used_in[recipe.name]
+                    ingredient.quantity += limit_decimal_places(
+                        Decimal(recipe.amount_to_make())
+                        * Decimal(ingredient.used_in[recipe.name])
+                    )
+
+    def make_printable_ingredient_prep_list(self):
+        self.printable_prep_ingredient_list.clear()
+        for ingredient in self.prep_ingredient_list:
+            if ingredient.unit:
+                if ingredient.is_plural():
+                    self.printable_prep_ingredient_list.append(
+                        f"{ingredient.quantity}"
+                        f"{inflect_engine.plural(ingredient.unit)} "
+                        f"of {ingredient.name}"
+                    )
+                else:
+                    self.printable_prep_ingredient_list.append(
+                        f"{ingredient.quantity}"
+                        f"{ingredient.unit} "
+                        f"of {ingredient.name}"
+                    )
+            else:
+                if ingredient.is_plural():
+                    self.printable_prep_ingredient_list.append(
+                        f"{ingredient.quantity} "
+                        f"{inflect_engine.plural(ingredient.name)}"
+                    )
+                else:
+                    self.printable_prep_ingredient_list.append(
+                        f"{ingredient.quantity} " f"{ingredient.name}"
                     )
 
     def draw_underline(self, date_length, string_length):

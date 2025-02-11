@@ -19,7 +19,8 @@ from tkinter import messagebox
 inflect_engine = inflect.engine()
 
 # set decimal precision to 2 places
-getcontext().prec = 2
+getcontext().prec = 100
+TWO_PLACES = Decimal("0.01")
 
 
 class Recipe:

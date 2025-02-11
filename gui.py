@@ -619,6 +619,7 @@ class Gui:
             if self.stock_take_dialog():
                 self.stock_take_menu()
                 return
+        self.ingredient_list.reset_ingredient_quantity()
         self.recipe_list.create_prep_list()
 
         self.clear_window()
@@ -638,7 +639,7 @@ class Gui:
         )
         self.prep_list_listbox.grid(column=0, row=1, rowspan=3, sticky=(N, W))
 
-        view_recipe_button = Button(
+        view_recipe_button = ttk.Button(
             self.content,
             text="View Recipe",
             command=lambda: self.edit_recipe_menu(
@@ -654,8 +655,34 @@ class Gui:
         )
         edit_stock_button.grid(column=1, row=2, sticky=(N, W))
 
+        ingredients_needed_button = ttk.Button(
+            self.content,
+            text="Ingredients Needed",
+            command=self.ingredients_needed_menu,
+        )
+        ingredients_needed_button.grid(column=1, row=3, sticky=(N, W))
+
         back_button = ttk.Button(
             self.content, text="Back to Main Menu", command=self.main_menu
+        )
+        back_button.grid(column=0, row=4, sticky=(S, W))
+
+        self.pad_window()
+
+    def ingredients_needed_menu(self):
+        self.clear_window()
+
+        ingredient_needed_list_var = StringVar()
+        ingredient_needed_list_var.set(
+            self.recipe_list.printable_prep_ingredient_list
+        )
+        self.prep_list_listbox = Listbox(
+            self.content, listvariable=ingredient_needed_list_var
+        )
+        self.prep_list_listbox.grid(column=0, row=1, rowspan=3, sticky=(N, W))
+
+        back_button = ttk.Button(
+            self.content, text="Back to Prep List", command=self.prep_list_menu
         )
         back_button.grid(column=0, row=4, sticky=(S, W))
 
