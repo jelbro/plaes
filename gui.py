@@ -25,7 +25,7 @@ class Gui:
 
     def pad_window(self):
         for child in self.content.winfo_children():
-            child.grid_configure(padx=10, pady=10)
+            child.grid_configure(padx=40, pady=15)
 
     def display_error_message(self, message):
         if self.error_on_screen:

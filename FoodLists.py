@@ -618,7 +618,7 @@ class RecipeList:
             else:
                 pass
         self.sort_by_priority()
-        self.create_prep_ingredient_list()
+        # self.create_prep_ingredient_list()
         self.make_printable_prep_list()
 
     def make_printable_prep_list(self):

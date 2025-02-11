@@ -9,6 +9,7 @@ def main():
     # menu = Menu(ingredient_list=ingredient_list, recipe_list=recipe_list)
     root = Tk()
     root.title("Plaes")
+    root.geometry("600x400")
     gui = Gui(root, ingredient_list=ingredient_list, recipe_list=recipe_list)
 
     def on_closing():
