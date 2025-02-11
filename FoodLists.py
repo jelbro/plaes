@@ -48,6 +48,8 @@ class IngredientList:
             self.ingredient_list.append(ingredient)
 
     def to_json(self):
+        for ingredient in self.ingredient_list:
+            ingredient.quantity = str(ingredient.quantity)
         return json.dumps(
             self, default=lambda o: o.__dict__, sort_keys=False, indent=4
         )

@@ -351,10 +351,7 @@ class Ingredient:
         else:
             self.name = name
 
-        if quantity < 0:
-            raise ValueError("Ingredient must have a positive quantity")
-        else:
-            self.quantity = quantity
+        self.quantity = Decimal(quantity)
 
         self.unit = unit
         self.used_in = used_in
