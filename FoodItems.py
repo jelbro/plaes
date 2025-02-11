@@ -290,11 +290,11 @@ class Recipe:
         else:
             if self.ingredient_is_plural(ingredient):
                 return (
-                    f"{ingredient.used_in[self.name]} {inflect_engine.plural(ingredient.unit)} "
+                    f"{ingredient.used_in[self.name]}{inflect_engine.plural(ingredient.unit)} "
                     f"of {ingredient.name.title()}"
                 )
             else:
-                return f"{ingredient.used_in[self.name]} {ingredient.unit} of {ingredient.name.title()}"
+                return f"{ingredient.used_in[self.name]}{ingredient.unit} of {ingredient.name.title()}"
 
     def remove_ingredient_from_recipe(self, gui):
         index = gui.recipe_ingredient_list_box.curselection()[0]

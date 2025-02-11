@@ -41,6 +41,20 @@ class Gui:
         )
         self.error_on_screen = True
 
+    def get_list_box_width(self, list, named=True):
+        longest_item = 0
+        if not named:
+            for item in list:
+                if len(item) > longest_item:
+                    longest_item = len(item)
+        else:
+            for item in list:
+                if len(item.name) > longest_item:
+                    longest_item = len(item.name)
+        if longest_item < 20:
+            longest_item = 20
+        return longest_item
+
     def question_box(self, title, message):
         return messagebox.askyesno(
             title=title, message=message, icon="question"
@@ -87,6 +101,9 @@ class Gui:
         self.ingredient_list_box = Listbox(
             self.content,
             listvariable=self.ingredients_var,
+            width=self.get_list_box_width(
+                self.ingredient_list.ingredient_list
+            ),
         )
         self.ingredient_list_box.grid(column=0, row=1, rowspan=3)
 
@@ -230,7 +247,10 @@ class Gui:
 
         self.recipes_var = StringVar(value=self.recipe_list.recipe_list)
         self.recipes_list_box = Listbox(
-            self.content, listvariable=self.recipes_var, height=10
+            self.content,
+            listvariable=self.recipes_var,
+            height=10,
+            width=self.get_list_box_width(self.recipe_list.recipe_list),
         )
         self.recipes_list_box.grid(column=0, row=1, columnspan=2, rowspan=3)
 
@@ -335,7 +355,12 @@ class Gui:
             value=recipe.get_ingredient_amounts()
         )
         self.recipe_ingredient_list_box = Listbox(
-            self.content, listvariable=self.recipe_ingredients_var, height=8
+            self.content,
+            listvariable=self.recipe_ingredients_var,
+            height=8,
+            width=self.get_list_box_width(
+                recipe.get_ingredient_amounts(), False
+            ),
         )
         ingredients_label.grid(row=4, column=0, sticky=(N, E))
         self.recipe_ingredient_list_box.grid(
@@ -460,7 +485,12 @@ class Gui:
             value=self.ingredient_list.ingredient_list
         )
         self.ingredient_list_box = Listbox(
-            self.content, listvariable=self.ingredients_var, height=10
+            self.content,
+            listvariable=self.ingredients_var,
+            height=10,
+            width=self.get_list_box_width(
+                self.ingredient_list.ingredient_list
+            ),
         )
         self.ingredient_list_box.grid(column=0, row=1, columnspan=2, rowspan=2)
 
@@ -635,7 +665,11 @@ class Gui:
         prep_list_var = StringVar()
         prep_list_var.set(self.recipe_list.printable_prep_list)
         self.prep_list_listbox = Listbox(
-            self.content, listvariable=prep_list_var
+            self.content,
+            listvariable=prep_list_var,
+            width=self.get_list_box_width(
+                self.recipe_list.printable_prep_list, False
+            ),
         )
         self.prep_list_listbox.grid(column=0, row=1, rowspan=3, sticky=(N, W))
 
@@ -671,13 +705,25 @@ class Gui:
 
     def ingredients_needed_menu(self):
         self.clear_window()
+        current_date = datetime.date.today()
+        one_day = datetime.timedelta(days=1)
+        prep_list_date = current_date + one_day
+        prep_list_date = prep_list_date.strftime("%A %d %B")
+        prep_list_label = ttk.Label(
+            self.content, text=f"Ingredients needed for {prep_list_date}"
+        )
+        prep_list_label.grid(column=0, row=0, columnspan=3)
 
         ingredient_needed_list_var = StringVar()
         ingredient_needed_list_var.set(
             self.recipe_list.printable_prep_ingredient_list
         )
         self.prep_list_listbox = Listbox(
-            self.content, listvariable=ingredient_needed_list_var
+            self.content,
+            listvariable=ingredient_needed_list_var,
+            width=self.get_list_box_width(
+                self.recipe_list.printable_prep_ingredient_list, False
+            ),
         )
         self.prep_list_listbox.grid(column=0, row=1, rowspan=3, sticky=(N, W))
 
