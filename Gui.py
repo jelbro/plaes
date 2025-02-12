@@ -60,6 +60,7 @@ class Gui:
 
     def main_menu(self):
         self.clear_window()
+        self.master.geometry("400x200")
 
         main_menu_label = ttk.Label(self.content, text="Main Menu")
         ingredients_button = ttk.Button(
@@ -89,6 +90,7 @@ class Gui:
 
     def ingredient_menu(self):
         self.clear_window()
+        self.master.geometry("500x400")
 
         ingredient_menu_label = ttk.Label(self.content, text="Ingredients")
         ingredient_menu_label.grid(column=0, row=0, columnspan=3)
@@ -239,6 +241,7 @@ class Gui:
 
     def recipe_menu(self):
         self.clear_window()
+        self.master.geometry("500x400")
 
         recipe_menu_label = ttk.Label(self.content, text="Recipes")
         recipe_menu_label.grid(column=0, row=0, columnspan=4)
@@ -293,6 +296,7 @@ class Gui:
 
     def edit_recipe_menu(self, recipe):
         self.clear_window()
+        self.master.geometry("500x600")
 
         recipe_name_label = ttk.Label(self.content, text="Name:")
         recipe_name = StringVar()
@@ -657,6 +661,7 @@ class Gui:
             if self.stock_take_dialog():
                 self.stock_take_menu()
                 return
+        self.master.geometry("500x400")
         self.ingredient_list.reset_ingredient_quantity()
         self.recipe_list.create_prep_list()
 
@@ -751,6 +756,8 @@ class Gui:
 
     def stock_take_menu(self):
         self.clear_window()
+        self.master.geometry("800x200")
+
         recipe = self.recipe_list.recipe_list[self.recipe_index]
 
         take_stock_label = ttk.Label(
@@ -779,7 +786,7 @@ class Gui:
             self.content,
             textvariable=amount_in_stock,
         )
-        amount_entry.grid(column=1, row=1, sticky=W)
+        amount_entry.grid(column=1, row=1)
         amount_entry.bind("<FocusIn>", on_entry_focus)
         amount_entry.focus_set()
 
@@ -799,7 +806,7 @@ class Gui:
             text="Confirm",
             command=on_confirm_button_click,
         )
-        confirm_button.grid(column=1, row=2)
+        confirm_button.grid(column=2, row=2)
 
         def on_previous_button_click():
             if self.recipe_index != 0:
@@ -813,11 +820,11 @@ class Gui:
             text="Previous Recipe",
             command=on_previous_button_click,
         )
-        previous_button.grid(column=0, row=2, sticky=E)
+        previous_button.grid(column=1, row=2)
 
         cancel_button = ttk.Button(
             self.content, text="Cancel", command=self.main_menu
         )
-        cancel_button.grid(column=0, row=2, sticky=W)
+        cancel_button.grid(column=0, row=2)
 
         self.pad_window()
