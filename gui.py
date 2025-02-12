@@ -352,14 +352,14 @@ class Gui:
 
         ingredients_label = ttk.Label(self.content, text="Ingredients:")
         self.recipe_ingredients_var = StringVar(
-            value=recipe.get_ingredient_amounts()
+            value=recipe.get_ingredients_with_amounts_list()
         )
         self.recipe_ingredient_list_box = Listbox(
             self.content,
             listvariable=self.recipe_ingredients_var,
             height=8,
             width=self.get_list_box_width(
-                recipe.get_ingredient_amounts(), False
+                recipe.get_ingredients_with_amounts_list(), False
             ),
         )
         ingredients_label.grid(row=4, column=0, sticky=(N, E))

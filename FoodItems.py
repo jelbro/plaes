@@ -220,8 +220,6 @@ class Recipe:
         return amount_of_batches
 
     def get_priority(self):
-        # the greater the difference of the desired quantity and the quantity
-        # the higher the priority to make
         difference = self.desired_quantity - self.quantity
         if self.quantity == 0:
             self.priority = 10000000000000000
@@ -235,13 +233,13 @@ class Recipe:
         else:
             return False
 
-    def get_ingredient_amounts(self):
-        ingredients_with_amounts = []
+    def get_ingredients_with_amounts_list(self):
+        ingredients_with_amounts_list = []
         for ingredient in self.ingredients:
-            ingredients_with_amounts.append(
+            ingredients_with_amounts_list.append(
                 self.pluralise_ingredient(ingredient)
             )
-        return ingredients_with_amounts
+        return ingredients_with_amounts_list
 
     def ingredient_is_plural(self, ingredient):
         if ingredient.used_in[self.name] != 1:
@@ -285,7 +283,9 @@ class Recipe:
             ),
         ):
             self.ingredients.remove(ingredient_to_remove)
-            gui.recipe_ingredients_var.set(self.get_ingredient_amounts())
+            gui.recipe_ingredients_var.set(
+                self.get_ingredients_with_amounts_list()
+            )
         else:
             pass
 
