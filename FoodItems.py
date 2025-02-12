@@ -310,18 +310,8 @@ class Ingredient:
             self.name = name
 
         self.quantity = Decimal(quantity)
-
         self.unit = unit
         self.used_in = used_in
-
-    def set_used_in(self, recipe, amount):
-        self.used_in[recipe.name] = amount
-
-    def is_plural(self):
-        if self.quantity != 1:
-            return True
-        else:
-            return False
 
     def __str__(self):
         return self.name.title()
@@ -331,46 +321,6 @@ class Ingredient:
             f"Ingredient(name: {self.name}, "
             f"quantity: {self.quantity}, unit: {self.unit})"
         )
-
-    def remove(self, amount):
-        """Remove amount from this Ingredient
-
-        Parameters
-        ----------
-        amount : decimal
-            a positive decimal to remove from this Ingredient's quantity
-
-        Raises
-        ------
-        ValueError
-            if trying to remove more Ingredients than exist
-        ValueError
-            if trying to remove a negative amount
-        """
-        if (self.quantity - amount) < 0:
-            raise ValueError(f"Not enough {self.name} to remove {amount}")
-        elif amount < 0:
-            raise ValueError("Amount to remove can not be negative")
-        else:
-            self.quantity -= amount
-
-    def add(self, amount):
-        """Add amount to this Ingredient's quantity
-
-        Parameters
-        ----------
-        amount : decimal
-            a positive decimal to add to this Ingredient's quantity
-
-        Raises
-        ------
-        ValueError
-            if amount is a negative number
-        """
-        if amount < 0:
-            raise ValueError("Amount to add can not be negative")
-        else:
-            self.quantity += amount
 
     def add_ingredient_to_recipe(self, recipe, ingredient_quantity):
         if not self.used_in:
