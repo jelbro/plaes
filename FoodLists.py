@@ -1,8 +1,6 @@
 from FoodItems import *
-import os
 import json
 import inflect
-import datetime
 from decimal import *
 from tkinter import *
 from tkinter import ttk, messagebox

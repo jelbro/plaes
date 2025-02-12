@@ -1,9 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from FoodLists import *
-from inflect import *
-
-inflect_engine = inflect.engine()
+import datetime
 
 
 class Gui:

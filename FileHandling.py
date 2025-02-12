@@ -1,4 +1,6 @@
+from FoodItems import Ingredient, Recipe
 from FoodLists import *
+import json
 
 
 def load_lists(file_path):

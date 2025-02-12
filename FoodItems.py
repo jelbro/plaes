@@ -11,16 +11,11 @@ Ingredient
 from FoodLists import *
 import inflect
 from decimal import *
-import json
 from tkinter import *
 from tkinter import messagebox
 
 # create an instance of the inflect engine
 inflect_engine = inflect.engine()
-
-# set decimal precision to 2 places
-getcontext().prec = 100
-TWO_PLACES = Decimal("0.01")
 
 
 class Recipe:
