@@ -275,7 +275,12 @@ class Gui:
         delete_recipe_button = ttk.Button(
             self.content,
             text="Delete recipe",
-            command=lambda: self.recipe_list.delete_from_list(self),
+            command=lambda: self.recipe_list.delete_recipe_from_list(
+                self,
+                self.recipe_list.recipe_list[
+                    self.recipes_list_box.curselection()[0]
+                ],
+            ),
         )
         delete_recipe_button.grid(column=3, row=3)
 

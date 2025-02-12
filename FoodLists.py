@@ -77,101 +77,17 @@ class RecipeList:
             self, default=lambda o: o.__dict__, sort_keys=False, indent=4
         )
 
-    def display_list(self, wait=False):
-        """prints this RecipeList"""
-        num = 1
-        for recipe in self.recipe_list:
-            print(f"{num}: {recipe.name}, unit: {recipe.unit}")
-            num += 1
-            if wait:
-                input("Press enter to continue...")
-
-    """def delete_from_list(self):
-        self.display_list(wait=False)
-        recipe = self.search_for_recipe("Name of recipe to remove: ")
-        if self.confirm_deletion(recipe.name):
-            self.recipe_list.remove(recipe)
-            for ingredient in recipe.ingredients:
-                ingredient.used_in.pop(recipe.name)
-            clear()
-            self.display_list()
-        else:
-            pass
-        """
-
-    def delete_from_list(self, gui):
-        index = gui.recipes_list_box.curselection()[0]
-        recipe_to_remove = self.recipe_list[index]
-        if self.confirm_deletion(recipe_to_remove.name):
+    def delete_recipe_from_list(self, gui, recipe_to_remove):
+        if gui.question_box(
+            title="Delete Recipe",
+            message=f"Are you sure you want to delete {recipe_to_remove.name.title()}?",
+        ):
             self.recipe_list.remove(recipe_to_remove)
             gui.recipes_var.set(self.recipe_list)
         else:
             pass
 
-    def confirm_deletion(self, name):
-        return messagebox.askyesno(
-            title="Delete Recipe",
-            message=(f"Are you sure you want to delete {name.title()}?"),
-            icon="question",
-        )
-
-    def search_for_recipe(self, prompt):
-        while True:
-            try:
-                recipe = self.find_recipe(input(prompt))
-                return recipe
-            except ValueError:
-                print("Invalid recpie name")
-
-    def find_recipe(self, recipe_to_find):
-        for recipe in self.recipe_list:
-            if recipe_to_find.lower() == recipe.name.lower():
-                return recipe
-            else:
-                pass
-        raise ValueError
-
-    def add_new_recipe(self, ingredient_list_obj):
-        """prompts the user for a name, unit, desired quantity constructs a new
-        recipe from this and then asks the user for the ingredients in this
-        recipe
-
-        Parameters
-        ----------
-        ingredient_list_obj : IngredientList
-            the current IngredientList to reference for existing ingredients
-        """
-        name = input("Recipe name: ")
-        unit = input("Recipe unit: ")
-        desired_quantity = int(
-            input(f"Desired quantity of " f"{inflect_engine.plural(unit)}: ")
-        )
-        batch_size = int(
-            input(
-                f"How many {inflect_engine.plural(unit)} of {name} "
-                "does one batch make: "
-            )
-        )
-        new_recipe = Recipe(
-            name=name,
-            unit=unit,
-            desired_quantity=desired_quantity,
-            batch_size=batch_size,
-        )
-
-        while True:
-            try:
-                ingredient_list_obj.display_list(wait=False)
-                new_recipe.add_ingredient(
-                    self.get_ingredient(name, ingredient_list_obj, new_recipe)
-                )
-            except EOFError:
-                self.recipe_list.append(new_recipe)
-                print("\n")
-                break
-
     def valid_recipe(self, name, desired_quantity, unit, batch_size, gui):
-
         if (
             self.valid_recipe_name(name, gui)
             and self.valid_desired_quantity(desired_quantity, gui)
@@ -246,150 +162,6 @@ class RecipeList:
         else:
             pass
 
-    def get_ingredient(self, recipe_name, ingredient_list_obj, recipe_obj):
-        """asks the user for the name of the ingredient, checks if it is already
-        in the ingredient list if it is not creates that ingredient. Then asks
-        the user for the quantity of ingredient to use in the recipe
-
-        Parameters
-        ----------
-        recipe_name : str
-            the user inputted name for the recipe
-        ingredient_list_obj : IngredientList
-            the current IngredientList to reference
-        recipe_obj : Recipe
-            the newly created Recipe to add ingredients to
-
-        Returns
-        -------
-        Ingredient
-            returns a fully initialised Ingredient object
-        """
-        while True:
-            ingredient_name = input("Ingredient to add to recipe: ")
-
-            if len(ingredient_list_obj.ingredient_list) == 0:
-                if self.create_new_ingredient():
-                    ingredient_list_obj.add_new_ingredient(ingredient_name)
-                    for ingredient in ingredient_list_obj.ingredient_list:
-                        ingredient.add_ingredient_to_recipe(
-                            recipe_obj,
-                            self.get_ingredient_quantity(
-                                ingredient, ingredient_name, recipe_name
-                            ),
-                        )
-                        return ingredient
-                else:
-                    continue
-            else:
-                for ingredient in ingredient_list_obj.ingredient_list:
-                    if self.ingredient_in_list(ingredient_name, ingredient):
-                        ingredient.add_ingredient_to_recipe(
-                            recipe_obj,
-                            self.get_ingredient_quantity(
-                                ingredient, ingredient_name, recipe_name
-                            ),
-                        )
-                        return ingredient
-                    else:
-                        pass
-                if self.create_new_ingredient():
-                    ingredient_list_obj.add_new_ingredient(ingredient_name)
-                    for ingredient in ingredient_list_obj.ingredient_list:
-                        if self.ingredient_in_list(
-                            ingredient_name, ingredient
-                        ):
-                            ingredient.add_ingredient_to_recipe(
-                                recipe_obj,
-                                self.get_ingredient_quantity(
-                                    ingredient, ingredient_name, recipe_name
-                                ),
-                            )
-                            return ingredient
-                        else:
-                            pass
-                else:
-                    break
-
-    def ingredient_in_list(self, ingredient_name, ingredient):
-        """checks to see if the user inputted ingredient name matches the name
-        of the current ingredient
-
-        Parameters
-        ----------
-        ingredient_name : str
-            a user inputted ingredient name
-        ingredient : Ingredient
-            the current Ingredient object the name is being checked against
-
-        Returns
-        -------
-        boolean
-            True if the names are equal
-        """
-        return ingredient_name.lower() == ingredient.name.lower()
-
-    def get_ingredient_quantity(
-        self, ingredient, ingredient_name, recipe_name
-    ):
-        """prompts the user for the amount of the current ingredient to add
-        to the recipe
-
-        Parameters
-        ----------
-        ingredient : Ingredient
-            the current ingredient to add to the recipe
-        ingredient_name : str
-            the user input ingredient name
-        recipe_name : str
-            the name of the Recipe that is currently being created
-
-        Returns
-        -------
-        int
-            an int representing the amount of Ingredient in Recipe
-        """
-        if not ingredient.unit:
-            return int(
-                input(
-                    f"Amount of {inflect_engine.plural(ingredient_name)} in "
-                    f"{recipe_name}? "
-                )
-            )
-        else:
-            return int(
-                input(
-                    f"{inflect_engine.plural(ingredient.unit)} of "
-                    f"{ingredient.name} in {recipe_name}? "
-                )
-            )
-
-    def create_new_ingredient(self):
-        """Prompts the user to ask if they would like to add the ingredient
-        to the list
-
-        Returns
-        -------
-        boolean
-            True if answer is equal to 'y'
-        """
-        response = input(
-            "Ingredient not in list would you like to create it? y/n "
-        )
-        return response.lower().strip() == "y"
-
-    def take_stock(self):
-        for recipe in self.recipe_list:
-            recipe.change_quantity(
-                int(
-                    input(
-                        f"How many {inflect_engine.plural(recipe.unit)} "
-                        f"of {recipe.name} are in stock? "
-                    )
-                )
-            )
-            recipe.get_priority()
-
     def create_prep_list(self):
         self.prep_list.clear()
         for recipe in self.recipe_list:
@@ -414,34 +186,6 @@ class RecipeList:
             self.prep_list, key=lambda recipe: recipe.priority
         )
 
-    def display_prep_list(self):
-        current_date = datetime.date.today()
-        one_day = datetime.timedelta(days=1)
-        prep_list_date = current_date + one_day
-        prep_list_date = prep_list_date.strftime("%A %d %B")
-
-        print(f"Prep list for {prep_list_date}")
-        self.draw_underline(len(prep_list_date), 14)
-
-        for recipe in self.prep_list:
-            print(f"Make {recipe.amount_to_make()}x {recipe.name}")
-        self.draw_underline(len(prep_list_date), 14)
-
-        print("Ingredients needed:")
-        for ingredient in self.prep_ingredient_list:
-            if not ingredient.unit:
-                print(
-                    f"- {ingredient.quantity} "
-                    f"{inflect_engine.plural(ingredient.name)}"
-                )
-            else:
-                print(
-                    f"- {ingredient.quantity}"
-                    f"{inflect_engine.plural(ingredient.unit)} {ingredient.name}"
-                )
-        self.draw_underline(len(prep_list_date), 14)
-        input("Press enter to continue...")
-
     def create_prep_ingredient_list(self):
         self.prep_ingredient_list.clear()
         for recipe in self.prep_list:
@@ -461,35 +205,18 @@ class RecipeList:
         self.printable_prep_ingredient_list.clear()
         for ingredient in self.prep_ingredient_list:
             if ingredient.unit:
-                if ingredient.is_plural():
-                    self.printable_prep_ingredient_list.append(
-                        f"{ingredient.quantity}"
-                        f"{inflect_engine.plural(ingredient.unit)} "
-                        f"of {ingredient.name}"
-                    )
-                else:
-                    self.printable_prep_ingredient_list.append(
-                        f"{ingredient.quantity}"
-                        f"{ingredient.unit} "
-                        f"of {ingredient.name}"
-                    )
+                self.printable_prep_ingredient_list.append(
+                    f"{ingredient.quantity}"
+                    f"{inflect_engine.plural(ingredient.unit,
+                                            ingredient.quantity)} "
+                    f"of {ingredient.name.title()}"
+                )
             else:
-                if ingredient.is_plural():
-                    self.printable_prep_ingredient_list.append(
-                        f"{ingredient.quantity} "
-                        f"{inflect_engine.plural(ingredient.name)}"
-                    )
-                else:
-                    self.printable_prep_ingredient_list.append(
-                        f"{ingredient.quantity} " f"{ingredient.name}"
-                    )
-
-    def draw_underline(self, date_length, string_length):
-        total_length = date_length + string_length
-
-        for i in range(total_length):
-            print("-", end="")
-        print()
+                self.printable_prep_ingredient_list.append(
+                    f"{ingredient.quantity} "
+                    f"{inflect_engine.plural(ingredient.name.title(),
+                                            ingredient.quantity)}"
+                )
 
 
 class IngredientList:
