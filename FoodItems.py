@@ -241,12 +241,6 @@ class Recipe:
             )
         return ingredients_with_amounts_list
 
-    def ingredient_is_plural(self, ingredient):
-        if ingredient.used_in[self.name] != 1:
-            return True
-        else:
-            return False
-
     def pluralise_ingredient(self, ingredient):
         if not ingredient.unit:
             return (
