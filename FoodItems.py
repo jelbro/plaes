@@ -249,28 +249,17 @@ class Recipe:
 
     def pluralise_ingredient(self, ingredient):
         if not ingredient.unit:
-            if self.ingredient_is_plural(ingredient):
-                return (
-                    f"{ingredient.used_in[self.name]} "
-                    f"{inflect_engine.plural(ingredient.name.title())}"
-                )
-            else:
-                return (
-                    f"{ingredient.used_in[self.name]} "
-                    f"{ingredient.name.title()}"
-                )
+            return (
+                f"{ingredient.used_in[self.name]} "
+                f"{inflect_engine.plural(ingredient.name.title(), ingredient.used_in[self.name])}"
+            )
         else:
-            if self.ingredient_is_plural(ingredient):
-                return (
-                    f"{ingredient.used_in[self.name]}"
-                    f"{inflect_engine.plural(ingredient.unit)} "
-                    f"of {ingredient.name.title()}"
-                )
-            else:
-                return (
-                    f"{ingredient.used_in[self.name]}{ingredient.unit} "
-                    f"of {ingredient.name.title()}"
-                )
+            return (
+                f"{ingredient.used_in[self.name]}"
+                f"{inflect_engine.plural(ingredient.unit,
+                                        ingredient.used_in[self.name])} "
+                f"of {ingredient.name.title()}"
+            )
 
     def remove_ingredient_from_recipe(self, gui):
         index = gui.recipe_ingredient_list_box.curselection()[0]
