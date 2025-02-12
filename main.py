@@ -1,12 +1,10 @@
-from Menu import *
 from FileHandling import *
-from gui import *
+from Gui import *
 from tkinter import *
 
 
 def main():
     ingredient_list, recipe_list = load_lists("plaes_lists.json")
-    # menu = Menu(ingredient_list=ingredient_list, recipe_list=recipe_list)
     root = Tk()
     root.title("Plaes")
     root.geometry("500x600")
@@ -23,7 +21,6 @@ def main():
 
     root.protocol("WM_DELETE_WINDOW", on_closing)
     root.mainloop()
-    # menu.display_main_menu()
 
 
 if __name__ == "__main__":
