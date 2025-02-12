@@ -87,7 +87,7 @@ def save_lists(lists, file_path):
         raise FileNotFoundError("file_path must be a valid .json file path")
     merged_lists = []
     for food_list in lists:
-        merged_lists.append(json.loads(food_list.save_list()))
+        merged_lists.append(json.loads(food_list.to_json()))
     with open(file_path, mode="w") as file:
         json.dump(merged_lists, file, indent=4)
 

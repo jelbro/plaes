@@ -21,230 +21,6 @@ def limit_decimal_places(value):
         return decimal_value.quantize(Decimal("1"))
 
 
-def clear():
-    os.system("clear")
-
-
-class IngredientList:
-    """
-    A class to represent a list of Ingredient objects
-
-    Attributes
-    ----------
-    ingredient_list : list
-        a list of Ingredient objects
-
-    Methods
-    -------
-    save_list()
-        saves this IngredientList to a .json file
-    add_new_ingredient()
-        prompts the user for a name and unit and then creates a new Ingredient
-        adding it to the ingredient list
-    delete_from_list()
-        displays the ingredient list and then prompts the user for the name
-        of an ingredient to remove
-    display_list()
-        prints the ingredient list enumerating each entry
-    """
-
-    def __init__(self, ingredient_list=[]):
-        """
-        Parameters
-        ----------
-        ingredient_list : list
-            a list of Ingredient objects
-        """
-        self.ingredient_list = []
-        for ingredient in ingredient_list:
-            self.ingredient_list.append(ingredient)
-
-    def to_json(self):
-        for ingredient in self.ingredient_list:
-            ingredient.quantity = str(ingredient.quantity)
-        return json.dumps(
-            self, default=lambda o: o.__dict__, sort_keys=False, indent=4
-        )
-
-    def save_list(self):
-        """saves this List to a .json file
-
-        Parameters
-        ----------
-        file_path : str
-            a file path to a .json file
-
-        Raises
-        ------
-        FileNotFoundError
-            if passed an invalid .json file path
-        """
-        return self.to_json()
-
-    def search_for_ingredient(self, prompt, error=None):
-        while True:
-            ingredient = input(prompt)
-            try:
-                ingredient = self.find_ingredient(ingredient)
-                return ingredient
-            except ValueError:
-                if error == "add":
-                    if self.create_new_ingredient():
-                        self.add_new_ingredient(
-                            name=ingredient,
-                        )
-                    return self.find_ingredient(ingredient)
-                else:
-                    print("Invalid ingredient name")
-
-    def find_ingredient(self, ingredient_to_find):
-        for ingredient in self.ingredient_list:
-            if ingredient_to_find.lower() == ingredient.name.lower():
-                return ingredient
-            else:
-                pass
-        raise ValueError
-
-    def create_new_ingredient(self):
-        """Prompts the user to ask if they would like to add the ingredient
-        to the list
-
-        Returns
-        -------
-        boolean
-            True if answer is equal to 'y'
-        """
-        response = input(
-            "Ingredient not in list would you like to create it? y/n "
-        )
-        return response.lower().strip() == "y"
-
-    def clear_ingredient_quantitys(self):
-        for ingredient in self.ingredient_list:
-            ingredient.quantity = 0
-
-    def add_new_ingredient(self, gui, name=None, unit=None):
-        """prompts the user for a name and unit, creates a new Ingredient with
-        those values and appends it to the ingredient list
-        """
-
-        if self.valid_ingredient_name(name=name, gui=gui) and self.valid_unit(
-            unit, gui
-        ):
-            ingredient = Ingredient(
-                name=name.title().strip(), quantity=0, unit=unit
-            )
-            self.ingredient_list.append(ingredient)
-            gui.ingredient_menu()
-        else:
-            pass
-
-    def valid_unit(self, unit, gui):
-        if unit:
-            if not unit.isalnum():
-                gui.display_error_message("Invalid Unit given.")
-                return False
-            else:
-                return True
-        else:
-            return True
-
-    def valid_ingredient_name(self, name, gui):
-        valid_name = True
-        if not name:
-            gui.display_error_message("No Name given.")
-            valid_name = False
-        for ingredient in self.ingredient_list:
-            if name.lower().strip() == ingredient.name.lower().strip():
-                gui.display_error_message("Duplicate name given.")
-                valid_name = False
-            else:
-                pass
-        stripped_name = name.replace(" ", "")
-        if not stripped_name.isalpha():
-            gui.display_error_message("Invalid Name given.")
-            valid_name = False
-        return valid_name
-
-    def delete_from_list(self, recipe_list):
-        """displays the ingredient list then prompts the user for the ingredient
-        to remove
-        """
-        self.display_list(wait=False)
-        ingredient = self.search_for_ingredient(
-            "Name of ingredient to remove: "
-        )
-        if self.confirm_deletion(ingredient.name, recipe_list):
-            self.ingredient_list.remove(ingredient)
-            for recipe in recipe_list.recipe_list:
-                if ingredient in recipe.ingredients:
-                    recipe.ingredients.remove(ingredient)
-            clear()
-            self.display_list()
-        else:
-            pass
-
-    def delete_ingredient_from_list(self, gui, recipe_list):
-        index = gui.ingredient_list_box.curselection()[0]
-        ingredient_to_remove = self.ingredient_list[index]
-        if self.confirm_deletion(ingredient_to_remove.name, recipe_list):
-            self.ingredient_list.remove(ingredient_to_remove)
-            for recipe in recipe_list.recipe_list:
-                for ingredient in recipe.ingredients:
-                    if (
-                        ingredient.name.lower()
-                        == ingredient_to_remove.name.lower()
-                    ):
-                        recipe.ingredients.remove(ingredient)
-            gui.ingredients_var.set(self.ingredient_list)
-        else:
-            pass
-
-    def confirm_deletion(self, name, recipe_list):
-        recipes_used_in = []
-        for recipe in recipe_list.recipe_list:
-            for ingredient in recipe.ingredients:
-                if name == ingredient.name:
-                    recipes_used_in.append(recipe.name.title())
-                else:
-                    pass
-        recipes_text = ""
-        for recipe_name in recipes_used_in:
-            if recipe_name == recipes_used_in[0]:
-                recipes_text += recipe_name
-            else:
-                recipes_text += f", {recipe_name}"
-        if recipes_text == "":
-            recipes_text += "no recipes"
-
-        message_text = (
-            f"Are you sure you want to delete {name.title()}? "
-            f"This ingredient is used in {recipes_text}."
-        )
-        return messagebox.askyesno(
-            message=message_text, icon="question", title="Delete Ingredient"
-        )
-
-    def display_list(self, wait=True):
-        """prints the list enumerating each entry
-
-        Parameters
-        ----------
-        wait : bool, optional
-            if True wait for user input before continuing, by default True
-        """
-        num = 1
-        for ingredient in self.ingredient_list:
-            print(f"{num}: {ingredient.name.title()}, unit: {ingredient.unit}")
-            num += 1
-        if wait:
-            input("Press enter to continue...")
-
-    def reset_ingredient_quantity(self):
-        for ingredient in self.ingredient_list:
-            ingredient.quantity = 0
-
-
 class RecipeList:
     """
     a class to represent a list of Recipe objects
@@ -300,21 +76,6 @@ class RecipeList:
         return json.dumps(
             self, default=lambda o: o.__dict__, sort_keys=False, indent=4
         )
-
-    def save_list(self):
-        """saves this List to a .json file
-
-        Parameters
-        ----------
-        file_path : str
-            a file path to a .json file
-
-        Raises
-        ------
-        FileNotFoundError
-            if passed an invalid .json file path
-        """
-        return self.to_json()
 
     def display_list(self, wait=False):
         """prints this RecipeList"""
@@ -729,3 +490,208 @@ class RecipeList:
         for i in range(total_length):
             print("-", end="")
         print()
+
+
+class IngredientList:
+    """
+    A class to represent a list of Ingredient objects
+
+    Attributes
+    ----------
+    ingredient_list : list
+        a list of Ingredient objects
+
+    Methods
+    -------
+    save_list()
+        saves this IngredientList to a .json file
+    add_new_ingredient()
+        prompts the user for a name and unit and then creates a new Ingredient
+        adding it to the ingredient list
+    delete_from_list()
+        displays the ingredient list and then prompts the user for the name
+        of an ingredient to remove
+    display_list()
+        prints the ingredient list enumerating each entry
+    """
+
+    def __init__(self, ingredient_list=[]):
+        """
+        Parameters
+        ----------
+        ingredient_list : list
+            a list of Ingredient objects
+        """
+        self.ingredient_list = []
+        for ingredient in ingredient_list:
+            self.ingredient_list.append(ingredient)
+
+    def to_json(self):
+        for ingredient in self.ingredient_list:
+            ingredient.quantity = str(ingredient.quantity)
+        return json.dumps(
+            self, default=lambda o: o.__dict__, sort_keys=False, indent=4
+        )
+
+    def search_for_ingredient(self, prompt, error=None):
+        while True:
+            ingredient = input(prompt)
+            try:
+                ingredient = self.find_ingredient(ingredient)
+                return ingredient
+            except ValueError:
+                if error == "add":
+                    if self.create_new_ingredient():
+                        self.add_new_ingredient(
+                            name=ingredient,
+                        )
+                    return self.find_ingredient(ingredient)
+                else:
+                    print("Invalid ingredient name")
+
+    def find_ingredient(self, ingredient_to_find):
+        for ingredient in self.ingredient_list:
+            if ingredient_to_find.lower() == ingredient.name.lower():
+                return ingredient
+            else:
+                pass
+        raise ValueError
+
+    def create_new_ingredient(self):
+        """Prompts the user to ask if they would like to add the ingredient
+        to the list
+
+        Returns
+        -------
+        boolean
+            True if answer is equal to 'y'
+        """
+        response = input(
+            "Ingredient not in list would you like to create it? y/n "
+        )
+        return response.lower().strip() == "y"
+
+    def clear_ingredient_quantitys(self):
+        for ingredient in self.ingredient_list:
+            ingredient.quantity = 0
+
+    def add_new_ingredient(self, gui, name=None, unit=None):
+        """prompts the user for a name and unit, creates a new Ingredient with
+        those values and appends it to the ingredient list
+        """
+
+        if self.valid_ingredient_name(name=name, gui=gui) and self.valid_unit(
+            unit, gui
+        ):
+            ingredient = Ingredient(
+                name=name.title().strip(), quantity=0, unit=unit
+            )
+            self.ingredient_list.append(ingredient)
+            gui.ingredient_menu()
+        else:
+            pass
+
+    def valid_unit(self, unit, gui):
+        if unit:
+            if not unit.isalnum():
+                gui.display_error_message("Invalid Unit given.")
+                return False
+            else:
+                return True
+        else:
+            return True
+
+    def valid_ingredient_name(self, name, gui):
+        valid_name = True
+        if not name:
+            gui.display_error_message("No Name given.")
+            valid_name = False
+        for ingredient in self.ingredient_list:
+            if name.lower().strip() == ingredient.name.lower().strip():
+                gui.display_error_message("Duplicate name given.")
+                valid_name = False
+            else:
+                pass
+        stripped_name = name.replace(" ", "")
+        if not stripped_name.isalpha():
+            gui.display_error_message("Invalid Name given.")
+            valid_name = False
+        return valid_name
+
+    def delete_from_list(self, recipe_list):
+        """displays the ingredient list then prompts the user for the ingredient
+        to remove
+        """
+        self.display_list(wait=False)
+        ingredient = self.search_for_ingredient(
+            "Name of ingredient to remove: "
+        )
+        if self.confirm_deletion(ingredient.name, recipe_list):
+            self.ingredient_list.remove(ingredient)
+            for recipe in recipe_list.recipe_list:
+                if ingredient in recipe.ingredients:
+                    recipe.ingredients.remove(ingredient)
+            clear()
+            self.display_list()
+        else:
+            pass
+
+    def delete_ingredient_from_list(self, gui, recipe_list):
+        index = gui.ingredient_list_box.curselection()[0]
+        ingredient_to_remove = self.ingredient_list[index]
+        if self.confirm_deletion(ingredient_to_remove.name, recipe_list):
+            self.ingredient_list.remove(ingredient_to_remove)
+            for recipe in recipe_list.recipe_list:
+                for ingredient in recipe.ingredients:
+                    if (
+                        ingredient.name.lower()
+                        == ingredient_to_remove.name.lower()
+                    ):
+                        recipe.ingredients.remove(ingredient)
+            gui.ingredients_var.set(self.ingredient_list)
+        else:
+            pass
+
+    def confirm_deletion(self, name, recipe_list):
+        recipes_used_in = []
+        for recipe in recipe_list.recipe_list:
+            for ingredient in recipe.ingredients:
+                if name == ingredient.name:
+                    recipes_used_in.append(recipe.name.title())
+                else:
+                    pass
+        recipes_text = ""
+        for recipe_name in recipes_used_in:
+            if recipe_name == recipes_used_in[0]:
+                recipes_text += recipe_name
+            else:
+                recipes_text += f", {recipe_name}"
+        if recipes_text == "":
+            recipes_text += "no recipes"
+
+        message_text = (
+            f"Are you sure you want to delete {name.title()}? "
+            f"This ingredient is used in {recipes_text}."
+        )
+        return messagebox.askyesno(
+            message=message_text, icon="question", title="Delete Ingredient"
+        )
+
+    def display_list(self, wait=True):
+        """prints the list enumerating each entry
+
+        Parameters
+        ----------
+        wait : bool, optional
+            if True wait for user input before continuing, by default True
+        """
+        num = 1
+        for ingredient in self.ingredient_list:
+            print(f"{num}: {ingredient.name.title()}, unit: {ingredient.unit}")
+            num += 1
+        if wait:
+            input("Press enter to continue...")
+
+    def reset_ingredient_quantity(self):
+        for ingredient in self.ingredient_list:
+            ingredient.quantity = 0
