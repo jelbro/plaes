@@ -400,7 +400,12 @@ class Gui:
         remove_ingredient_button = ttk.Button(
             self.content,
             text="Remove ingredient",
-            command=lambda: recipe.remove_ingredient_from_recipe(self),
+            command=lambda: recipe.remove_ingredient_from_recipe(
+                self,
+                recipe.ingredients[
+                    self.recipe_ingredient_list_box.curselection()[0]
+                ],
+            ),
         )
         remove_ingredient_button.grid(column=0, row=7)
 

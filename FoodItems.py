@@ -255,15 +255,11 @@ class Recipe:
                 f"of {ingredient.name.title()}"
             )
 
-    def remove_ingredient_from_recipe(self, gui):
-        index = gui.recipe_ingredient_list_box.curselection()[0]
-        ingredient_to_remove = self.ingredients[index]
+    def remove_ingredient_from_recipe(self, gui, ingredient_to_remove):
         if gui.question_box(
             title="Remove Ingredient",
-            message=(
-                f"Are you sure you want to remove "
-                f"{ingredient_to_remove.name.title} from {self.name.title()}?",
-            ),
+            message=f"Are you sure you want to remove "
+            f"{ingredient_to_remove.name.title()} from {self.name.title()}?",
         ):
             self.ingredients.remove(ingredient_to_remove)
             gui.recipe_ingredients_var.set(
