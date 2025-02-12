@@ -107,38 +107,6 @@ class Recipe:
             f"ingredients: {self.ingredients})"
         )
 
-    def to_json(self):
-        """converts the recipe to JSON format
-
-        Returns
-        -------
-        json.dumps
-            the Recipe serialized to JSON
-        """
-        return json.dumps(
-            self, default=lambda o: o.__dict__, sort_keys=False, indent=4
-        )
-
-    def save_recipe(self, file_path):
-        """saves this Recipe to a .json file
-
-        Parameters
-        ----------
-        file_path : str
-            a file path to a .json file
-
-        Raises
-        ------
-        FileNotFoundError
-            if passed an invalid .json file path
-        """
-        if not file_path.lower().endswith(".json"):
-            raise FileNotFoundError(
-                "file_path must be a valid .json file path"
-            )
-        with open(file_path, mode="a") as file:
-            file.write(self.to_json())
-
     def sort_ingredients(self, sort_by="name"):
         """sorts this Recipes ingredient list by either name or quantity
 
@@ -284,17 +252,27 @@ class Recipe:
     def pluralise_ingredient(self, ingredient):
         if len(ingredient.unit) == 0:
             if self.ingredient_is_plural(ingredient):
-                return f"{ingredient.used_in[self.name]} {inflect_engine.plural(ingredient.name.title())}"
+                return (
+                    f"{ingredient.used_in[self.name]} "
+                    f"{inflect_engine.plural(ingredient.name.title())}"
+                )
             else:
-                return f"{ingredient.used_in[self.name]} {ingredient.name.title()}"
+                return (
+                    f"{ingredient.used_in[self.name]} "
+                    f"{ingredient.name.title()}"
+                )
         else:
             if self.ingredient_is_plural(ingredient):
                 return (
-                    f"{ingredient.used_in[self.name]}{inflect_engine.plural(ingredient.unit)} "
+                    f"{ingredient.used_in[self.name]}"
+                    f"{inflect_engine.plural(ingredient.unit)} "
                     f"of {ingredient.name.title()}"
                 )
             else:
-                return f"{ingredient.used_in[self.name]}{ingredient.unit} of {ingredient.name.title()}"
+                return (
+                    f"{ingredient.used_in[self.name]}{ingredient.unit} "
+                    f"of {ingredient.name.title()}"
+                )
 
     def remove_ingredient_from_recipe(self, gui):
         index = gui.recipe_ingredient_list_box.curselection()[0]
