@@ -248,7 +248,7 @@ class Recipe:
             return False
 
     def pluralise_ingredient(self, ingredient):
-        if len(ingredient.unit) == 0:
+        if not ingredient.unit:
             if self.ingredient_is_plural(ingredient):
                 return (
                     f"{ingredient.used_in[self.name]} "
