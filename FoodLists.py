@@ -260,44 +260,6 @@ class IngredientList:
             self, default=lambda o: o.__dict__, sort_keys=False, indent=4
         )
 
-    def search_for_ingredient(self, prompt, error=None):
-        while True:
-            ingredient = input(prompt)
-            try:
-                ingredient = self.find_ingredient(ingredient)
-                return ingredient
-            except ValueError:
-                if error == "add":
-                    if self.create_new_ingredient():
-                        self.add_new_ingredient(
-                            name=ingredient,
-                        )
-                    return self.find_ingredient(ingredient)
-                else:
-                    print("Invalid ingredient name")
-
-    def find_ingredient(self, ingredient_to_find):
-        for ingredient in self.ingredient_list:
-            if ingredient_to_find.lower() == ingredient.name.lower():
-                return ingredient
-            else:
-                pass
-        raise ValueError
-
-    def create_new_ingredient(self):
-        """Prompts the user to ask if they would like to add the ingredient
-        to the list
-
-        Returns
-        -------
-        boolean
-            True if answer is equal to 'y'
-        """
-        response = input(
-            "Ingredient not in list would you like to create it? y/n "
-        )
-        return response.lower().strip() == "y"
-
     def clear_ingredient_quantitys(self):
         for ingredient in self.ingredient_list:
             ingredient.quantity = 0
@@ -345,28 +307,10 @@ class IngredientList:
             valid_name = False
         return valid_name
 
-    def delete_from_list(self, recipe_list):
-        """displays the ingredient list then prompts the user for the ingredient
-        to remove
-        """
-        self.display_list(wait=False)
-        ingredient = self.search_for_ingredient(
-            "Name of ingredient to remove: "
-        )
-        if self.confirm_deletion(ingredient.name, recipe_list):
-            self.ingredient_list.remove(ingredient)
-            for recipe in recipe_list.recipe_list:
-                if ingredient in recipe.ingredients:
-                    recipe.ingredients.remove(ingredient)
-            clear()
-            self.display_list()
-        else:
-            pass
-
     def delete_ingredient_from_list(self, gui, recipe_list):
         index = gui.ingredient_list_box.curselection()[0]
         ingredient_to_remove = self.ingredient_list[index]
-        if self.confirm_deletion(ingredient_to_remove.name, recipe_list):
+        if self.confirm_deletion(ingredient_to_remove.name, recipe_list, gui):
             self.ingredient_list.remove(ingredient_to_remove)
             for recipe in recipe_list.recipe_list:
                 for ingredient in recipe.ingredients:
@@ -379,7 +323,7 @@ class IngredientList:
         else:
             pass
 
-    def confirm_deletion(self, name, recipe_list):
+    def confirm_deletion(self, name, recipe_list, gui):
         recipes_used_in = []
         for recipe in recipe_list.recipe_list:
             for ingredient in recipe.ingredients:
@@ -400,24 +344,9 @@ class IngredientList:
             f"Are you sure you want to delete {name.title()}? "
             f"This ingredient is used in {recipes_text}."
         )
-        return messagebox.askyesno(
-            message=message_text, icon="question", title="Delete Ingredient"
+        return gui.question_box(
+            message=message_text, title="Delete Ingredient"
         )
-
-    def display_list(self, wait=True):
-        """prints the list enumerating each entry
-
-        Parameters
-        ----------
-        wait : bool, optional
-            if True wait for user input before continuing, by default True
-        """
-        num = 1
-        for ingredient in self.ingredient_list:
-            print(f"{num}: {ingredient.name.title()}, unit: {ingredient.unit}")
-            num += 1
-        if wait:
-            input("Press enter to continue...")
 
     def reset_ingredient_quantity(self):
         for ingredient in self.ingredient_list:
