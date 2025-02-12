@@ -12,7 +12,6 @@ from FoodLists import *
 import inflect
 from decimal import *
 from tkinter import *
-from tkinter import messagebox
 
 # create an instance of the inflect engine
 inflect_engine = inflect.engine()

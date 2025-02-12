@@ -3,7 +3,6 @@ import json
 import inflect
 from decimal import *
 from tkinter import *
-from tkinter import ttk, messagebox
 
 inflect_engine = inflect.engine()
 
