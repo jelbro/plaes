@@ -79,7 +79,7 @@ class Recipe:
         unit : str
             the unit of storage used for this Recipe
         """
-        self.name = name
+        self.name = name.title()
         self.ingredients = []
         for ingredient in ingredients:
             self.ingredients.append(ingredient)
