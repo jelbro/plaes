@@ -126,9 +126,11 @@ class Recipe:
 
     def change_name(self, new_name):
         old_name = self.name
-        self.name = new_name
+        self.name = new_name.title()
         for ingredient in self.ingredients:
-            ingredient.used_in[new_name] = ingredient.used_in.pop(old_name)
+            ingredient.used_in[new_name.title()] = ingredient.used_in.pop(
+                old_name
+            )
 
     def change_used_in_quantity(self, ingredient, new_quantity):
         ingredient.used_in[self.name] = new_quantity
@@ -300,7 +302,7 @@ class Ingredient:
         if name == None:
             raise ValueError("Ingredient must have a name")
         else:
-            self.name = name
+            self.name = name.title()
 
         self.quantity = Decimal(quantity)
         self.unit = unit

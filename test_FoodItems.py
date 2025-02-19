@@ -95,5 +95,59 @@ def test_recipe_change_name():
     chicken_salad = Recipe(
         name="chicken salad", desired_quantity=2, unit="4l", batch_size=2
     )
+    chicken_breast = Ingredient(name="chicken breast", unit="kg")
+    chicken_salad.add_existing_ingredient(gui, 3, chicken_breast)
 
-    chicken_salad.change_name("chicken_mayo")
+    chicken_salad.change_name("chicken mayo")
+
+    assert chicken_salad.name == "Chicken Mayo"
+    assert chicken_breast.used_in[chicken_salad.name] == 3
+
+
+def test_recipe_change_used_in_quantity():
+    chicken_salad = Recipe(
+        name="chicken salad", desired_quantity=2, unit="4l", batch_size=2
+    )
+    chicken_breast = Ingredient(name="chicken breast", unit="kg")
+    chicken_salad.add_existing_ingredient(gui, 3, chicken_breast)
+
+    chicken_salad.change_used_in_quantity(chicken_breast, 5)
+
+    assert chicken_breast.used_in[chicken_salad.name] == 5
+
+
+def test_recipe_add_existing_ingredient():
+    chicken_salad = Recipe(
+        name="chicken salad", desired_quantity=2, unit="4l", batch_size=2
+    )
+    chicken_breast = Ingredient(name="chicken breast", unit="kg")
+
+    chicken_salad.add_existing_ingredient(gui, 3, chicken_breast)
+    assert (
+        chicken_salad.ingredients.__str__()
+        == "[Ingredient(name: Chicken Breast, quantity: 0, unit: kg)]"
+    )
+
+
+def test_recipe_add_new_ingredient():
+    chicken_salad = Recipe(
+        name="chicken salad", desired_quantity=2, unit="4l", batch_size=2
+    )
+    chicken_salad.add_new_ingredient(
+        gui, "chicken breast", "kg", 2, ingredient_list
+    )
+
+    assert (
+        chicken_salad.ingredients.__str__()
+        == "[Ingredient(name: Chicken Breast, quantity: 0, unit: kg)]"
+    )
+
+
+def test_recipe_change_quantity():
+    chicken_salad = Recipe(
+        name="chicken salad", desired_quantity=2, unit="4l", batch_size=2
+    )
+    chicken_salad.change_quantity(5.3)
+
+    assert chicken_salad.quantity == 5.3
+    assert chicken_salad.needed == False
