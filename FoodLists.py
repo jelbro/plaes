@@ -1,8 +1,8 @@
-from FoodItems import *
 import json
 import inflect
 from decimal import *
 from tkinter import *
+from FoodItems import *
 
 inflect_engine = inflect.engine()
 
@@ -96,54 +96,53 @@ class RecipeList:
             return False
 
     def valid_batch_size(self, batch_size, gui):
-        valid_batch_size = True
 
         if not batch_size.isnumeric():
             gui.display_error_message("Batch Size is not a positive number.")
-            valid_batch_size = False
+            return False
 
-        return valid_batch_size
+        return True
 
     def valid_unit(self, unit, gui):
-        valid_unit = True
 
         if not unit.isalnum() and len(unit) > 0:
-            valid_unit = False
             gui.display_error_message("Invalid Unit Entered.")
+            return False
 
-        return valid_unit
+        return True
 
     def valid_desired_quantity(self, desired_quantity, gui):
-        valid_desired_quantity = True
 
         if not desired_quantity.isnumeric():
             gui.display_error_message(
                 "Desired Quantity is not a positive number."
             )
-            valid_desired_quantity = False
+            return False
 
-        return valid_desired_quantity
+        return True
 
     def valid_recipe_name(self, name, gui):
-        valid_name = True
-
         if not name:
             gui.display_error_message("Recipe must have a name.")
-            valid_name = False
+            return False
 
         for recipe in self.recipe_list:
             if name.lower().strip() == recipe.name.lower().strip():
                 gui.display_error_message("Recipe already exists.")
-                valid_name = False
+                return False
             else:
                 pass
 
         trimmed_name = name.replace(" ", "")
         if not trimmed_name.isalpha():
             gui.display_error_message("Recipe is not alphabetic.")
-            valid_name = False
+            return False
 
-        return valid_name
+        return True
+
+    def change_recipe_name(self, recipe, name, gui):
+        if self.valid_recipe_name(name, gui):
+            recipe.change_name(name)
 
     def create_new_recipe(self, name, desired_quantity, unit, batch_size, gui):
         if self.valid_recipe(name, desired_quantity, unit, batch_size, gui):

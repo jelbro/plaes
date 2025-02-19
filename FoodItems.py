@@ -8,7 +8,6 @@ Ingredient
     a class to represent an Ingredient
 """
 
-from FoodLists import *
 import inflect
 from decimal import *
 from tkinter import *

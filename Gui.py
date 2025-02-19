@@ -303,7 +303,9 @@ class Gui:
         recipe_name.set(recipe.name)
 
         def on_name_change(event):
-            recipe.change_name(recipe_name.get())
+            self.recipe_list.change_recipe_name(
+                recipe, recipe_name.get(), self
+            )
 
         recipe_name_entry = ttk.Entry(
             self.content,
